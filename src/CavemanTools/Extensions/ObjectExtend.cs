@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Globalization;
 using System.Linq;
@@ -152,20 +153,27 @@ namespace System
 	        if (item == null) return defaultValue;
             return invoke(item);
         }
+        
+        /// <summary>
+        /// Executes the 'process' function if the source is not null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="R"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="process"></param>
+        /// <param name="valueIfNull"></param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static R IfNotNullApply<T, R>(this T data, Func<T, R> process, R valueIfNull = default(R)) where T : class
+	        => (data == null) ? valueIfNull : process(data);
+	    
+            
 
-        public static void IfNotNullDo<T>(this T item, Action<T> action) where T : class 
-	    {
-	        action.MustNotBeNull();
-            if (item != null)
-	        {
-	            action(item);
-	        }
-	    }
-
-	    public static void DoIf<T>(this T item, Func<T, bool> condition, Action<T> action)
-	    {
-	        if (condition(item)) action(item);
-	    }
+	    //public static void DoIf<T>(this T item, Func<T, bool> condition, Action<T> action)
+	    //{
+	    //    if (condition(item)) action(item);
+  
+	    //}
 
 	    public static T GetValue<T>(this AbstractValueObject<T> d, T defaultValue = default(T))
 	    {
