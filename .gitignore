@@ -14,10 +14,12 @@
 [Rr]eleases/
 x64/
 x86/
-build/
 bld/
 [Bb]in/
 [Oo]bj/
+temp/
+
+!nuget.exe
 
 # Roslyn cache directories
 *.ide/
