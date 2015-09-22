@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 
+=======
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -14,6 +18,7 @@
 [Rr]eleases/
 x64/
 x86/
+<<<<<<< HEAD
 bld/
 [Bb]in/
 [Oo]bj/
@@ -23,12 +28,21 @@ temp/
 
 # Roslyn cache directories
 *.ide/
+=======
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studo 2015 cache/options directory
+.vs/
+
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-#NUNIT
+
 *.VisualState.xml
 TestResult.xml
 
@@ -139,7 +153,11 @@ publish/
 **/packages/*
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
+<<<<<<< HEAD
 # If using the old MSBuild-Integrated Package Restore, uncomment this:
+=======
+# Uncomment if necessary however generally it will be regenerated when needed
+>>>>>>> 261159ad950fdaafbc362ae98e202914658a2367
 #!**/packages/repositories.config
 
 # Windows Azure Build Output
@@ -150,8 +168,12 @@ csx/
 AppPackages/
 
 # Others
+
 sql/
 *.Cache
+=======
+*.[Cc]ache
+
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
@@ -161,6 +183,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -185,16 +208,6 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
 
 # Thumbnails
 ._*
@@ -231,3 +244,13 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+=======
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+
+# Visual Studio 6 build log
+*.plg
+
+# Visual Studio 6 workspace options file
+*.opt
+
