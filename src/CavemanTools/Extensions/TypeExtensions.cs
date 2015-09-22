@@ -65,8 +65,10 @@ namespace System
         /// <summary>
         /// Orders an enumerable using [Order] 
         /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="defValue">Default value if the attribute is missing</param>
         /// <returns></returns>
-        public static IEnumerable<T> OrderByAttribute<T>(this IEnumerable<T> objects)
+        public static IEnumerable<T> OrderByAttribute<T>(this IEnumerable<T> objects,int defValue=0)
         {
             return objects.OrderBy(t =>
             {
@@ -76,7 +78,7 @@ namespace System
                 {
                     return attrib.Value;
                 }               
-                return Int32.MaxValue;
+                return defValue;
             });
         }
 
