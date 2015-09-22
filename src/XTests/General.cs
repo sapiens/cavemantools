@@ -1,11 +1,9 @@
 ﻿
-using System.Globalization;
-using CavemanTools;
-using CavemanTools.Logging;
-using FluentAssertions;
-using Xunit;
 using System;
 using System.Diagnostics;
+using System.Text;
+using CavemanTools.Logging;
+using Xunit;
 
 namespace XTests
 {
@@ -35,7 +33,7 @@ namespace XTests
 
         public string ConvertAccentedString(string accentedString,int codepage=1251)
         {
-            return System.Text.Encoding.ASCII.GetString(System.Text.Encoding.GetEncoding(codepage).GetBytes(accentedString));
+            return Encoding.ASCII.GetString(Encoding.GetEncoding(codepage).GetBytes(accentedString));
         }
 
         [Fact]

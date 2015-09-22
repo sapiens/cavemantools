@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using Xunit;
-using System;
+﻿using System;
+using System.Collections;
 using System.Diagnostics;
+using FluentAssertions;
+using Xunit;
 
 namespace XTests.Lists
 {
@@ -30,7 +31,7 @@ namespace XTests.Lists
         [Fact]
         public void setting_null_values_is_accepted()
         {
-            Assert.DoesNotThrow(()=>_kv["test"].Add(null));
+            _kv["test"].Invoking(d=>d.Add(null)).ShouldNotThrow();            
         }
 
         [Fact]

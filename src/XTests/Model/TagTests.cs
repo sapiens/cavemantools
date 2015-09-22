@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using CavemanTools.Model.ValueObjects;
-using Xunit;
-using System;
+﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using CavemanTools.Model.ValueObjects;
 using FluentAssertions;
+using Xunit;
 
 namespace XTests.Model
 {

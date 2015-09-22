@@ -1,9 +1,9 @@
 ﻿
-using Xunit;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using FluentAssertions;
+using Xunit;
 
 namespace XTests.Extensions
 {

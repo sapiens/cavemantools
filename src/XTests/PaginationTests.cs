@@ -1,9 +1,7 @@
-﻿using CavemanTools;
+﻿using System;
+using System.Diagnostics;
 using CavemanTools.Model;
 using Xunit;
-using System;
-using System.Diagnostics;
-using Xunit.Extensions;
 
 namespace XTests
 {

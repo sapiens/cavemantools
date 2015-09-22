@@ -1,8 +1,7 @@
-﻿using System.Text;
-using Xunit;
-using System;
+﻿using System;
 using System.Diagnostics;
-using Xunit.Extensions;
+using System.Text;
+using Xunit;
 
 namespace XTests.Strings
 {

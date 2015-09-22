@@ -1,10 +1,8 @@
-﻿using System.Data;
+﻿using System;
+using System.Diagnostics;
 using CavemanTools;
 using FluentAssertions;
 using Xunit;
-using System;
-using System.Diagnostics;
-using Xunit.Extensions;
 
 namespace XTests
 {

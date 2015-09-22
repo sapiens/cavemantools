@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using Xunit;
-using System;
-using System.Diagnostics;
 
 namespace XTests.Reflection
 {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using CavemanTools.Testing;
-using FluentAssertions;
 using Xunit;
 
 namespace XTests

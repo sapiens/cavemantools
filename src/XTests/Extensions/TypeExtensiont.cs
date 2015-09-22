@@ -1,9 +1,8 @@
-﻿using Xunit;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using FluentAssertions;
-using Xunit.Extensions;
+using Xunit;
 
 namespace XTests.Extensions
 {
@@ -49,7 +48,7 @@ namespace XTests.Extensions
              }
         }
 
-        public class Myimpl:MyClass<string>.IInternal<int>
+        public class Myimpl: MyClass<string>.IInternal<int>
         {
             public string Bla(int arg)
             {

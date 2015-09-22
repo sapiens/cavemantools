@@ -1,8 +1,8 @@
-﻿using CavemanTools;
-using Xunit;
-using System;
+﻿using System;
 using System.Diagnostics;
+using CavemanTools;
 using FluentAssertions;
+using Xunit;
 
 namespace XTests.Model
 {
