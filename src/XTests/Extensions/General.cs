@@ -18,7 +18,11 @@ namespace XTests.Extensions
 
         public class BlaController { }
 
-       
+        [Fact]
+        public void substring_until()
+        {
+            "ItemsRow".SubstringUntil("Row").Should().Be("Items");
+        }
 
         [Fact]
         public void date_enumeration()

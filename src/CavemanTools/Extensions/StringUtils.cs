@@ -132,7 +132,7 @@ namespace System
         {
             var idx = src.IndexOf(end,startPos);
             if (idx == -1) return src;
-            return src.Substring(startPos, src.Length - idx);
+            return src.Substring(startPos, idx);
         }
 
 	    /// <summary>
