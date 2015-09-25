@@ -66,7 +66,7 @@
     <Compile Include="Infrastructure\CommandResult.cs" />
     <Compile Include="Infrastructure\CommandResultMediator.cs" />
     <Compile Include="Infrastructure\ICommandResultMediator.cs" />
-    <Compile Include="Infrastructure\IHandleAction.cs" />
+    <Compile Include="Infrastructure\IHandleRequest.cs" />
     <Compile Include="Infrastructure\IHandleActionAsync.cs" />
     <Compile Include="Infrastructure\IHandleCommand.cs" />
     <Compile Include="Infrastructure\IHandleCommandAsync.cs" />

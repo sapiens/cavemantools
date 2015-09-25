@@ -8,6 +8,8 @@ namespace XTests
 {
     public class MediatorTests
     {
+        private MessagingMediator _sut;
+
         public class AsyncQuery:IHandleQueryAsync<NoInput,NoResult>
         {
             public Task<NoResult> HandleAsync(NoInput input,CancellationToken cancel)
@@ -18,13 +20,14 @@ namespace XTests
         
         public MediatorTests()
         {
-            MessagingMediator.Resolver = t => new AsyncQuery();
+           _sut=new MessagingMediator(t=>new AsyncQuery());
         }
 
         [Fact]
         public async Task async_non_generic_handlers_are_invoked_successfully()
         {
-            var res = await NoInput.Instance.QueryAsyncTo(typeof (NoResult),CancellationToken.None);
+            var res = await _sut.RequestAsync(NoInput.Instance, typeof (NoResult), CancellationToken.None);
+            res.Should().NotBeNull();
             res.Should().BeOfType<NoResult>();
         }
 
@@ -32,8 +35,9 @@ namespace XTests
         [Fact]
         public async Task async_generic_handlers_are_invoked_successfully()
         {
-            var res = await NoInput.Instance.QueryAsyncTo<NoResult>(CancellationToken.None);
+            var res = await _sut.With(NoInput.Instance).RequestAsync<NoResult>(CancellationToken.None);
             res.Should().NotBeNull();
+            res.Should().BeOfType<NoResult>();
         }
     }
 }
