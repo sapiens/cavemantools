@@ -140,7 +140,7 @@ namespace CavemanTools.Infrastructure
 //        }
 
 
-        public static IHandlerResultFrom<TInput> With<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);
+        public static IHandlerResultFrom<TInput> For<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);
         
 
         class Builder<T>:IHandlerResultFrom<T>

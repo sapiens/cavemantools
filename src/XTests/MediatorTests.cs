@@ -35,7 +35,7 @@ namespace XTests
         [Fact]
         public async Task async_generic_handlers_are_invoked_successfully()
         {
-            var res = await _sut.With(NoInput.Instance).RequestAsync<NoResult>(CancellationToken.None);
+            var res = await _sut.For(NoInput.Instance).RequestAsync<NoResult>(CancellationToken.None);
             res.Should().NotBeNull();
             res.Should().BeOfType<NoResult>();
         }
