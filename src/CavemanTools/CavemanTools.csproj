@@ -54,7 +54,6 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +100,7 @@
     <Compile Include="Model\AnEntityWithOperationId.cs" />
     <Compile Include="Model\Extensions.cs" />
     <Compile Include="Model\IEntity.cs" />
+    <Compile Include="Model\IEntityId.cs" />
     <Compile Include="Model\IOperationId.cs" />
     <Compile Include="Model\IPagedInput.cs" />
     <Compile Include="Infrastructure\OutputValue.cs" />
@@ -170,7 +170,6 @@
     <Compile Include="Salt.cs" />
     <Compile Include="SessionId.cs" />
     <Compile Include="SingletonsRegistry.cs" />
-    <Compile Include="Subscriptions.cs" />
     <Compile Include="Testing\BenchmarkResult.cs" />
     <Compile Include="Testing\BenchmarksContainer.cs" />
     <Compile Include="Testing\BenchmarkUnit.cs" />
@@ -190,7 +189,6 @@
     <Compile Include="Model\Validation\IValidationDictionary.cs" />
     <Compile Include="Model\Validation\DefaultValidationWrapper.cs" />
     <Compile Include="Model\PagedResult.cs" />
-    <Compile Include="Extensions\CopyOptionsAttribute.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\StringUtils.cs" />
     <Compile Include="Extensions\Xml.cs" />

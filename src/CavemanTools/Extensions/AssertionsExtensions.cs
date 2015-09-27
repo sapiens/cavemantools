@@ -31,6 +31,7 @@ namespace System
             if (source.IsNullOrEmpty() || !Regex.IsMatch(source,regex,options)) throw new FormatException(string.Format("Argument doesn't match expression '{0}'",regex));
         }
 
+        [Obsolete]
         public static void ThrowIfNull<TException>(this object source, TException ex) where TException:Exception
         {
             if (source == null) throw ex;

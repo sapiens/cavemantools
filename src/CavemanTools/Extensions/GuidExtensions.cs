@@ -15,7 +15,6 @@ namespace CavemanTools.Extensions
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
- 
         public static string AsNumberString(this Guid id)
          {
              var all = id.ToByteArray();

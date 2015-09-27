@@ -184,7 +184,7 @@ namespace CavemanTools.Infrastructure
             var handlerType = typeof(IHandleRequest<,>).MakeGenericType(input.GetType(), result);
             var handler = (dynamic)_resolve(handlerType);
             if (handler == null) throw new InvalidOperationException("There's no handler implementing 'IHandleRequest<{0},{1}>' registered with the DI Container".ToFormat(input.GetType().Name, result.Name));
-            return handler.HandleAsync((dynamic)input);
+            return handler.Handle((dynamic)input);
         }
 
         public async Task<object> RequestAsync(object input, Type result, CancellationToken token)

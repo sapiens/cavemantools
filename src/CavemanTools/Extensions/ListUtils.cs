@@ -156,7 +156,7 @@ namespace System.Collections.Generic
         {
             if (old == null) throw new ArgumentNullException("old");
             if (fresh == null) throw new ArgumentNullException("fresh");
-            var diff = fresh.Compare(old);
+            var diff = fresh.Diff(old);
             foreach (var item in diff.Removed)
             {
                 old.Remove(item);
@@ -217,7 +217,7 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public static T GetValue<T>(this IDictionary<string,object> dic,string key,T defValue=default(T))
         {
-            if (dic.ContainsKey(key)) return dic[key].Cast<T>();
+            if (dic.ContainsKey(key)) return (T)dic[key];
             return defValue;
         }
 

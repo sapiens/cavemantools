@@ -212,7 +212,7 @@ namespace XTests.Extensions
         public void expression_with_init_array()
         {
             Expression<Func<Test,bool>> data = (t) =>  new[]{1,2}.Contains(2) ;
-            Assert.True(data.Body.GetValue().Cast<bool>());
+            Assert.True((bool)data.Body.GetValue());
         }
 
         [Fact]

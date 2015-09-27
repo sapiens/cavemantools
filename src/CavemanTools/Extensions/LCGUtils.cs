@@ -34,46 +34,7 @@ namespace System.Reflection.Emit
             }
         }
 
-        //public static void EmitIf(this ILGenerator il,bool condition,Action<ILGenerator> then)
-        //{
-        //    var endThen = il.DefineLabel();
-        //    if(!condition)il.Emit(OpCodes.Brtrue,endThen);
-        //    else
-        //    {
-        //        il.Emit(OpCodes.Brfalse, endThen);
-        //    }
-        //    then(il);
-        //    il.MarkLabel(endThen);
-            
-        //}
-
-        //public static void EmitFor(this ILGenerator il, int start,int max,int increment, Action<ILGenerator,LocalBuilder,Label> block)
-        //{
-          
-        //    var beginLoop = il.DefineLabel();
-        //    var checkLoop = il.DefineLabel();
-        //    var endLoop = il.DefineLabel();
-        //    il.BeginScope();
-        //    var i = il.DeclareLocal(typeof(int));
-        //    il.Emit(OpCodes.Ldc_I4,start);
-        //    il.Emit(OpCodes.Stloc_S,i);
-        //    il.Emit(OpCodes.Br_S,checkLoop);
-        //    il.MarkLabel(beginLoop);
-        //    block(il, i,endLoop);
-        //    il.Emit(OpCodes.Ldloc_S,i);
-        //    il.Emit(OpCodes.Add,increment);
-        //    il.Emit(OpCodes.Stloc_S, i);
-        //    il.MarkLabel(checkLoop);
-        //    il.Emit(OpCodes.Ldloc_S,i);
-        //    il.Emit(OpCodes.Ldc_I4,max);
-        //    il.Emit(OpCodes.Clt);
-        //    il.Emit(OpCodes.Brtrue_S,beginLoop);
-            
-        //    il.MarkLabel(endLoop);
-        //    il.EndScope();
-                        
-        //}
-
+       
         public static void EmitNewEmptyNullable(this ILGenerator il, Type type,out LocalBuilder def)
         {
             def = il.DeclareLocal(type);
