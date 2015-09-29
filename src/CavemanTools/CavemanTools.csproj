@@ -124,6 +124,7 @@
     <Compile Include="Model\Persistence\NewerVersionExistsException.cs" />
     <Compile Include="Model\Persistence\String500.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueStoreUpdateItem.cs" />
+    <Compile Include="Model\ValueObjects\AReadOnlyValue.cs" />
     <Compile Include="Model\ValueObjects\DomainString.cs" />
     <Compile Include="Model\ValueObjects\Extensions.cs" />
     <Compile Include="Model\ValueObjects\Tag.cs" />
