@@ -88,6 +88,36 @@ namespace CavemanTools.Infrastructure
                 return Result as T;
             }
         }
+
+      
     }
-    
+
+    public static class MediatorExtensions
+    {
+        /// <summary>
+        /// Adds an empty <see cref="CommandResult"/>
+        /// </summary>
+        /// <param name="mediator"></param>
+        /// <param name="cmdId"></param>
+        public static void EmptyCommandResult(this ICommandResultMediator mediator, Guid cmdId)
+        {
+            mediator.AddResult(cmdId, new CommandResult());
+        }
+
+        /// <summary>
+        /// Configures a <see cref="CommandResult"/> as the result
+        /// </summary>
+        /// <param name="mediator"></param>
+        /// <param name="cmdId"></param>
+        /// <param name="configResult"></param>
+        public static void SetResult(this ICommandResultMediator mediator, Guid cmdId,Action<CommandResult> configResult)
+        {
+            configResult.MustNotBeNull();
+            var result = new CommandResult();
+            configResult(result);
+            mediator.AddResult(cmdId, result);
+        }
+    }
+
+
 }
