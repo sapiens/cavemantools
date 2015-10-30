@@ -7,6 +7,11 @@ namespace System
 {
     public static class AssertionsExtensions
     {
+        public static void MustNotBeDefault<T>(this T value)
+        {
+            if (value.Equals(default(T))) throw new ArgumentException($"Argument must not be {default(T)}");
+        }
+            
          public static void MustNotBeNull<T>(this T param,string paramName=null) where T:class
          {
              if (param == null) throw new ArgumentNullException(paramName??string.Empty);
