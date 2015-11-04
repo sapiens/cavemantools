@@ -1,4 +1,5 @@
-﻿using CavemanTools.Logging;
+﻿using System.Runtime.CompilerServices;
+using CavemanTools.Logging;
 
 namespace System.Threading.Tasks
 {
@@ -27,5 +28,8 @@ namespace System.Threading.Tasks
         {
             return Task.WhenAll();
         }
+
+        public static ConfiguredTaskAwaitable<T> NoAwait<T>(this Task<T> task) => task.ConfigureAwait(false);
+
     }
 }
