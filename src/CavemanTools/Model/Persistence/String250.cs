@@ -6,7 +6,7 @@ namespace CavemanTools.Model.Persistence
     {
         public String250(string item1) : base(item1)
         {
-            item1.MustComplyWith(d=>d.Length<250,"Maximum length is 250");
+            item1.MustComplyWith(d=>d.Length<=250,"Maximum length is 250");
         }
 
         public static implicit operator String250(string v) =>new String250(v);

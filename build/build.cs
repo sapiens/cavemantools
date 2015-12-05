@@ -13,7 +13,7 @@ using MakeSharp.MsBuild;
         Solution.FileName = @"..\src\Caveman.sln";  
             
 		Project.Current.AssemblyExtension = "dll";
-
+        
 
 //    }
 //}
@@ -24,7 +24,7 @@ public class clean
  {
      public void Run()
      {
-
+            
 	  BuildScript.TempDirectory.CleanupDir();
       
       Solution.Instance.FilePath.MsBuildClean();

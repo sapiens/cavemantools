@@ -111,6 +111,7 @@
     <Compile Include="Model\Persistence\EntityUpdateFailException.cs" />
     <Compile Include="Model\Persistence\GenericStorage\GenericStorageId.cs" />
     <Compile Include="Model\Persistence\String250.cs" />
+    <Compile Include="Model\Persistence\String75.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueStoreItem.cs" />
     <Compile Include="Model\Persistence\ICreateStorage.cs" />
     <Compile Include="Model\Persistence\IdempotencyId.cs" />

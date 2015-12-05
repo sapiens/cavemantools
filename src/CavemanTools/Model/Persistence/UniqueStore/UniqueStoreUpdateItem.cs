@@ -4,13 +4,33 @@ namespace CavemanTools.Model.Persistence.UniqueStore
 {
     public class UniqueStoreUpdateItem:UniqueStoreItem
     {
-        public UniqueStoreUpdateItem(String uniqueName, Guid operationId, string oldUniqueName) : base(Guid.Empty, uniqueName, operationId)
+        public UniqueStoreUpdateItem(Guid entityId, string oldValue, string value, Guid operationId, string aspect=UniqueValue.DefaultAspect)
         {
-            OldUniqueName = oldUniqueName;
+            oldValue.MustNotBeEmpty();
+            entityId.MustNotBeDefault();
+            operationId.MustNotBeDefault();
+
+            EntityId = entityId;
+            OperationId = operationId;
+            Unique=new UniqueValue(value,aspect);
+            OldValue = oldValue;
         }
 
-        public String250 OldUniqueName { get; set; }
+        public string OldValue { get;  }
 
        
+    }
+
+    public class UniqueStoreDeleteItem
+    {
+   
+        public UniqueStoreDeleteItem(Guid entityId,string aspect=UniqueValue.DefaultAspect)
+        {
+            EntityId = entityId;
+            Aspect = aspect;
+        }
+
+        public Guid EntityId { get;  }
+        public string Aspect { get;  }
     }
 }
