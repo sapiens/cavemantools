@@ -7,15 +7,17 @@ namespace CavemanTools.Model.Persistence.UniqueStore
 
     public class UniqueStoreItem
     {
-        public UniqueStoreItem(Guid entityId, UniqueValue uniqueValue, Guid operationId)
+        public UniqueStoreItem(Guid entityId, UniqueValue uniqueValue, Guid operationId,string bucket=DefaultBucket)
         {
             entityId.MustNotBeDefault();
             operationId.MustNotBeDefault();
             uniqueValue.MustNotBeNull();
+            bucket.MustNotBeEmpty();
 
             EntityId = entityId;
             Unique = uniqueValue;
             OperationId = operationId;
+            Bucket = bucket;
         }
 
         protected UniqueStoreItem()
@@ -30,7 +32,7 @@ namespace CavemanTools.Model.Persistence.UniqueStore
         /// <summary>
         /// For multi tenant support
         /// </summary>
-        public string Bucket { get; set; } = DefaultBucket;
+        public string Bucket { get; set; } 
 
         public Guid OperationId { get; protected set; }
 
