@@ -112,6 +112,7 @@
     <Compile Include="Model\Persistence\GenericStorage\GenericStorageId.cs" />
     <Compile Include="Model\Persistence\String250.cs" />
     <Compile Include="Model\Persistence\String75.cs" />
+    <Compile Include="Model\Persistence\UniqueStore\UniqueStoreDeleteItem.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueStoreItem.cs" />
     <Compile Include="Model\Persistence\ICreateStorage.cs" />
     <Compile Include="Model\Persistence\IdempotencyId.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Model\Persistence\NewerVersionExistsException.cs" />
     <Compile Include="Model\Persistence\String500.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueStoreUpdateItem.cs" />
+    <Compile Include="Model\Persistence\UniqueStore\UniqueValue.cs" />
     <Compile Include="Model\ValueObjects\AReadOnlyValue.cs" />
     <Compile Include="Model\ValueObjects\DomainString.cs" />
     <Compile Include="Model\ValueObjects\Extensions.cs" />

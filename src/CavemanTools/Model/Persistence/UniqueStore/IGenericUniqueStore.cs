@@ -16,6 +16,7 @@ namespace CavemanTools.Model.Persistence.UniqueStore
         /// </summary>
         /// <param name="entityId"></param>
         void Delete(Guid entityId);
+        void Delete(string bucketId);
         /// <summary>
         /// Delete values associated with the entity and an aspect
         /// </summary>
@@ -28,8 +29,6 @@ namespace CavemanTools.Model.Persistence.UniqueStore
         /// <exception cref="UniqueStoreDuplicateException"></exception>
         /// <returns></returns>
         void Update(UniqueStoreUpdateItem item);
-
-        IUnitOfWork StartUnitOfWork();
     }
 
     public class UniqueStoreDuplicateException : Exception

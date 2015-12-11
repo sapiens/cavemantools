@@ -26,7 +26,12 @@ namespace CavemanTools.Model.Persistence.UniqueStore
         public Guid EntityId { get; protected set; }
 
         public UniqueValue Unique { get; protected set; }
-      
+        public const string DefaultBucket = "_";
+        /// <summary>
+        /// For multi tenant support
+        /// </summary>
+        public string Bucket { get; set; } = DefaultBucket;
+
         public Guid OperationId { get; protected set; }
 
         public IdempotencyId ToIdempotencyId()
@@ -34,30 +39,5 @@ namespace CavemanTools.Model.Persistence.UniqueStore
             return new IdempotencyId(OperationId,"ustore"+(EntityId+Unique.Aspect+Unique.Value).MurmurHash().ToBase64());
         }
          
-    }
-
-    public class UniqueValue
-    {
-        public const string DefaultAspect = "name";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value">Value that needs to be unique</param>
-        /// <param name="aspect">What aspect of the concept the value refers to. Eg: name, email</param>
-        /// <param name="scope">Scope where the value should be unique</param>
-        public UniqueValue(string value,string aspect= DefaultAspect, string scope="[none]")
-        {
-            aspect.MustNotBeEmpty();
-            value.MustNotBeEmpty();
-            scope.MustNotBeEmpty();
-            Scope = scope;
-            Value = value;
-            Aspect = aspect;
-        }
-
-        public string Aspect { get;  }
-        public string Scope { get;  }
-        public string Value { get; }
     }
 }
