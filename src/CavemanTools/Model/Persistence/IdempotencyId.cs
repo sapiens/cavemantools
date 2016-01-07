@@ -2,27 +2,43 @@ using System;
 
 namespace CavemanTools.Model.Persistence
 {
+    /// <summary>
+    /// When implementing a storage, the combination [OperationId,ModelIdentifier] should be unique.
+    /// You can use GetStorableHash() to persist it.
+    /// </summary>
     public class IdempotencyId
     {
-        public static IdempotencyId Empty=new IdempotencyId() ;
-        public bool IsEmpty() => OperationId == Guid.Empty && Hash==null;
+        public static readonly IdempotencyId Empty=new IdempotencyId() ;
+        public bool IsEmpty() => OperationId == Guid.Empty && ModelIdentifier==null;
 
         public Guid OperationId { get; set; }
         /// <summary>
         /// Its actually an identifier of the entity/model/event involved
         /// </summary>
-        public String250 Hash { get; set; }
+        public string ModelIdentifier { get; set; }
 
-        public IdempotencyId(Guid operationId,string hash)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <param name="modelIdentifier">Identifier of the entity/model/event involved</param>
+        public IdempotencyId(Guid operationId,string modelIdentifier)
         {
-            hash.MustNotBeEmpty();
+            modelIdentifier.MustNotBeEmpty();
             OperationId = operationId;
-            Hash = hash;
+            ModelIdentifier = modelIdentifier;
         }
 
         private IdempotencyId()
         {
             
         }
+
+        /// <summary>
+        /// Generates a hash (murmur3) that can be persisted. It should have a unique constraint
+        /// </summary>
+        /// <returns></returns>
+        public string GetStorableHash() => (OperationId + ModelIdentifier).MurmurHash().ToBase64();
+
     }
 }
