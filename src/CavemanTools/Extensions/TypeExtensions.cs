@@ -349,7 +349,11 @@ namespace System
 
         public static object GetDefault(this Type type)
         {
-            if (type.IsValueType) return Activator.CreateInstance(type);
+#if COREFX
+            if (type.GetTypeInfo().IsValueType) return Activator.CreateInstance(type);
+#else
+             if (type.IsValueType) return Activator.CreateInstance(type);
+#endif            
             return null;
         }
 

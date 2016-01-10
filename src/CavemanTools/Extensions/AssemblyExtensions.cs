@@ -18,7 +18,11 @@ namespace System.Reflection
 			var res= asm.GetExportedTypes().Where(tp => (typeof (T)).IsAssignableFrom(tp));
             if (instantiable)
             {
+#if COREFX
+                res = res.Where(t => !t.GetTypeInfo().IsAbstract && !t.GetTypeInfo().IsInterface);
+#else
                 res = res.Where(t => !t.IsAbstract && !t.IsInterface);
+#endif
             }
 		    return res;
 		}
@@ -53,8 +57,12 @@ namespace System.Reflection
 
 	    public static IEnumerable<Type> GetPublicTypes(this Assembly asm, Func<Type, bool> filter)
 	    {
-	        return asm.GetTypes().Where(t => t.IsPublic && filter(t));
-	    }
+#if COREFX
+            return asm.GetTypes().Where(t => t.GetTypeInfo().IsPublic && filter(t));
+#else
+            return asm.GetTypes().Where(t => t.IsPublic && filter(t));
+#endif
+        }
 
 	}
 }

@@ -24,6 +24,8 @@ bld/
 [Oo]bj/
 temp/
 
+project.lock.json
+
 !nuget.exe
 
 # Roslyn cache directories
