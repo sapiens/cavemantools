@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace System
@@ -67,7 +68,12 @@ namespace System
             bool ex = false;
             if (value == null)
             {
-                if (tp.IsClass) return;
+#if COREFX
+                if (tp.GetTypeInfo().IsClass) return;
+#else
+              if (tp.IsClass) return;
+#endif
+
                 ex = true;
             }
             if (ex || (value.GetType()!=tp)) throw new ArgumentException("Argument must be of type '{0}'".ToFormat(tp));
@@ -91,7 +97,11 @@ namespace System
         {
             value.MustNotBeNull("value");
             var tp = typeof (T);
+#if COREFX
+            if (!tp.GetTypeInfo().IsInterface) throw new ArgumentException("'{0}' is not an interface".ToFormat(tp));
+#else
             if (!tp.IsInterface) throw new ArgumentException("'{0}' is not an interface".ToFormat(tp));
+#endif
             var otype = value.GetType();
             
             if (value is Type)
@@ -142,7 +152,11 @@ namespace System
 
         public static void MustBeGeneric(this Type type)
         {
+#if COREFX
+            type.MustComplyWith(t => t.GetTypeInfo().IsGenericType, "Type must be a generic type");
+#else
             type.MustComplyWith(t => t.IsGenericType, "Type must be a generic type");
+#endif
         }
     }
 }
