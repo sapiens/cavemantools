@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿#if !COREFX
+using System.Linq.Expressions;
 
 namespace System.Reflection.Emit
 
@@ -127,3 +128,4 @@ namespace System.Reflection.Emit
         }
     }
 }
+#endif
