@@ -1,7 +1,8 @@
-using System.Reflection;
+
 
 namespace System.Linq.Expressions
 {
+    using System.Reflection;
     public static  class ExpressionExtensions
 	{
 		/// <summary>
@@ -223,10 +224,11 @@ namespace System.Linq.Expressions
             var idx = node.Right.GetValue();
             if (idx is int)
                 return arr.GetValue((int) idx);
-            if (idx is long)
-            {
-                return arr.GetValue((long) idx);
-            }
+            //if (idx is long)
+            //{
+                
+            //    return arr.((long) idx);
+            //}
             throw new NotSupportedException();
         }
 
@@ -271,12 +273,20 @@ namespace System.Linq.Expressions
                 }
             }
 
+#if !COREFX
             if (node.Member.MemberType == MemberTypes.Property)
+#else
+            
+            if (node.Member is PropertyInfo)
+#endif
             {
                 return node.Member.As<PropertyInfo>().GetValue(parentValue, null);
             }
-
+#if !COREFX
             if (node.Member.MemberType == MemberTypes.Field)
+#else
+            if (node.Member is FieldInfo)
+#endif
             {
                 return node.Member.As<FieldInfo>().GetValue(parentValue);
             }
