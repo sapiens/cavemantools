@@ -334,6 +334,7 @@ namespace System
         /// <returns></returns>
         public static Version AssemblyVersion(this Type tp)
         {
+            
             return Assembly.GetAssembly(tp).Version();
         }
         /// <summary>
