@@ -7,7 +7,7 @@
   "licenseUrl": "",
 
   "frameworks": {
-    "net451": { },
+    "net46": { },
     "dotnet5.4": {
         "compilationOptions": {
             "define": ["COREFX"]
@@ -19,7 +19,10 @@
             "System.Runtime": "4.0.21-beta-23516",
             "System.Threading": "4.0.11-beta-23516",
             "System.Reflection": "4.1.0-beta-23516",
-            "System.Text.RegularExpressions": "4.0.11-*"
+            "System.Text.RegularExpressions": "4.0.11-*",
+            "System.Security.Cryptography.Primitives": "4.0.0-*",
+            
+            "System.Security.Cryptography.Algorithms": "4.0.0-*"
         }
     }
   }
