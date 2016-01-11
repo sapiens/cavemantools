@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using CavemanTools.Hashing;
@@ -17,6 +18,14 @@ namespace System
 	        var hasher = new Murmur3();
 	        return hasher.ComputeHash(Encoding.Unicode.GetBytes(data));            
 	    }
+
+	    /// <summary>
+	    /// Get bytes from Unicode string
+	    /// </summary>
+	    /// <param name="data"></param>
+	    /// <returns></returns>
+	    public static byte[] ToByteArray(this string data) => Encoding.Unicode.GetBytes(data);
+	    
 
         /// <summary>
         /// Compress using GZip
@@ -287,21 +296,19 @@ namespace System
         }
 
 		/// <summary>
-		/// Generates a random string (only letters) of the specified length
+		/// Generates a random string (letters and numbers) of the specified length
 		/// </summary>
 		/// <param name="length">Maximum string length</param>
 		/// <returns></returns>
 		public static string CreateRandomString(int length)
 		{
-		    var buff = new byte[length];
-            var _random = new Random();
+            var buff = new byte[length];
+            using (var rnd = RandomNumberGenerator.Create())
+            {
+                rnd.GetBytes(buff);
+            }
             
-            _random.NextBytes(buff);
-
-		    return Convert.ToBase64String(buff).Substring(0,length);
-
-           
-
+		    return buff.ToHexString().Substring(0,length);            
 		}
 
 
@@ -328,6 +335,24 @@ namespace System
             if (!typeof(T).IsEnum) throw new ArgumentException("Type '{0}' is not an enum".ToFormat(typeof(T)));
             return (T)Enum.Parse(typeof(T), value, true);
         }
+
+	    /// <summary>
+	    /// Generates hex representation of bytes
+	    /// </summary>
+	    /// <param name="data"></param>
+	    /// <returns></returns>
+	    public static string ToHexString(this byte[] data)
+	    {
+	        if (data == null) throw new ArgumentNullException("data");
+	        if (data.Length == 0) return string.Empty;
+	        var sb = new StringBuilder();
+	        foreach (byte bit in data)
+	        {
+	            sb.Append(bit.ToString("x2"));
+
+	        }
+	        return sb.ToString();
+	    }
 	}
 }
 

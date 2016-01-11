@@ -22,7 +22,7 @@
         /// <summary>
         /// Hash a string using the SHA256 algorithm. 32 bytes (hex): 64 unicode chars, 128 bytes
         /// </summary>
-        public static string Sha256(this string data) => Hash(data, Security.Cryptography.MD5.Create);
+        public static string Sha256(this string data) => HashAsString(data, SHA256.Create);
         //{
         //          byte[] data = Encoding.UTF8.GetBytes(plainMessage);
         //	using (HashAlgorithm sha = new SHA256Managed())
@@ -63,7 +63,7 @@
         /// <summary>
         /// Hash a string using the SHA512 algorithm. 128 unicode chars, 256 bytes
         /// </summary>
-        public static string Sha512(this string data) => Hash(data, Security.Cryptography.MD5.Create);
+        public static string Sha512(this string data) => HashAsString(data, SHA512.Create);
         //{
         //	byte[] data = Encoding.UTF8.GetBytes(plainMessage);
         //	using (HashAlgorithm sha = new SHA512Managed())
@@ -85,7 +85,7 @@
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string MD5(this string data) => Hash(data, Security.Cryptography.MD5.Create);
+        public static string MD5(this string data) => HashAsString(data, Security.Cryptography.MD5.Create);
         //{
 
         //	var bytes = Encoding.UTF8.GetBytes(data);
@@ -101,7 +101,7 @@
         //	}
         //}
 
-        static string Hash(string data, Func<HashAlgorithm> factory)
+        static string HashAsString(string data, Func<HashAlgorithm> factory)
         {
             var bytes = Encoding.UTF8.GetBytes(data);
             using (var hasher = factory())
@@ -114,6 +114,18 @@
                 }
                 return sb.ToString();
             }
+        }
+
+        public static byte[] Hash(this string data, Func<HashAlgorithm> factory)
+            => Encoding.Unicode.GetBytes(data).Hash(factory);
+
+        public static byte[] Hash(this byte[] bytes, Func<HashAlgorithm> factory)
+        {
+            using (var hasher = factory())
+            {
+                 return hasher.ComputeHash(bytes);
+            }
+          
         }
 
         #endregion 
