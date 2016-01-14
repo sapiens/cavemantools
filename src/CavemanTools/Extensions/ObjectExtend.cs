@@ -37,7 +37,7 @@ namespace System
             
             if(!_typeDicts.TryGetValue(tp,out info))
             {
-                var allp = tp.GetProperties(BindingFlags.Instance|BindingFlags.Public|BindingFlags.GetProperty);
+                var allp = tp.GetProperties(BindingFlags.Instance|BindingFlags.Public);
                 
                 //lambda
                 var dict = Expression.Parameter(typeof (IDictionary<string, object>),"dict");
@@ -133,41 +133,24 @@ namespace System
 	       }
 	    }
 
-	    /// <summary>
-	    /// 
-	    /// If object is not null invokes function else returns default of type
-	    /// </summary>
-	    /// <typeparam name="V"></typeparam>
-	    /// <typeparam name="T"></typeparam>
-	    /// <param name="item"></param>
-	    /// <param name="invoke"></param>
-	    /// <returns></returns>
-        public static T ReturnDefaultOrResult<V, T>(this V item, Func<V, T> invoke,T defaultValue=default(T)) where V : class
-	    {
-	        if (item == null) return defaultValue;
-            return invoke(item);
-        }
-        
-        /// <summary>
-        /// Executes the 'process' function if the source is not null
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="R"></typeparam>
-        /// <param name="data"></param>
-        /// <param name="process"></param>
-        /// <param name="valueIfNull"></param>
-        /// <returns></returns>
-        [DebuggerStepThrough]
-        public static R IfNotNullApply<T, R>(this T data, Func<T, R> process, R valueIfNull = default(R)) where T : class
-	        => (data == null) ? valueIfNull : process(data);
-	    
-            
-
-	    //public static void DoIf<T>(this T item, Func<T, bool> condition, Action<T> action)
+	    ///// <summary>
+	    ///// 
+	    ///// If object is not null invokes function else returns default of type
+	    ///// </summary>
+	    ///// <typeparam name="V"></typeparam>
+	    ///// <typeparam name="T"></typeparam>
+	    ///// <param name="item"></param>
+	    ///// <param name="invoke"></param>
+	    ///// <returns></returns>
+     //   public static T ReturnDefaultOrResult<V, T>(this V item, Func<V, T> invoke,T defaultValue=default(T)) where V : class
 	    //{
-	    //    if (condition(item)) action(item);
-  
-	    //}
+	    //    if (item == null) return defaultValue;
+     //       return invoke(item);
+     //   }
+        
+        
+
+	
 
 	    public static T GetValue<T>(this AbstractValueObject<T> d, T defaultValue = default(T))
 	    {
@@ -184,8 +167,9 @@ namespace System
 		/// <param name="data">Object to be converted</param>
 		/// <param name="tp">Type to convert to</param>
 		/// <returns></returns>
-		public static object ConvertTo(this object data, Type tp)
+		public static object ConvertTo(this object data, Type type)
 		{
+		    var tp = type.GetTypeInfo();
 		   if (data==null)
 		   {
 		       if (tp.IsValueType && !tp.IsNullable())
@@ -201,20 +185,20 @@ namespace System
            {
                if (data is string)
                {
-                   return Enum.Parse(tp, data.ToString());
+                   return Enum.Parse(type, data.ToString());
                }
-               var o = Enum.ToObject(tp, data);
+               var o = Enum.ToObject(type, data);
                return o;
            }
 
            if (tp.IsValueType)
            {
-               if (tp == typeof(TimeSpan))
+               if (type == typeof(TimeSpan))
                {
                    return TimeSpan.Parse(data.ToString());
                }
 
-               if (tp == typeof(DateTime))
+               if (type == typeof(DateTime))
                {
                    if (data is DateTimeOffset)
                    {
@@ -223,7 +207,7 @@ namespace System
                    return DateTime.Parse(data.ToString());
                }
 
-               if (tp == typeof(DateTimeOffset))
+               if (type == typeof(DateTimeOffset))
                {
                    if (data is DateTime)
                    {
@@ -235,13 +219,13 @@ namespace System
 
                if (tp.IsNullable())
                {
-                   var under = Nullable.GetUnderlyingType(tp);
+                   var under = Nullable.GetUnderlyingType(type);
                    return data.ConvertTo(under);
                }
            }
-           else if (tp == typeof(CultureInfo)) return new CultureInfo(data.ToString());
+           else if (type == typeof(CultureInfo)) return new CultureInfo(data.ToString());
 
-           return System.Convert.ChangeType(data, tp);
+           return System.Convert.ChangeType(data, type);
 		}
 
 		/// <summary>
@@ -296,18 +280,7 @@ namespace System
 		}
 
 
-        /// <summary>
-        /// Shorthand for lazy people to cast an object to a type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        [Obsolete]
-        public static T Cast<T>(this object o)
-        {
-            return (T)o;
-        }
-
+       
         /// <summary>
         /// Shortcut for 'object is type'
         /// </summary>
@@ -323,17 +296,7 @@ namespace System
             return o is T;
         }
 
-	    public static bool IsNull<T>(this T inst) where T : class
-	    {
-	        return inst == null;
-	    }
-
-	    public static bool IsNotNull<T>(this T inst) where T : class
-	    {
-	        return inst != null;
-	    }
-
-
+	  
         public static bool IsNot<T>(this object o)
         {
             return !Is<T>(o);

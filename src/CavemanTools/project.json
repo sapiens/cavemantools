@@ -1,5 +1,5 @@
 ﻿{
-  "version": "3.46.1-*",
+  "version": "4.0.0-*",
   "description": "CavemanTools",
   "authors": [ "t" ],
   "tags": [ "" ],
@@ -7,21 +7,23 @@
   "licenseUrl": "",
 
   "frameworks": {
-    "net46": { },
+   "net46": {},
     "dotnet5.4": {
         "compilationOptions": {
             "define": ["COREFX"]
         },
         "dependencies": {
-            "Microsoft.CSharp": "4.0.1-beta-23516",
-            "System.Collections": "4.0.11-beta-23516",
-            "System.Linq": "4.0.1-beta-23516",
-            "System.Runtime": "4.0.21-beta-23516",
-            "System.Threading": "4.0.11-beta-23516",
-            "System.Reflection": "4.1.0-beta-23516",
+            "Microsoft.CSharp": "4.0.1-*",
+            "System.Collections": "4.0.11-*",
+            "System.Collections.Concurrent": "4.0.11-*",
+            "System.Linq": "4.0.1-*",
+            "System.Linq.Expressions": "4.0.11-*",
+            "System.Runtime": "4.0.21-*",
+            "System.Threading": "4.0.11-*",
+            "System.Reflection": "4.1.0-*",
             "System.Text.RegularExpressions": "4.0.11-*",
             "System.Security.Cryptography.Primitives": "4.0.0-*",
-        
+            "System.Console": "4.0.0-*",
             "System.Security.Cryptography.Algorithms": "4.0.0-*"
         }
     }

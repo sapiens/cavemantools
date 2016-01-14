@@ -82,6 +82,8 @@ namespace System.Reflection
         }
         
 #else
+	    public static T GetSingleAttribute<T>(this Type tp, bool inherit=true) where T : Attribute => tp.GetTypeInfo().GetCustomAttribute<T>(inherit);
+
         public static V GetAttributeValue<T, V>(this MemberInfo mi, Func<T, V> getValue,
                    V defaultValue = default(V), bool inherit = true) where T : Attribute
         {
