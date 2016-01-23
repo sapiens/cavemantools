@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "4.0.0-*",
   "description": "CavemanTools",
   "authors": [ "t" ],
@@ -7,7 +7,11 @@
   "licenseUrl": "",
 
   "frameworks": {
-   "net46": {},
+    "net46": {
+        "frameworkAssemblies": {
+            "System.Xml": "4.0.0.0"
+        }
+    },
     "dotnet5.4": {
         "compilationOptions": {
             "define": ["COREFX"]

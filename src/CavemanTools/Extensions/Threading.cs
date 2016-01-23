@@ -29,9 +29,9 @@ namespace System.Threading.Tasks
             return Task.WhenAll();
         }
 
-        [Obsolete("Use ConfigureFalse")]
-        public static ConfiguredTaskAwaitable<T> NoAwait<T>(this Task<T> task) => task.ConfigureAwait(false);
+      
         public static ConfiguredTaskAwaitable<T> ConfigureFalse<T>(this Task<T> task) => task.ConfigureAwait(false);
+        public static ConfiguredTaskAwaitable ConfigureFalse(this Task task) => task.ConfigureAwait(false);
 
     }
 }

@@ -37,11 +37,7 @@ namespace System
             if (source.IsNullOrEmpty() || !Regex.IsMatch(source,regex,options)) throw new FormatException(string.Format("Argument doesn't match expression '{0}'",regex));
         }
 
-        [Obsolete]
-        public static void ThrowIfNull<TException>(this object source, TException ex) where TException:Exception
-        {
-            if (source == null) throw ex;
-        }
+       
 
         /// <summary>
         /// Throws if the value can't be used as-is in an url
@@ -62,7 +58,7 @@ namespace System
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
-        public static void MustBe<T>(this object value)
+        public static void MustBeOfType<T>(this object value)
         {
             var tp = typeof (T);
             bool ex = false;
@@ -79,7 +75,7 @@ namespace System
             if (ex || (value.GetType()!=tp)) throw new ArgumentException("Argument must be of type '{0}'".ToFormat(tp));
         }
 
-        public static void MustComplyWith<T>(this T arg,Func<T, bool> condition,string msg)
+        public static void Must<T>(this T arg, Func<T, bool> condition, string msg)
         {
             msg.MustNotBeEmpty();
             if (!condition(arg))
@@ -87,6 +83,11 @@ namespace System
                 throw new ArgumentException(msg);
             }
         }
+
+        [Obsolete("Use Must")]
+        public static void MustComplyWith<T>(this T arg, Func<T, bool> condition, string msg)
+            => arg.Must(condition, msg);
+        
 
         /// <summary>
         /// Arugment must implement interface T

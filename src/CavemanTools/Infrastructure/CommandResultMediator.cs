@@ -94,6 +94,7 @@ namespace CavemanTools.Infrastructure
 
     public static class MediatorExtensions
     {
+       
         /// <summary>
         /// Adds an empty <see cref="CommandResult"/>
         /// </summary>

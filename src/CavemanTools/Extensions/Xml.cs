@@ -1,5 +1,7 @@
+#if !COREFX
 using System.Collections.Generic;
 using CavemanTools.Xml;
+
 
 namespace System.Xml
 {
@@ -177,3 +179,4 @@ namespace System.Xml
 		
 	}
 }
+#endif
