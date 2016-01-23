@@ -1,8 +1,9 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq.Expressions;
+#if !COREFX
 using System.Reflection.Emit;
-
+#endif
 namespace System.Reflection
 {
     public static class ReflectionUtils
@@ -31,7 +32,7 @@ namespace System.Reflection
             if (tp == null) throw new ArgumentException("Property doesn't exist.", "propertyName");
             return tp.GetValue(null, null).ConvertTo<T>();
         }
-
+#if !COREFX
         private delegate void Setter(object dest, object value);
 
         private static ConcurrentDictionary<int, Setter> _cache;
@@ -54,7 +55,10 @@ namespace System.Reflection
 
             if (!_cache.TryGetValue(key, out inv))
             {
-                var mi = p.GetSetMethod();
+                var mi = p.GetSetMethod();                
+
+                
+
                 DynamicMethod met = new DynamicMethod("set_" + key, typeof(void), new[] { typeof(object), typeof(object) }, typeof(ObjectExtend).Module, true);
                 var il = met.GetILGenerator();
                 il.Emit(OpCodes.Ldarg_0);//instance           
@@ -66,7 +70,8 @@ namespace System.Reflection
                 il.Emit(OpCodes.Call, mi);
                 il.Emit(OpCodes.Ret);
                 inv = (Setter)met.CreateDelegate(typeof(Setter));
-                _cache.TryAdd(key, inv);
+
+        _cache.TryAdd(key, inv);
 
             }
 
@@ -103,7 +108,7 @@ namespace System.Reflection
 
             return inv(a);
         }
-
+#endif
         /// <summary>
         /// Gets delegate to quickly create instances of type using public parameterless constructor.
         /// Use this only when you want to create LOTS of instances (dto scenario)
@@ -131,12 +136,15 @@ namespace System.Reflection
 
         public static Type GetMemberType(this MemberInfo memberInfo)
         {
-            if (memberInfo is MethodInfo)
-                return ((MethodInfo)memberInfo).ReturnType;
-            if (memberInfo is PropertyInfo)
-                return ((PropertyInfo)memberInfo).PropertyType;
-            if (memberInfo is FieldInfo)
-                return ((FieldInfo)memberInfo).FieldType;
+            var info = memberInfo as MethodInfo;
+            if (info != null)
+                return info.ReturnType;
+            PropertyInfo propertyInfo = memberInfo as PropertyInfo;
+            if (propertyInfo != null)
+                return propertyInfo.PropertyType;
+            var fieldInfo = memberInfo as FieldInfo;
+            if (fieldInfo != null)
+                return fieldInfo.FieldType;
             return null;
         }
 
@@ -160,15 +168,19 @@ namespace System.Reflection
         /// <param name="value"></param>
         public static void SetValue(this MemberInfo member, object data,object value)
         {
-            switch (member.MemberType)
+            var prop = member as PropertyInfo;
+            if (prop != null)
             {
-                case MemberTypes.Property:
-                    member.As<PropertyInfo>().SetValue(data,value);
-                    return;
-                case MemberTypes.Field:
-                    member.As<FieldInfo>().SetValue(data,value);
-                    return;
+                member.As<PropertyInfo>().SetValue(data, value);
+                return;
             }
+            var field = member as FieldInfo;
+            if (field != null)
+            {
+                member.As<FieldInfo>().SetValue(data, value);
+                return;
+            }
+         
             throw new NotSupportedException("Only fields and non indexed properties are supported");
         }
 
@@ -185,12 +197,19 @@ namespace System.Reflection
             var tp = @object.GetType();
 
             var pi = tp.GetProperty(property,
-                                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
+                                    BindingFlags.Instance | BindingFlags.Public);
             if (pi == null) throw new ArgumentException("Property doesn't exist.", "property");
-            return pi.GetValueFast(@object);
+
+#if COREFX
+            return pi.GetValue(@object);
+
+#else
+                  return pi.GetValueFast(@object);
+#endif
         }
         private static ConcurrentDictionary<int, Func<object, object>> _cacheGet;
 
+#if !COREFX
         /// <summary>
         /// Gets the file version of current executing assembly
         /// </summary>
@@ -208,5 +227,7 @@ namespace System.Reflection
         {
             return Assembly.GetCallingAssembly().GetName().Version;
         }
+
+#endif
     }
 }

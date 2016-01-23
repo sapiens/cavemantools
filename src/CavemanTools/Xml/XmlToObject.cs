@@ -1,3 +1,4 @@
+#if !COREFX
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -88,3 +89,4 @@ namespace CavemanTools.Xml
 		}
 	}
 }
+#endif

@@ -32,7 +32,7 @@ namespace System
             if (list.IsNullOrEmpty()) throw new ArgumentException("The collection must contain at least one element",paramName??"");
         }
             
-        public static void MustMatch(this string source,string regex,RegexOptions options=RegexOptions.None)
+        public static void MustRegex(this string source,string regex,RegexOptions options=RegexOptions.None)
         {
             if (source.IsNullOrEmpty() || !Regex.IsMatch(source,regex,options)) throw new FormatException(string.Format("Argument doesn't match expression '{0}'",regex));
         }
@@ -75,6 +75,12 @@ namespace System
             if (ex || (value.GetType()!=tp)) throw new ArgumentException("Argument must be of type '{0}'".ToFormat(tp));
         }
 
+
+        public static void MustBe<T>(this T arg, T value,string argName) where T:IEquatable<T>
+        {
+           if (!arg.Equals(value)) throw new ArgumentException($"Value of {argName} must be {value}");
+        }
+
         public static void Must<T>(this T arg, Func<T, bool> condition, string msg)
         {
             msg.MustNotBeEmpty();
@@ -92,7 +98,7 @@ namespace System
         /// <summary>
         /// Arugment must implement interface T
         /// </summary>
-        /// <typeparam name="T">Inerface type</typeparam>
+        /// <typeparam name="T">Interface type</typeparam>
         /// <param name="value"></param>
         public static void MustImplement<T>(this object value)
         {

@@ -40,12 +40,9 @@ namespace System
             using (var msi = new MemoryStream(bytes))
             using (var mso = new MemoryStream())
             {
-#if!Net4
+
                 using (var gs = new GZipStream(mso, CompressionLevel.Optimal))
-#else
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-#endif
-     
+
                 {
                    msi.CopyTo(gs);                   
                 }
@@ -332,7 +329,11 @@ namespace System
 
         public static T ToEnum<T>(this string value)
         {
+#if COREFX
+            if (!(typeof(T).GetTypeInfo().IsEnum)) throw new ArgumentException("Type '{0}' is not an enum".ToFormat(typeof(T)));
+#else
             if (!typeof(T).IsEnum) throw new ArgumentException("Type '{0}' is not an enum".ToFormat(typeof(T)));
+#endif
             return (T)Enum.Parse(typeof(T), value, true);
         }
 
