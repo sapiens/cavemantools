@@ -252,6 +252,10 @@ namespace CavemanTools
             return r;
         }
 
+        public SemanticVersion IncrementPatch()=> new SemanticVersion(Major,Minor,Patch++);
+        public SemanticVersion IncrementMinor()=> new SemanticVersion(Major,Minor++);
+        
+
         public static implicit operator SemanticVersion(string version)
         {
             return new SemanticVersion(version);
