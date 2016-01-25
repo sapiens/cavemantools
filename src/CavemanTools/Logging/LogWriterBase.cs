@@ -2,7 +2,7 @@ using System;
 
 namespace CavemanTools.Logging
 {
-    public abstract class LogWriterBase:ILogWriter,IWriteToLog
+    public abstract class LogWriterBase:IWriteToLog
     {
         public abstract T GetLogger<T>() where T:class ;
         
@@ -70,17 +70,9 @@ namespace CavemanTools.Logging
 
         protected virtual string FormatSource(object src)
         {
-            return "[" + SourceToString(src) + "]"; 
+            return "[" + LogManager.SourceToString(src) + "]"; 
         }
 
-        public static string SourceToString(object src)
-        {
-            src.MustNotBeNull();
-            var name = src is string ? src.ToString() : src.GetType().Name;
-            return name;
-        }
-
-   
 
         public abstract void LogException(string source, LogLevel level, Exception ex, string context,
             params object[] args);
