@@ -1,5 +1,5 @@
 ﻿using System.Reflection.Emit;
-/* http://www.ozcandegirmenci.com/post/2008/02/Create-object-instances-Faster-than-Reflection.aspx */
+
 namespace System.Reflection
 {
 	/// <summary>

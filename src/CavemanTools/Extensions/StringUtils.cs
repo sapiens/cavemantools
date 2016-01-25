@@ -4,6 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+#if COREFX
+using System.Reflection;
+#endif
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;

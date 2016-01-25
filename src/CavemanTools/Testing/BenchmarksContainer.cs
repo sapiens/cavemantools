@@ -74,20 +74,7 @@ namespace CavemanTools.Testing
         public void ExecuteWarmup(params object[] args)
         {
             Execute(args);
-            //ResetAll();
-            //_actions.ForEach(act =>
-            //    {
-            //        try
-            //        {
-            //            for (int i = 0; i < WarmUpIterations; i++)
-            //            {
-            //                act.Action(args);                                 
-            //            }}
-            //        catch(NotSupportedException)
-            //        {
-                    
-            //        }
-            //    });
+          
         }
 
         public IEnumerable<BenchmarkResult> GetResults
