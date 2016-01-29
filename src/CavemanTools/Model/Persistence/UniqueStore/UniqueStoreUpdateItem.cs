@@ -2,22 +2,26 @@ using System;
 
 namespace CavemanTools.Model.Persistence.UniqueStore
 {
-    public class UniqueStoreUpdateItem:UniqueStoreItem
+    public class UniqueStoreUpdateItem
     {
-        public UniqueStoreUpdateItem(Guid entityId, string oldValue, string value, Guid operationId, string aspect=UniqueValue.DefaultAspect)
+        public UniqueStoreUpdateItem(Guid entityId, Guid operationId, params UniqueValueChange[] changes)
         {
-            oldValue.MustNotBeEmpty();
             entityId.MustNotBeDefault();
             operationId.MustNotBeDefault();
+            changes.MustNotBeEmpty();
 
             EntityId = entityId;
             OperationId = operationId;
-            Unique=new UniqueValue(value,aspect);
-            OldValue = oldValue;
+            Changes = changes;
         }
 
-        public string OldValue { get;  }
+        public Guid OperationId { get; }
+        public UniqueValueChange[] Changes { get; }
 
-       
+        public Guid EntityId { get; }
+
+      
+
+        public IdempotencyId ToIdempotencyId() => new IdempotencyId(OperationId, "ustore" + EntityId);
     }
 }

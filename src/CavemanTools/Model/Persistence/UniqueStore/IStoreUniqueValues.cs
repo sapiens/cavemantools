@@ -2,7 +2,7 @@
 
 namespace CavemanTools.Model.Persistence.UniqueStore
 {
-    public interface IGenericUniqueStore
+    public interface IStoreUniqueValues
     {
         /// <summary>
         /// 
@@ -12,10 +12,11 @@ namespace CavemanTools.Model.Persistence.UniqueStore
         /// <returns></returns>
         void Add(UniqueStoreItem item);
         /// <summary>
-        /// Deletes or unique values associated with the entity
+        /// Deletes all unique values associated with the entity
         /// </summary>
         /// <param name="entityId"></param>
         void Delete(Guid entityId);
+       
         void Delete(string bucketId);
         /// <summary>
         /// Delete values associated with the entity and an aspect
