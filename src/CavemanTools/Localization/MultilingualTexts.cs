@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CavemanTools
+namespace CavemanTools.Localization
 {
     public class MultilingualTexts
     {

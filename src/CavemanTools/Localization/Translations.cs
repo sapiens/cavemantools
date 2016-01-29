@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CavemanTools
+namespace CavemanTools.Localization
 {
     public class Translations:Dictionary<string,string>
     {
