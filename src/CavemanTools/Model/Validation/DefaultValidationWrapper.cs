@@ -1,3 +1,4 @@
+#if !COREFX
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,3 +71,4 @@ namespace CavemanTools.Model.Validation
 		}
 	}
 }
+#endif
