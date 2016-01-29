@@ -2,7 +2,7 @@ using System;
 
 namespace CavemanTools.Model
 {
-    public abstract class AnEntityWithOperationId : IOperationId,IEntityId
+    public abstract class AnEntityWithOperationId : IOperationId
     {
         protected Guid? _operationId;
         public virtual void SetOperationId(Guid id)
@@ -19,6 +19,5 @@ namespace CavemanTools.Model
             return _operationId.Value;
         }
 
-        public Guid EntityId { get; protected set; }
     }
 }
