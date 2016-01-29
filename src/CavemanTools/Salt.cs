@@ -6,20 +6,17 @@ namespace CavemanTools
     public class Salt:IEquatable<Salt>
     {
         private readonly byte[] _bytes;
-
-        public byte[] Bytes
-        {
-            get { return _bytes; }
-        }
+        const int MinSize = 8;
+        public byte[] Bytes => _bytes;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="length">Length must be at least 8 bytes</param>
+        /// <param name="length">For security purposes length must be at least 8 bytes</param>
         /// <returns></returns>
         public static Salt Generate(int length = 32)
         {
-            length.Must(d => d >= 8, "Salt length must be at least 8 bytes");
+            length.Must(d => d >= MinSize, "Salt length must be at least 8 bytes");
             var bytes = new byte[length];
             RandomNumberGenerator.Create().GetNonZeroBytes(bytes);
             return new Salt(bytes);
@@ -31,21 +28,17 @@ namespace CavemanTools
             _bytes = bytes;            
         }
 
-        public int Length
-        {
-            get { return _bytes.Length; }
-        }
+        public int Length => _bytes.Length;
 
         public bool Equals(Salt other)
         {
-            if (other == null) return false;
-            return _bytes.IsEqual(other._bytes);
+            return other != null && _bytes.IsEqual(other._bytes);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is Salt) return Equals((Salt) obj);
-            return false;
+            var salt = obj as Salt;
+            return salt != null && Equals(salt);
         }
 
         /// <summary>
@@ -54,9 +47,6 @@ namespace CavemanTools
         /// <returns>
         /// A <see cref="T:System.String"/> containing a fully qualified type name.
         /// </returns>
-        public override string ToString()
-        {
-            return Convert.ToBase64String(_bytes);
-        }
+        public override string ToString() => Convert.ToBase64String(_bytes);
     }
 }

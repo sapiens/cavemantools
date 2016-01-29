@@ -11,10 +11,7 @@ namespace CavemanTools
         private byte[] _pwdHash;
         private const int KeySize=32;
 
-        public Salt Salt
-        {
-            get { return _salt; }
-        }
+        public Salt Salt => _salt;
 
         /// <summary>
         /// For developing/testing purposes only
@@ -67,11 +64,7 @@ namespace CavemanTools
         public bool IsValidPassword(string pwd)
         {
             var pwdHash = Pbkdf2Hash(pwd, Salt.Bytes, _iterations);
-            for (int i = 0; i < _pwdHash.Length; i++)
-            {
-                if (_pwdHash[i] != pwdHash[i]) return false;
-            }
-            return true;
+            return _pwdHash.IsEqual(pwdHash);            
         }
 
         public PasswordHash(string password,Salt salt=null,Int32 iterations=50000)
@@ -87,15 +80,13 @@ namespace CavemanTools
 
         public bool Equals(PasswordHash other)
         {
-            if (other == null) return false;
-            return _finalHash.IsEqual(other._finalHash);
+            return other != null && _finalHash.IsEqual(other._finalHash);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is PasswordHash)
-            return Equals((PasswordHash) obj);
-            return false;
+            var hash = obj as PasswordHash;
+            return hash != null && Equals(hash);
         }
 
         /// <summary>

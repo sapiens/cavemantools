@@ -11,8 +11,7 @@ namespace System
         public static bool IsEqualTo<T>(this T[] source, T[] other,Func<T,T,bool> equatable) 
         {
             source.MustNotBeNull();
-            if (other == null) return false;
-            if (source.Length != other.Length) return false;
+            if (source.Length != other?.Length) return false;
             for (var i = 0; i < source.Length; i++)
             {
                 if (!equatable(source[i],other[i])) return false;
