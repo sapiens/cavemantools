@@ -24,7 +24,7 @@ namespace CavemanTools.Logging
 
         public static void OutputToTrace()
         {
-            OutputTo(s=> System.Diagnostics.Trace.WriteLine(s));
+            OutputTo(s=> Trace.WriteLine(s));
         }
 
         /// <summary>
