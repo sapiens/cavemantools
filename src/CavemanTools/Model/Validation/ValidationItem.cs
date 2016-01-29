@@ -17,21 +17,15 @@ namespace CavemanTools.Model.Validation
 		/// <param name="erbag">Error Bag</param>
 		public ValidationItem(string key,IValidationDictionary erbag)
 		{
-			if (string.IsNullOrEmpty(key)) throw new ArgumentNullException("key");
-			if (erbag==null) throw new ArgumentNullException("erbag");
+			if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
+			if (erbag==null) throw new ArgumentNullException(nameof(erbag));
 			_erbag = erbag;
 			_key = key;
 		}
 
-		public string Key
-		{
-			get
-			{
-				return _key;
-			}
-		}
+		public string Key => _key;
 
-		public void AddError(string error)
+	    public void AddError(string error)
 		{
 			_erbag.AddError(_key,error);
 		}
