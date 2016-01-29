@@ -63,26 +63,27 @@ namespace CavemanTools
                 id=new SessionId(bytes);
                 return true;
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 return false;
             }
         }
 
+        /// <summary>
+        /// Uses the cryptographic random number generator
+        /// </summary>
+        /// <returns></returns>
         public static SessionId NewId()
         {
             var bytes = new byte[BytesLength];
             RandomNumberGenerator.Create().GetBytes(bytes);
             return new SessionId(bytes);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
+       
         public SessionId(byte[] bytes)
         {
             bytes.MustNotBeEmpty();
-            bytes.MustComplyWith(d => d.Length == BytesLength, "Length must be {0}".ToFormat(BytesLength));
+            bytes.Length.MustBe(BytesLength,nameof(bytes));            
             _bytes = bytes;
         }
         
