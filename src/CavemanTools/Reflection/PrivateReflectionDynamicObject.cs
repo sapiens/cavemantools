@@ -77,8 +77,13 @@ namespace System.Reflection
 
         internal static object WrapObjectIfNeeded(object o)
         {
+
+#if COREFX
+            if (o == null || o.GetType().GetTypeInfo().IsPrimitive || o is string)
+#else
             // Don't wrap primitive types, which don't have many interesting internal APIs
             if (o == null || o.GetType().IsPrimitive || o is string)
+#endif
                 return o;
 
             return new PrivateReflectionDynamicObject() { RealObject = o };
@@ -174,9 +179,7 @@ namespace System.Reflection
             // For fields, skip the auto property backing fields (which name start with <)
             var propNames = typeProperties.Keys.Where(name => name[0] != '<').OrderBy(name => name);
             throw new ArgumentException(
-                String.Format(
-                "The property {0} doesn't exist on type {1}. Supported properties are: {2}",
-                propertyName, RealObject.GetType(), String.Join(", ", propNames)));
+                $"The property {propertyName} doesn't exist on type {RealObject.GetType()}. Supported properties are: {string.Join(", ", propNames)}");
         }
 
         private static IDictionary<string, IProperty> GetTypeProperties(Type type)
@@ -204,10 +207,17 @@ namespace System.Reflection
                 typeProperties[field.Name] = new Field() { FieldInfo = field };
             }
 
+
+#if COREFX
+            if (type.GetTypeInfo().BaseType != null)
+            {
+                foreach (IProperty prop in GetTypeProperties(type.GetTypeInfo().BaseType).Values)
+#else
             // Finally, recurse on the base class to add its fields
             if (type.BaseType != null)
             {
                 foreach (IProperty prop in GetTypeProperties(type.BaseType).Values)
+#endif
                 {
                     typeProperties[prop.Name] = prop;
                 }
@@ -218,9 +228,31 @@ namespace System.Reflection
 
             return typeProperties;
         }
-
+       
+#if COREFX
         private static object InvokeMemberOnType(Type type, object target, string name, object[] args)
         {
+            type.MustNotBeNull();
+            var mi = type.GetTypeInfo().DeclaredMethods
+                .FirstOrDefault(m => m.Name == name && 
+                (m.GetParameters().Select(d=>d.ParameterType).ToArray()
+                    .IsEqualTo(args.Select(d=>d.GetType()).ToArray(),(t1,t2)=>t1==t2)
+                )
+                );
+            if (mi != null)
+            {
+                return mi.Invoke(target, args);
+            }
+
+            var baseType = type.GetTypeInfo().BaseType;
+            if (baseType!=null) return InvokeMemberOnType(baseType,target,name,args);
+            return null;        
+        }
+
+#else
+        private static object InvokeMemberOnType(Type type, object target, string name, object[] args)
+        {
+            
             try
             {
                 // Try to incoke the method
@@ -242,10 +274,11 @@ namespace System.Reflection
                 return null;
             }
         }
+#endif
     }
 
 
-   
+
 
     public class DelegateAdjuster
     {
