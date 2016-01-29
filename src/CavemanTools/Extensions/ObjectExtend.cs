@@ -172,7 +172,7 @@ namespace System
 		    var tp = type.GetTypeInfo();
 		   if (data==null)
 		   {
-		       if (tp.IsValueType && !tp.IsNullable())
+		       if (tp.IsValueType && !type.IsNullable())
 		       {
 		           throw new InvalidCastException("Cant convert null to a value type");
 		       }
@@ -217,13 +217,13 @@ namespace System
                    return DateTimeOffset.Parse(data.ToString());
                }
 
-               if (tp.IsNullable())
+               if (type.IsNullable())
                {
                    var under = Nullable.GetUnderlyingType(type);
                    return data.ConvertTo(under);
                }
            }
-           else if (type == typeof(CultureInfo)) return new CultureInfo(data.ToString());
+         //  else if (type == typeof(CultureInfo)) return new CultureInfo(data.ToString());
 
            return System.Convert.ChangeType(data, type);
 		}
