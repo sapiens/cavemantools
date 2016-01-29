@@ -19,7 +19,7 @@ namespace CavemanTools
         /// <returns></returns>
         public static Salt Generate(int length = 32)
         {
-            length.MustComplyWith(d => d >= 8, "Salt length must be at least 8 bytes");
+            length.Must(d => d >= 8, "Salt length must be at least 8 bytes");
             var bytes = new byte[length];
             RandomNumberGenerator.Create().GetNonZeroBytes(bytes);
             return new Salt(bytes);

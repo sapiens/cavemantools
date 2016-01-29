@@ -10,8 +10,8 @@ namespace CavemanTools.Model
        
         public Pagination(int page=1,int pageSize=15)
         {
-            page.MustComplyWith(p=>p>=0,"Can't have negative page numbers");
-            pageSize.MustComplyWith(p=>p>0,"Page size must be > 1");
+            page.Must(p=>p>=0,"Can't have negative page numbers");
+            pageSize.Must(p=>p>0,"Page size must be > 1");
             Page = page;
             PageSize = pageSize;
             Skip = (page - 1)*pageSize;
@@ -19,7 +19,7 @@ namespace CavemanTools.Model
 
         public static Pagination Create(long skip, int pageSize)
         {
-            pageSize.MustComplyWith(p => p > 0, "Page size must be a positive number");
+            pageSize.Must(p => p > 0, "Page size must be a positive number");
             int page = 1;
             unchecked
             {

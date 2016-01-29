@@ -7,7 +7,7 @@ namespace CavemanTools.Model.ValueObjects
     {
         public const string BaseFormat=@"^[a-zA-Z]+[\w\. \d\-_]*?$";
 
-        public DomainString(string value):base(value)
+        protected DomainString(string value):base(value)
         {
             
         }
@@ -15,14 +15,8 @@ namespace CavemanTools.Model.ValueObjects
         protected static bool IsValid(string value, int minLength=1, int maxLength=75, string format = BaseFormat)
         {
             var result = !value.IsNullOrEmpty(true) && value.Length >= minLength && value.Length<=maxLength;
-            if (result)
-            {
-                if (!format.IsNullOrEmpty())
-                {
-                    return Regex.IsMatch(value, format);
-                }
-            }
-            return result;
+            if (!result) return false;
+            return format.IsNullOrEmpty() || Regex.IsMatch(value, format);
         }
 
         /// <summary>
