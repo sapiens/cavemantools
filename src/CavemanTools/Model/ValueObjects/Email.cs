@@ -36,7 +36,7 @@ namespace CavemanTools.Model.ValueObjects
 
         public override bool Equals(object obj)
         {
-            return Equals((Email) obj);
+            return Equals(obj as Email);
         }
     }
 }
