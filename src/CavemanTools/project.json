@@ -1,17 +1,18 @@
 {
-  "version": "4.0.0-*",
-  "description": "CavemanTools",
-  "authors": [ "t" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
-
+    "version": "4.0.0-*",
+    "description": "Evolved toolkit for developing applications faster and with less code. Includes general purpose extension methods, guard clauses, predefined value objects (PasswordHash,Email, Percentage etc) and specialized helper classes for specific tasks.",
+    "authors": [ "Mihai Mogosanu" ],
+    "owners": [ "Mihai Mogosanu" ],
+    "tags": [ "toolkit", "tools", "utility", "reflection", "guard" ],
+    "projectUrl": "https://github.com/sapiens/cavemantools",
+    "licenseUrl": "https://github.com/sapiens/cavemantools/blob/master/LICENSE",
+    "summary": "Lots for extension methods for general use. Now with core-clr support",
     "frameworks": {
         "net46": {
             "frameworkAssemblies": {
                 "System.Xml": "4.0.0.0"
             }
-           
+
         },
 
         "dotnet5.4": {
