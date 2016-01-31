@@ -66,6 +66,27 @@ namespace Tests
             Assert.Equal(sem2,sem);
         }
 
+        [Fact]
+        public void bump_patch()
+        {
+            var bumped=new SemanticVersion("1.0.0").IncrementPatch();
+            bumped.Major.Should().Be(1);
+            bumped.Minor.Should().Be(0);
+            bumped.Patch.Should().Be(1);
+        }
+
+        [Fact]
+        public void bump_minor()
+        {
+            var bumped=new SemanticVersion("1.0.2").IncrementMinor();
+            bumped.Major.Should().Be(1);
+            bumped.Minor.Should().Be(1);
+            bumped.Patch.Should().Be(0);
+        }
+
+
+
+
         private void Write(string format, params object[] param)
         {
             Console.WriteLine(format, param);
