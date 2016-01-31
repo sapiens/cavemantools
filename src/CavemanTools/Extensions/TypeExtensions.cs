@@ -246,7 +246,7 @@ namespace System
             tp.MustNotBeNull();
             var info = tp.GetTypeInfo();
 
-            info.MustComplyWith(t => t.IsGenericType, "Type must be a generic type");
+            genericType.GetTypeInfo().Must(t => t.IsGenericType, "Type must be a generic type");
             if (info.BaseType == null) return false;
 
             var baseType = info.BaseType;

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using CavemanTools.Testing;
 using Xunit;
 
 namespace Tests

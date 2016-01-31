@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Diagnostics;
+using FluentAssertions;
 using Xunit;
 
 namespace Tests.Lists

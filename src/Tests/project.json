@@ -7,7 +7,12 @@
     "licenseUrl": "",
 
     "frameworks": {
-     
+        "dnx46": {
+            "frameworkAssemblies": {
+                "System.Runtime": "4.0.20.0",
+                "System.Threading.Tasks": "4.0.10.0"
+            }
+        },
         "dnxcore50": {
             "compilationOptions": { "define": [ "COREFX" ] },
             "dependencies": {
@@ -15,6 +20,7 @@
                 "System.Collections": "4.0.11-*",
                 "System.Linq": "4.0.1-*",
                 "System.Runtime": "4.0.21-beta-23516",
+                
                 "System.Threading": "4.0.11-*"
             }
         }

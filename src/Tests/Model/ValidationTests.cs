@@ -1,3 +1,4 @@
+using CavemanTools.Model.Validation;
 using Xunit;
 
 namespace Tests.Model

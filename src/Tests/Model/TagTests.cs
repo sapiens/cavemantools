@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using CavemanTools.Model.ValueObjects;
+using FluentAssertions;
 using Xunit;
 
 namespace Tests.Model

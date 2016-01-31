@@ -1,4 +1,6 @@
 ﻿using System;
+using CavemanTools;
+using FluentAssertions;
 using Xunit;
 
 namespace Tests.Security

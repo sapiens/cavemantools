@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CavemanTools.Infrastructure;
+using FluentAssertions;
 using Xunit;
 
 namespace Tests.Infrastructure
