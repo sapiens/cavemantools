@@ -1,9 +1,7 @@
 ﻿using System;
-using CavemanTools;
-using FluentAssertions;
 using Xunit;
 
-namespace XTests.Security
+namespace Tests.Security
 {
     public class PasswordHashTests
     {

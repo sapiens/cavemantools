@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CavemanTools.Infrastructure;
-using FluentAssertions;
 using Xunit;
 
-namespace XTests.Infrastructure
+namespace Tests.Infrastructure
 {
 
     public class CommandResult

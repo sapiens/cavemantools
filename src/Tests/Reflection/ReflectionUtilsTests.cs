@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
-using CavemanTools.Data;
 using Xunit;
 
-namespace XTests.Reflection
+namespace Tests.Reflection
 {
     public class ReflectionUtilsTests
     {

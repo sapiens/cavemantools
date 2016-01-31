@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using FluentAssertions;
 using Xunit;
 
-namespace XTests.Extensions
+namespace Tests.Extensions
 {
     public class TypeExtensiont
     {
@@ -15,10 +13,16 @@ namespace XTests.Extensions
 
         }
 
+        public enum SomeEnum
+        {
+            None
+        }
+
+
         [Fact]
         public void user_defined_reference_types()
         {
-            var objects = new object[] {2,Guid.Empty,new byte[0], EnvironmentVariableTarget.Process,"string"};
+            var objects = new object[] {2,Guid.Empty,new byte[0],SomeEnum.None ,"string"};
             
             objects.ForEach(o=>o.GetType().IsUserDefinedClass().Should().BeFalse("{0}".ToFormat(o)));
 

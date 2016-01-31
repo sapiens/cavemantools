@@ -7,12 +7,13 @@
   "licenseUrl": "",
 
     "frameworks": {
-         "net46": {
-                "frameworkAssemblies": {
-                    "System.Xml": "4.0.0.0"
-                }
-            },
-     
+        "net46": {
+            "frameworkAssemblies": {
+                "System.Xml": "4.0.0.0"
+            }
+           
+        },
+
         "dotnet5.4": {
             "compilationOptions": {
                 "define": [ "COREFX" ]

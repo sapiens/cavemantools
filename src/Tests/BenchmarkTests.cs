@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using CavemanTools.Testing;
 using Xunit;
 
-namespace XTests
+namespace Tests
 {
     public class BenchmarkTests
     {

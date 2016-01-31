@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using CavemanTools.Model.ValueObjects;
-using FluentAssertions;
 using Xunit;
 
-namespace XTests.Model
+namespace Tests.Model
 {
     public class TagTests
     {

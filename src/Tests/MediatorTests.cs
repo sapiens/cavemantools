@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using CavemanTools.Infrastructure;
-using FluentAssertions;
 using Xunit;
 
-namespace XTests
+namespace Tests
 {
     public class MediatorTests
     {

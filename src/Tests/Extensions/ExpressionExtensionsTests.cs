@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Xunit;
 
-namespace XTests.Extensions
+namespace Tests.Extensions
 {
     
     public class Test
@@ -39,21 +39,21 @@ namespace XTests.Extensions
             _tp = typeof (Test);
         }
 
-        [Fact]
-        public void get_method_info_from_expression_when_returning_void()
-        {
-            var mi = ExpressionExtensions.GetMethodInfo<Test>(t => t.Method(2));
-            Assert.Equal(_tp.GetMethod("Method"),mi);
-            ExpressionExtensions.GetPropertyInfo<Test>(t => t.Child);
-            ExpressionExtensions.GetPropertyInfo<Test>(t => t.Child.Child);
-        }
+        //[Fact]
+        //public void get_method_info_from_expression_when_returning_void()
+        //{
+        //    var mi = ExpressionExtensions.GetMethodInfo<Test>(t => t.Method(2));
+        //    Assert.Equal(_tp.GetMethod("Method"),mi);
+        //    ExpressionExtensions.GetPropertyInfo<Test>(t => t.Child);
+        //    ExpressionExtensions.GetPropertyInfo<Test>(t => t.Child.Child);
+        //}
     
-        [Fact]
-        public void get_method_info_from_expression_when_returning_something()
-        {
-            var mi = ExpressionExtensions.GetMethodInfo<Test>(t => t.Bla());
-            Assert.Equal(_tp.GetMethod("Bla"),mi);
-        }
+        //[Fact]
+        //public void get_method_info_from_expression_when_returning_something()
+        //{
+        //    var mi = ExpressionExtensions.GetMethodInfo<Test>(t => t.Bla());
+        //    Assert.Equal(_tp.GetMethod("Bla"),mi);
+        //}
 
 
         [Fact]
@@ -88,7 +88,7 @@ namespace XTests.Extensions
         public void member_doesnt_belong_to_paramater_of_type()
         {
             Expression<Func<Test, bool>> data = t => t.Data == "23";
-            Assert.False(ObjectExtend.As<MemberExpression>(data.Body.As<BinaryExpression>().Left).BelongsToParameter(typeof(Process)));
+            Assert.False(ObjectExtend.As<MemberExpression>(data.Body.As<BinaryExpression>().Left).BelongsToParameter(typeof(MyClass)));
         }
 
         [Fact]
@@ -280,6 +280,11 @@ namespace XTests.Extensions
         protected void Write(string format, params object[] param)
         {
             Console.WriteLine(format, param);
+        }
+
+        class MyClass
+        {
+             
         }
     }
 }

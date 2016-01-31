@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Diagnostics;
-using FluentAssertions;
 using Xunit;
 
-namespace XTests.Lists
+namespace Tests.Lists
 {
     public class KeyValueStoreTests
     {

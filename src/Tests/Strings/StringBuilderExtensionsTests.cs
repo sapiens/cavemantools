@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using Xunit;
 
-namespace XTests.Strings
+namespace Tests.Strings
 {
     public class StringBuilderExtensionsTests
     {

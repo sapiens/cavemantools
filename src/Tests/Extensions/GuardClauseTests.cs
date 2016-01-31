@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Xunit;
 
-namespace XTests.Extensions
+namespace Tests.Extensions
 {
     public class GuardClauseTests
     {
@@ -16,13 +16,13 @@ namespace XTests.Extensions
         [Fact]
         public void argument_complies_with_condition()
         {
-            2.MustComplyWith(i=>i<3," argument must be <3");
+            2.Must(i=>i<3," argument must be <3");
         }
 
         [Fact]
         public void argument_doesnt_comply_with_condition()
         {
-            Assert.Throws<ArgumentException>(() => 2.MustComplyWith(i => i > 3, "Argument must > 3"));
+            Assert.Throws<ArgumentException>(() => 2.Must(i => i > 3, "Argument must > 3"));
         }
 
         protected void Write(string format, params object[] param)

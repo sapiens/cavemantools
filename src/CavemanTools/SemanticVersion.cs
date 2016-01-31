@@ -54,7 +54,10 @@ namespace CavemanTools
         }
     }
 
-    class SemanticToken:IComparable<SemanticToken>,IComparable<uint>,IComparable<string>
+    /// <summary>
+    /// used by SemanticVersion
+    /// </summary>
+   public class SemanticToken:IComparable<SemanticToken>,IComparable<uint>,IComparable<string>
     {
         private uint _intValue;
         private string _stringValue;

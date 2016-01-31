@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using CavemanTools.Model;
 using Xunit;
 
-namespace XTests
+namespace Tests
 {
     public class PaginationTests
     {

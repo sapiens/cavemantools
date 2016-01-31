@@ -1,8 +1,6 @@
-using CavemanTools.Model.Validation;
-using CavemanTools.Model.Validation.Attributes;
 using Xunit;
 
-namespace XTests.Model
+namespace Tests.Model
 {
 	public class ValidationTests
 	{
@@ -10,33 +8,8 @@ namespace XTests.Model
 		{
 
 		}
-		[Fact]
-		public void ValidateForModel()
-		{
-			var value = "";
-			var state = new DefaultValidationWrapper();
-			Assert.True(state.IsValid);
-			
-			value.ValidateFor<MyTest>(d=>d.Body,state);
-			Assert.False(state.IsValid);
-			Assert.Equal("Req", state["Body"]);
-			
-		}
 
-		[Fact]
-		public void ValidateForModelWithoutAttributes()
-		{
-			var value = 2;
-			var state = new DefaultValidationWrapper();
-			Assert.True(state.IsValid);
-
-			value.ValidateFor<MyTest>(d => d.Id, state);
-			Assert.True(state.IsValid);
-			Assert.NotEqual("Req", state["Body"]);
-
-		}
-
-		[Fact]
+        [Fact]
 		public void ValidationBag()
 		{
 			var vb = new ValidationBag();
@@ -59,13 +32,6 @@ namespace XTests.Model
 
 	}
 
-	public class MyTest
-	{
-		[Required(ErrorMessage = "Req")]
-		public string Body { get; set; }
-		
-		public int Id { get; set;}
-	}
-
+	
 	
 }

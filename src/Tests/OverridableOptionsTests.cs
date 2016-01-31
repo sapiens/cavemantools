@@ -1,8 +1,6 @@
-using System.Linq;
-using CavemanTools.Special;
 using Xunit;
 
-namespace XTests
+namespace Tests
 {
 	public class OverridableOptionsTests
 	{

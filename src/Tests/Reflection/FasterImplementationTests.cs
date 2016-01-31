@@ -1,9 +1,10 @@
-﻿using System;
+﻿#if !COREFX
+using System;
 using System.Diagnostics;
 using System.Reflection;
 using Xunit;
 
-namespace XTests.Reflection
+namespace Tests.Reflection
 {
     public class FasterImplementationTests
     {
@@ -148,3 +149,4 @@ namespace XTests.Reflection
         }
     }
 }
+#endif
