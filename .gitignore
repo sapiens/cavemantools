@@ -26,6 +26,8 @@ temp/
 
 project.lock.json
 
+artifacts
+
 !nuget.exe
 
 # Roslyn cache directories
