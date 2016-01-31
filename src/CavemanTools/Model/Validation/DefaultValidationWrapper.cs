@@ -1,3 +1,4 @@
+#if !COREFX
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,20 +24,14 @@ namespace CavemanTools.Model.Validation
             err.Add(key,errorMessage);
 		}
 
-		public bool HasErrors
-		{
-			get { return !IsValid; }
-		}
+		public bool HasErrors => !IsValid;
 
-		/// <summary>
+	    /// <summary>
 		/// Returns true if there are no error messages
 		/// </summary>
-		public bool IsValid
-		{
-			get { return err.Count == 0; }
-		}
+		public bool IsValid => err.Count == 0;
 
-        /// <summary>
+	    /// <summary>
         /// copies errors to another dictionary
         /// </summary>
         /// <param name="other"></param>
@@ -76,3 +71,4 @@ namespace CavemanTools.Model.Validation
 		}
 	}
 }
+#endif

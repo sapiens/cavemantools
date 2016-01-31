@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+
 using System.Runtime.CompilerServices;
+
 using CavemanTools;
+
 
 namespace System
 {
-    using Reflection;
     public static class TypeExtensions
 	{
         
@@ -56,7 +59,7 @@ namespace System
             while (baseTP != null)
             {
                 props.AddRange(baseTP.GetProperties(flags).Select(d => tp.GetProperties().First(f => f.Name == d.Name)).Reverse());
-                baseTP = baseTP.BaseType;
+                baseTP = baseTP.GetTypeInfo().BaseType;
             }
             props.Reverse();
             return props.Distinct();
@@ -116,7 +119,11 @@ namespace System
         {
             type.MustNotBeNull();
             interfaceType.MustNotBeNull();
+#if COREFX
+            if (!interfaceType.GetTypeInfo().IsInterface) throw new ArgumentException("The generic type '{0}' is not an interface".ToFormat(interfaceType));
+#else
             if (!interfaceType.IsInterface) throw new ArgumentException("The generic type '{0}' is not an interface".ToFormat(interfaceType));
+#endif
             return interfaceType.IsAssignableFrom(type);
         }
 
@@ -145,6 +152,7 @@ namespace System
             return parent.IsAssignableFrom(type);
         }
 
+#if !COREFX
         public static bool CheckIfAnonymousType(this Type type)
         {
             if (type == null)
@@ -154,34 +162,24 @@ namespace System
                 && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
                 && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
         }
+#else
+        public static bool CheckIfAnonymousType(this Type type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+            var info = type.GetTypeInfo();
+            return info.HasCustomAttribute<CompilerGeneratedAttribute>()
+                && info.IsGenericType && type.Name.Contains("AnonymousType")
+                && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
+                && (info.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
+        }
+#endif
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="o"></param>
-        ///// <param name="interfaceName">The intuitive interface name</param>
-        ///// <param name="genericType">Interface's generic arguments types</param>
-        ///// <returns></returns>
-        //public static bool ImplementsGenericInterface(this object o, string interfaceName, params Type[] genericType)
-        //{
-        //    Type tp = o.GetType();
-        //    if (o is Type)
-        //    {
-        //        tp = (Type)o;
-        //    }
-        //    var interfaces = tp.GetInterfaces().Where(i => i.IsGenericType && i.Name.StartsWith(interfaceName));
-        //    if (genericType.Length == 0)
-        //    {
-        //        return interfaces.Any();
-        //    }
-
-        //    return interfaces.Any(
-        //        i =>
-        //        {
-        //            var args = i.GetGenericArguments();
-        //            return args.HasTheSameElementsAs(genericType);
-        //        });
-        //}
+        public static bool ImplementsGenericInterfaceOf<T>(this Type type,
+            params Type[] genericArgs)
+        {
+            return type.ImplementsGenericInterface(typeof (T), genericArgs);
+        }
 
         /// <summary>
         /// 
@@ -191,7 +189,7 @@ namespace System
         /// <returns></returns>
         public static bool ImplementsGenericInterface(this Type type, Type genericInterfaceType,params Type[] genericArgs)
         {
-            genericInterfaceType.MustComplyWith(t=>t.IsGenericType,"Type must be of a generic interface");
+         
             var interf = type.GetInterfaces().Where(t => t.Name == genericInterfaceType.Name).ToArray();
             if (interf.IsNullOrEmpty()) return false;
 
@@ -211,7 +209,7 @@ namespace System
 
             
         }
-
+#if !COREFX
         public static bool InheritsGenericType(this Type tp, Type genericType,params Type[] genericArgs)
         {
             tp.MustNotBeNull();
@@ -242,6 +240,42 @@ namespace System
             return true;
         }
 
+#else
+        public static bool InheritsGenericType(this Type tp, Type genericType, params Type[] genericArgs)
+        {
+            tp.MustNotBeNull();
+            var info = tp.GetTypeInfo();
+
+            genericType.GetTypeInfo().Must(t => t.IsGenericType, "Type must be a generic type");
+            if (info.BaseType == null) return false;
+
+            var baseType = info.BaseType;
+            var baseInfo = info.BaseType.GetTypeInfo();
+            bool found = false;
+            if (baseInfo.IsGenericType)
+            {
+                if (baseInfo.Name == genericType.Name)
+                {
+                    var comparer = genericType.GenericTypeArguments().Any()
+               ? genericType.GenericTypeArguments()
+               : genericArgs;
+                    if (comparer.Length > 0)
+                    {
+                        found = baseType.GenericTypeArguments().HasTheSameElementsAs(comparer);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            if (!found) return baseType.InheritsGenericType(genericType);
+
+            return true;
+        }
+
+#endif
+
         /// <summary>
         /// 
         /// </summary>
@@ -253,20 +287,23 @@ namespace System
         /// <returns></returns>
         public static Type GetGenericArgument(this Type tp, int index = 0)
         {
-            tp.MustNotBeNull(); 
+            tp.MustNotBeNull();
+#if COREFX
+            if (!tp.GetTypeInfo().IsGenericType) throw new InvalidOperationException("Provided type is not generic");
+#else
             if (!tp.IsGenericType) throw new InvalidOperationException("Provided type is not generic");
+#endif
+
             return tp.GenericTypeArguments()[index];            
         }
 
         static Type[] GenericTypeArguments(this Type type)
         {
             type.MustBeGeneric();
-#if Net4
-            return type.GetGenericArguments();
-#else
+
             return type.GenericTypeArguments;
 
-#endif
+
         }
 
         /// <summary>
@@ -278,13 +315,54 @@ namespace System
         public static bool IsUserDefinedClass(this Type type)
         {
             type.MustNotBeNull();
-            if (!type.IsClass) return false;
-            if (Type.GetTypeCode(type) != TypeCode.Object) return false;
+            var info = type.GetTypeInfo();
+            if (!info.IsClass) return false;
+            
+            if (type.GetTypeCode() != TypeCode.Object) return false;
             if (type.IsArray) return false;
             if (type.IsNullable()) return false;
            return true;
         }
-       
+
+        public static TypeCode GetTypeCode(this Type type)
+        {
+            if (type == null)
+                return TypeCode.Empty;
+            if (type == typeof(bool))
+                return TypeCode.Boolean;
+            if (type == typeof(char))
+                return TypeCode.Char;
+            if (type == typeof(sbyte))
+                return TypeCode.SByte;
+            if (type == typeof(byte))
+                return TypeCode.Byte;
+            if (type == typeof(short))
+                return TypeCode.Int16;
+            if (type == typeof(ushort))
+                return TypeCode.UInt16;
+            if (type == typeof(int))
+                return TypeCode.Int32;
+            if (type == typeof(uint))
+                return TypeCode.UInt32;
+            if (type == typeof(long))
+                return TypeCode.Int64;
+            if (type == typeof(ulong))
+                return TypeCode.UInt64;
+            if (type == typeof(float))
+                return TypeCode.Single;
+            if (type == typeof(double))
+                return TypeCode.Double;
+            if (type == typeof(decimal))
+                return TypeCode.Decimal;
+            if (type == typeof(DateTime))
+                return TypeCode.DateTime;
+            if (type == typeof(string))
+                return TypeCode.String;
+            if (type.GetTypeInfo().IsEnum)
+                return GetTypeCode(Enum.GetUnderlyingType(type));
+            return TypeCode.Object;
+        }
+
         /// <summary>
         /// This always returns false if the type is taken from an instance.
         /// That is always use typeof
@@ -294,7 +372,7 @@ namespace System
         public static bool IsNullable(this Type type)
         {
             type.MustNotBeNull();
-            return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>));
+            return (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>));
         }
 
         public static bool IsNullableOf(this Type type, Type other)
@@ -317,7 +395,8 @@ namespace System
 
         public static bool CanBeInstantiated(this Type type)
         {
-            return !type.IsAbstract && !type.IsInterface;
+            var info = type.GetTypeInfo();
+            return !info.IsAbstract && !info.IsInterface;
         }
            
 
@@ -332,10 +411,19 @@ namespace System
         /// Returns the version of assembly containing type
         /// </summary>
         /// <returns></returns>
-        public static Version AssemblyVersion(this Type tp)
-        {
-            return Assembly.GetAssembly(tp).Version();
-        }
+        public static Version AssemblyVersion(this Type tp) =>
+#if COREFX
+            tp.GetTypeInfo().Assembly.Version();
+#else
+            tp.GetTypeInfo().Assembly.Version();
+#endif
+
+#if COREFX
+        public static Assembly Assembly(this Type type) => type.GetTypeInfo().Assembly;
+#endif
+
+
+
         /// <summary>
         /// Returns the full name of type, including assembly but not version, public key etc, i.e: namespace.type, assembly
         /// </summary>
@@ -344,12 +432,21 @@ namespace System
         public static string GetFullTypeName(this Type t)
         {
             if (t == null) throw new ArgumentNullException("t");
+#if COREFX
+            return $"{t.FullName}, {t.Assembly().GetName().Name}";
+#else
             return String.Format("{0}, {1}", t.FullName, Assembly.GetAssembly(t).GetName().Name);
+#endif
+
         }
 
         public static object GetDefault(this Type type)
         {
-            if (type.IsValueType) return Activator.CreateInstance(type);
+#if COREFX
+            if (type.GetTypeInfo().IsValueType) return Activator.CreateInstance(type);
+#else
+             if (type.IsValueType) return Activator.CreateInstance(type);
+#endif
             return null;
         }
 
@@ -360,9 +457,11 @@ namespace System
         /// <returns></returns>
         public static string StripNamespaceAssemblyName(this Type type)
         {
-            var asmName = type.Assembly.GetName().Name;
+            var asmName = type.GetTypeInfo().Assembly.GetName().Name;
             return type.Namespace.Substring(asmName.Length + 1);
         }
 	}
 }
+
+
 

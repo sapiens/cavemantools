@@ -15,9 +15,9 @@
         }
 
         public const string DefaultPartition = "_";
-        public String250 PartitionId { get; set; }
+        public string PartitionId { get; set; }
 
-        public String250 EntityId { get; set; }
+        public string EntityId { get; set; }
         public IdempotencyId Idempotency { get; set; }=IdempotencyId.Empty;
        
     }

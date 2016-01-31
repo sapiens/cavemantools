@@ -7,7 +7,7 @@ namespace CavemanTools.Model.Persistence
     public class ModelTools
     {
 
-        #if!Net4
+
         /// <summary>
         /// Executes the action which should update and store an entity.
         /// If action throws <see cref="NewerVersionExistsException"/> it's retried for the specified number of times.
@@ -113,6 +113,6 @@ namespace CavemanTools.Model.Persistence
             return data;
         }
 
-#endif
+
     }
 }

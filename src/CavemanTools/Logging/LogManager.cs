@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace CavemanTools.Logging
 {
@@ -23,7 +24,7 @@ namespace CavemanTools.Logging
 
         public static void OutputToTrace()
         {
-            OutputTo(s=>System.Diagnostics.Trace.WriteLine(s));
+            OutputTo(s=> Trace.WriteLine(s));
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace CavemanTools.Logging
 
         public static void Log<T>(this T source, LogLevel level, string message, params object[] args)
         {
-            Writer.Log(LogWriterBase.SourceToString(source),level,message,args);
+            Writer.Log(SourceToString(source),level,message,args);
         }
 
         public static void LogDebug<T>(this T source, string message, params object[] args)
@@ -65,25 +66,23 @@ namespace CavemanTools.Logging
 
         public static void LogError<T>(this T source, Exception ex)
         {
-           Writer.LogException(LogWriterBase.SourceToString(source),LogLevel.Error, ex,"");
+           Writer.LogException(SourceToString(source),LogLevel.Error, ex,"");
         }
-        
-        //public static void LogError<T>(this T source, Exception ex,string context)
-        //{
-        //   Writer.LogException(source,LogLevel.Error, ex);
-        //}
+    
     
         public static void LogError<T>(this T source, Exception ex,string context,params object[] args)
         {
-           Writer.LogException(LogWriterBase.SourceToString(source),LogLevel.Error, ex,context,args);
+           Writer.LogException(SourceToString(source),LogLevel.Error, ex,context,args);
         }
 
-        //public static void LogError<T>(this T source, Exception ex,string msg,params object[] args)
-        //{
-        //    LogError(source,"Exception thrown: "+ex.GetType().Name+"\n"+msg, args);
-        //    Writer.LogException(source,LogLevel.Error, ex);
-        //}
 
         #endregion
+
+        public static string SourceToString(object src)
+        {
+            src.MustNotBeNull();
+            var name = src is string ? src.ToString() : src.GetType().Name;
+            return name;
+        }
     }
 }

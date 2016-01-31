@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection.Emit;
+#if COREFX
+using System.Linq;
+#endif
 
 namespace System.Reflection
 {
@@ -33,7 +34,11 @@ namespace System.Reflection
                 if (_actCache == null) _actCache = new Dictionary<Type, Func<object>>();
                 if (!_actCache.TryGetValue(t,out inv))
                 {
-                    var constructor = t.GetConstructor(Type.EmptyTypes)?? t.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[0], null);                    
+#if COREFX
+                var constructor = t.GetConstructor(Type.EmptyTypes) ?? t.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).First();
+#else
+               var constructor = t.GetConstructor(Type.EmptyTypes)??t.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[0], null);
+#endif
                     var body = Expression.New(constructor);
                     inv = Expression.Lambda<Func<object>>(body).Compile();
                     _actCache[t] = inv;

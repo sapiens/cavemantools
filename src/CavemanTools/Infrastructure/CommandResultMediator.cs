@@ -94,12 +94,13 @@ namespace CavemanTools.Infrastructure
 
     public static class MediatorExtensions
     {
+       
         /// <summary>
         /// Adds an empty <see cref="CommandResult"/>
         /// </summary>
         /// <param name="mediator"></param>
         /// <param name="cmdId"></param>
-        public static void EmptyCommandResult(this ICommandResultMediator mediator, Guid cmdId)
+        public static void AddEmptyCommandResult(this ICommandResultMediator mediator, Guid cmdId)
         {
             mediator.AddResult(cmdId, new CommandResult());
         }

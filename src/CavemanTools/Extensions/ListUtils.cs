@@ -6,13 +6,15 @@ namespace System
     {
 
         public static bool IsEqual<T>(this T[] source, T[] other) where T : IEquatable<T>
+            => source.IsEqualTo(other, (i1, i2) => i1.Equals(i2));
+
+        public static bool IsEqualTo<T>(this T[] source, T[] other,Func<T,T,bool> equatable) 
         {
             source.MustNotBeNull();
-            if (other == null) return false;
-            if (source.Length != other.Length) return false;
+            if (source.Length != other?.Length) return false;
             for (var i = 0; i < source.Length; i++)
             {
-                if (!source[i].Equals(other[i])) return false;
+                if (!equatable(source[i],other[i])) return false;
             }
             return true;
         }
@@ -49,12 +51,7 @@ namespace System.Collections.Generic
 		    return true;
 		}
 
-        [Obsolete("Use Diff method")]
-	    public static IModifiedSet<T> Compare<T>(this IEnumerable<T> fresh, IEnumerable<T> old) where T : IEquatable<T>
-        {
-            return fresh.Diff(old);
-        }
-        
+      
         /// <summary>
 		/// Compares two sequences and returns the added or removed items.
 		/// </summary>

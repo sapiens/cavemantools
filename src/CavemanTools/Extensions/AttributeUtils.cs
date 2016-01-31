@@ -1,20 +1,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using CavemanTools;
+using System.Reflection;
 
 namespace System.Reflection
 {
 	public static class AttributeUtils
 	{
-		/// <summary>
-		/// Returns all custom attributes of specified type
-		/// </summary>
-		/// <typeparam name="T">Attribute</typeparam>
-		/// <param name="provider">Custom attributes provider</param>
-		/// <returns></returns>
-		public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider provider) where T : Attribute
+#if !COREFX
+
+        /// <summary>
+        /// Returns all custom attributes of specified type
+        /// </summary>
+        /// <typeparam name="T">Attribute</typeparam>
+        /// <param name="provider">Custom attributes provider</param>
+        /// <returns></returns>
+        public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider provider) where T : Attribute
 		{
-			return GetCustomAttributes<T>(provider, true);
+            return GetCustomAttributes<T>(provider, true);
 		}
 
 		/// <summary>
@@ -60,9 +63,6 @@ namespace System.Reflection
 	    //{
 	    //    return src.OrderBy(d => d.GetType().GetAttributeValue<OrderAttribute, int>(a => a.Value));
 	    //}
-
-        
-
         public static V GetAttributeValue<T, V>(this ICustomAttributeProvider mi, Func<T, V> getValue,
 	        V defaultValue = default(V), bool inherit = true) where T : Attribute
 	    {
@@ -80,5 +80,32 @@ namespace System.Reflection
             }
             return false;
         }
-	}
+        
+#else
+	    public static T GetSingleAttribute<T>(this Type tp, bool inherit=true) where T : Attribute => tp.GetTypeInfo().GetCustomAttribute<T>(inherit);
+
+        public static V GetAttributeValue<T, V>(this MemberInfo mi, Func<T, V> getValue,
+                   V defaultValue = default(V), bool inherit = true) where T : Attribute
+        {
+            var attrib = mi.GetCustomAttribute<T>(inherit);
+            if (attrib == null) return defaultValue;
+            return getValue(attrib);
+        }
+
+        public static bool HasCustomAttribute<T>(this MemberInfo mi, Func<T, bool> condition=null, bool inherit = true) where T : Attribute
+        {
+            condition=condition??(t=> true);
+            var a = mi.GetCustomAttribute<T>(inherit);
+
+            if (a != null)
+            {
+                return condition(a);
+            }
+            return false;
+        }
+#endif
+
+
+
+    }
 }

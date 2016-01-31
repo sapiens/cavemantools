@@ -54,7 +54,10 @@ namespace CavemanTools
         }
     }
 
-    class SemanticToken:IComparable<SemanticToken>,IComparable<uint>,IComparable<string>
+    /// <summary>
+    /// used by SemanticVersion
+    /// </summary>
+   public class SemanticToken:IComparable<SemanticToken>,IComparable<uint>,IComparable<string>
     {
         private uint _intValue;
         private string _stringValue;
@@ -251,6 +254,10 @@ namespace CavemanTools
             }
             return r;
         }
+
+        public SemanticVersion IncrementPatch()=> new SemanticVersion(Major,Minor,Patch+1);
+        public SemanticVersion IncrementMinor()=> new SemanticVersion(Major,Minor+1);
+        
 
         public static implicit operator SemanticVersion(string version)
         {

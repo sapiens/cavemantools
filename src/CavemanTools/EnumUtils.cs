@@ -39,20 +39,7 @@ namespace CavemanTools
 			return Enum.GetNames(typeof (T)).Skip(1);			
 		}
 
-		/// <summary>
-		/// Parse string to enum
-		/// </summary>
-		/// <typeparam name="T">EnumType</typeparam>
-		/// <param name="value">Enum constant</param>
-		/// <returns></returns>
-		[Obsolete("Use ToEnum")]
-		public static T Parse<T>(string value)
-		{
-		    return value.ToEnum<T>();
-		}
-
-       
-
+		
 		/// <summary>
 		/// Returns a random enum constant
 		/// </summary>

@@ -50,12 +50,6 @@ namespace CavemanTools.Model
 			get; set;
 		}
 
-        [Obsolete("Use Project")]
-        public PagedResult<V> Morph<V>(Func<T, V> projector)
-        {
-            return Project(projector);
-        }
-
         public PagedResult<V> Project<V>(Func<T, V> projector)
         {
             var res = new PagedResult<V>();

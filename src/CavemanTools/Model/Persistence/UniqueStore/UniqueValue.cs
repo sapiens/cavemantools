@@ -9,7 +9,7 @@ namespace CavemanTools.Model.Persistence.UniqueStore
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value">Value that needs to be unique</param>
+        /// <param name="value">Value that needs to be unique. An aspect has only one value</param>
         /// <param name="aspect">What aspect of the concept the value refers to. Eg: name, email</param>
         /// <param name="scope">Scope where the value should be unique</param>
         public UniqueValue(string value,string aspect= DefaultAspect, string scope="[none]")

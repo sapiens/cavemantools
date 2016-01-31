@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace System
@@ -31,16 +32,12 @@ namespace System
             if (list.IsNullOrEmpty()) throw new ArgumentException("The collection must contain at least one element",paramName??"");
         }
             
-        public static void MustMatch(this string source,string regex,RegexOptions options=RegexOptions.None)
+        public static void MustRegex(this string source,string regex,RegexOptions options=RegexOptions.None)
         {
             if (source.IsNullOrEmpty() || !Regex.IsMatch(source,regex,options)) throw new FormatException(string.Format("Argument doesn't match expression '{0}'",regex));
         }
 
-        [Obsolete]
-        public static void ThrowIfNull<TException>(this object source, TException ex) where TException:Exception
-        {
-            if (source == null) throw ex;
-        }
+       
 
         /// <summary>
         /// Throws if the value can't be used as-is in an url
@@ -61,19 +58,30 @@ namespace System
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
-        public static void MustBe<T>(this object value)
+        public static void MustBeOfType<T>(this object value)
         {
             var tp = typeof (T);
             bool ex = false;
             if (value == null)
             {
-                if (tp.IsClass) return;
+#if COREFX
+                if (tp.GetTypeInfo().IsClass) return;
+#else
+              if (tp.IsClass) return;
+#endif
+
                 ex = true;
             }
             if (ex || (value.GetType()!=tp)) throw new ArgumentException("Argument must be of type '{0}'".ToFormat(tp));
         }
 
-        public static void MustComplyWith<T>(this T arg,Func<T, bool> condition,string msg)
+
+        public static void MustBe<T>(this T arg, T value,string argName) where T:IEquatable<T>
+        {
+           if (!arg.Equals(value)) throw new ArgumentException($"Value of {argName} must be {value}");
+        }
+
+        public static void Must<T>(this T arg, Func<T, bool> condition, string msg)
         {
             msg.MustNotBeEmpty();
             if (!condition(arg))
@@ -82,16 +90,25 @@ namespace System
             }
         }
 
+        [Obsolete("Use Must")]
+        public static void MustComplyWith<T>(this T arg, Func<T, bool> condition, string msg)
+            => arg.Must(condition, msg);
+        
+
         /// <summary>
         /// Arugment must implement interface T
         /// </summary>
-        /// <typeparam name="T">Inerface type</typeparam>
+        /// <typeparam name="T">Interface type</typeparam>
         /// <param name="value"></param>
         public static void MustImplement<T>(this object value)
         {
             value.MustNotBeNull("value");
             var tp = typeof (T);
+#if COREFX
+            if (!tp.GetTypeInfo().IsInterface) throw new ArgumentException("'{0}' is not an interface".ToFormat(tp));
+#else
             if (!tp.IsInterface) throw new ArgumentException("'{0}' is not an interface".ToFormat(tp));
+#endif
             var otype = value.GetType();
             
             if (value is Type)
@@ -142,7 +159,11 @@ namespace System
 
         public static void MustBeGeneric(this Type type)
         {
+#if COREFX
+            type.MustComplyWith(t => t.GetTypeInfo().IsGenericType, "Type must be a generic type");
+#else
             type.MustComplyWith(t => t.IsGenericType, "Type must be a generic type");
+#endif
         }
     }
 }

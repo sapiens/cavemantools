@@ -14,6 +14,6 @@ namespace CavemanTools.Model.Persistence.GenericStorage
         T Get<T>(GenericStorageId id) where T : class, IGenericStorageId;
 
         void Delete(GenericStorageId id);
-        void DeletePartition(String250 partitionId);
+        void DeletePartition(string partitionId);
     }
 }
