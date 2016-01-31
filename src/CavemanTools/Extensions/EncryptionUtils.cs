@@ -70,9 +70,9 @@ namespace System
 		/// <exception cref="CryptographicException"></exception>
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
 		/// <returns></returns>
-		public static string DecryptAsString(this string data, string salt)
+		public static string DecryptAsString(this string data, string key)
 		{
-		    var bytes = Convert.FromBase64String(data).Decrypt(salt.ToByteArray().Hash(SHA256.Create));
+		    var bytes = Convert.FromBase64String(data).Decrypt(key.ToByteArray().Hash(SHA256.Create));
 		    return Encoding.Unicode.GetString(bytes,0,bytes.Length);
 		}
 

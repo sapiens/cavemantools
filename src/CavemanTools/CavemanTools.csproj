@@ -16,7 +16,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -77,7 +77,8 @@
     <Compile Include="Infrastructure\NoResult.cs" />
     <Compile Include="Infrastructure\ValidatorResult.cs" />
     <Compile Include="Infrastructure\YesNoResult.cs" />
-    <Compile Include="Logging\ILoggingSource.cs" />
+    <Compile Include="Localization\MultilingualTexts.cs" />
+    <Compile Include="Localization\Translations.cs" />
     <Compile Include="Logging\IWriteToLog.cs" />
     <Compile Include="Logging\LogManager.cs" />
     <Compile Include="ManualContainerConfigAttribute.cs" />
@@ -85,11 +86,9 @@
     <Compile Include="Data\JsonStatus.cs" />
     <Compile Include="Data\JsonStruct.cs" />
     <Compile Include="DisposableList.cs" />
-    <Compile Include="EventArgs.cs" />
     <Compile Include="Extensions\AssertionsExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GuidExtensions.cs" />
-    <Compile Include="Extensions\Images.cs" />
     <Compile Include="Extensions\LCGUtils.cs" />
     <Compile Include="Extensions\ReflectionUtils.cs" />
     <Compile Include="Extensions\TypeFactory.cs" />
@@ -99,39 +98,30 @@
     <Compile Include="ISupportMemento.cs" />
     <Compile Include="Model\AnEntityWithOperationId.cs" />
     <Compile Include="Model\Extensions.cs" />
-    <Compile Include="Model\IEntity.cs" />
-    <Compile Include="Model\IEntityId.cs" />
     <Compile Include="Model\IOperationId.cs" />
     <Compile Include="Model\IPagedInput.cs" />
     <Compile Include="Infrastructure\OutputValue.cs" />
     <Compile Include="Model\OperationIdNotSetException.cs" />
     <Compile Include="Model\PagedInput.cs" />
     <Compile Include="Model\PagedModel.cs" />
-    <Compile Include="Model\Persistence\AbstractMemoryRepository.cs" />
-    <Compile Include="Model\Persistence\EntityUpdateFailException.cs" />
     <Compile Include="Model\Persistence\GenericStorage\GenericStorageId.cs" />
-    <Compile Include="Model\Persistence\String250.cs" />
-    <Compile Include="Model\Persistence\String75.cs" />
+    <Compile Include="Model\Persistence\UniqueStore\IStoreUniqueValues.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueStoreDeleteItem.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueStoreItem.cs" />
     <Compile Include="Model\Persistence\ICreateStorage.cs" />
     <Compile Include="Model\Persistence\IdempotencyId.cs" />
     <Compile Include="Model\Persistence\GenericStorage\IGenericStorageId.cs" />
-    <Compile Include="Model\Persistence\UniqueStore\IGenericUniqueStore.cs" />
     <Compile Include="Model\Persistence\GenericStorage\IStoreEntities.cs" />
     <Compile Include="Model\Persistence\PersistenceException.cs" />
-    <Compile Include="Model\Persistence\IStore.cs" />
-    <Compile Include="Model\Persistence\MemoryCollection.cs" />
     <Compile Include="Model\Persistence\ModelTools.cs" />
     <Compile Include="Model\Persistence\NewerVersionExistsException.cs" />
-    <Compile Include="Model\Persistence\String500.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueStoreUpdateItem.cs" />
     <Compile Include="Model\Persistence\UniqueStore\UniqueValue.cs" />
+    <Compile Include="Model\Persistence\UniqueStore\UniqueValueChange.cs" />
     <Compile Include="Model\ValueObjects\AReadOnlyValue.cs" />
     <Compile Include="Model\ValueObjects\DomainString.cs" />
     <Compile Include="Model\ValueObjects\Extensions.cs" />
     <Compile Include="Model\ValueObjects\Tag.cs" />
-    <Compile Include="MultilingualTexts.cs" />
     <Compile Include="OrderAttribute.cs" />
     <Compile Include="Model\Pagination.cs" />
     <Compile Include="Infrastructure\DependencyContainerWrapper.cs" />
@@ -142,12 +132,9 @@
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Lists\KeyValueDataStore.cs" />
     <Compile Include="Lists\ModifiedItem.cs" />
-    <Compile Include="Extensions\LoggingUtility.cs" />
     <Compile Include="Lists\TrackedListItem.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
     <Compile Include="Logging\DeveloperLogger.cs" />
-    <Compile Include="Logging\FileLogger.cs" />
-    <Compile Include="Logging\LogHelper.cs" />
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="Lists\IModifiedSet.cs" />
     <Compile Include="Extensions\ListUtils.cs" />
@@ -161,33 +148,24 @@
     <Compile Include="Model\Validation\ValidationBag.cs" />
     <Compile Include="Model\Validation\ValidationItem.cs" />
     <Compile Include="Lists\ModifiedSet.cs" />
-    <Compile Include="Logging\WindowsEventLogWriter.cs" />
-    <Compile Include="Logging\ILogWriter.cs" />
     <Compile Include="EnumUtils.cs" />
     <Compile Include="Extensions\LinqExt.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\AttributeUtils.cs" />
     <Compile Include="PasswordHash.cs" />
     <Compile Include="Percentage.cs" />
-    <Compile Include="Reflection\ObjectCreator.cs" />
     <Compile Include="Reflection\PrivateReflectionDynamicObject.cs" />
     <Compile Include="Salt.cs" />
     <Compile Include="SessionId.cs" />
-    <Compile Include="SingletonsRegistry.cs" />
     <Compile Include="Testing\BenchmarkResult.cs" />
     <Compile Include="Testing\BenchmarksContainer.cs" />
     <Compile Include="Testing\BenchmarkUnit.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Compile Include="Extensions\EncryptionUtils.cs" />
-    <Compile Include="Strings\GenericStringParser.cs" />
-    <Compile Include="Strings\IStringParser.cs" />
     <Compile Include="Extensions\ObjectExtend.cs" />
     <Compile Include="Extensions\TimeUtils.cs" />
     <Compile Include="Special\OverridableOption.cs" />
-    <Compile Include="Extensions\Serializers.cs" />
-    <Compile Include="Extensions\StringParsers.cs" />
     <Compile Include="TimeInterval.cs" />
-    <Compile Include="Translations.cs" />
     <Compile Include="Xml\XmlToObject.cs" />
     <Compile Include="Model\IPagedResult.cs" />
     <Compile Include="Model\Validation\IValidationDictionary.cs" />
@@ -203,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="project.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

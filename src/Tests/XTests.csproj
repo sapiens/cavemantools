@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props')" />
   <Import Project="..\packages\xunit.runner.visualstudio.2.0.1\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.0.1\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
@@ -10,10 +10,10 @@
     <ProjectGuid>{218C8E67-EA90-4D58-9B27-7D9B21074EF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XTests</RootNamespace>
-    <AssemblyName>XTests</AssemblyName>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -105,7 +105,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assertions\AssertionsTests.cs" />
     <Compile Include="BenchmarkTests.cs" />
     <Compile Include="Extensions\ExpressionExtensionsTests.cs" />
     <Compile Include="Extensions\General.cs" />
@@ -115,10 +114,10 @@
     <Compile Include="General.cs" />
     <Compile Include="Infrastructure\CommandResultMediatorTests.cs" />
     <Compile Include="Lists\KeyValueStoreTests.cs" />
-    <Compile Include="LoggingHelperTests.cs" />
     <Compile Include="MediatorTests.cs" />
     <Compile Include="Model\EnumerableCacheTests.cs" />
     <Compile Include="Model\TagTests.cs" />
+    <Compile Include="Model\ValidationTests.cs" />
     <Compile Include="OverridableOptionsTests.cs" />
     <Compile Include="PaginationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,7 +126,6 @@
     <Compile Include="Security\PasswordHashTests.cs" />
     <Compile Include="SemVersionTests.cs" />
     <Compile Include="Strings\StringBuilderExtensionsTests.cs" />
-    <Compile Include="Strings\StringParsersTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CavemanTools\CavemanTools.csproj">
@@ -137,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Debug\" />
-    <Folder Include="Validation\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
