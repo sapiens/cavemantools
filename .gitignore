@@ -28,12 +28,18 @@ project.lock.json
 
 artifacts
 
-!nuget.exe
 
 # Roslyn cache directories
 *.ide/
 =======
-build/
+
+build/tools
+build/.fake
+
+
+
+!nuget.exe
+
 bld/
 [Bb]in/
 [Oo]bj/
@@ -157,11 +163,7 @@ publish/
 **/packages/*
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
-<<<<<<< HEAD
-# If using the old MSBuild-Integrated Package Restore, uncomment this:
-=======
-# Uncomment if necessary however generally it will be regenerated when needed
->>>>>>> 261159ad950fdaafbc362ae98e202914658a2367
+
 #!**/packages/repositories.config
 
 # Windows Azure Build Output
