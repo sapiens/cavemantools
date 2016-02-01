@@ -213,7 +213,7 @@ namespace System
         public static bool InheritsGenericType(this Type tp, Type genericType,params Type[] genericArgs)
         {
             tp.MustNotBeNull();
-            genericType.MustComplyWith(t => t.IsGenericType, "Type must be a generic type");
+            genericType.Must(t => t.IsGenericType, "Type must be a generic type");
             if (tp.BaseType == null) return false;
             
             var baseType = tp.BaseType;

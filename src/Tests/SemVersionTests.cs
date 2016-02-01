@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using CavemanTools;
+using CavemanTools.Logging;
 using FluentAssertions;
 using Xunit;
 
@@ -89,7 +90,7 @@ namespace Tests
 
         private void Write(string format, params object[] param)
         {
-            Console.WriteLine(format, param);
+            this.LogDebug(format);
         }
     }
 }

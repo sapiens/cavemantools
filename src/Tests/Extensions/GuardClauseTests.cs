@@ -25,9 +25,6 @@ namespace Tests.Extensions
             Assert.Throws<ArgumentException>(() => 2.Must(i => i > 3, "Argument must > 3"));
         }
 
-        protected void Write(string format, params object[] param)
-        {
-            Console.WriteLine(format, param);
-        }
+       
     }
 }

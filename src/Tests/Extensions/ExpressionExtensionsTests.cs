@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using CavemanTools.Logging;
 using Xunit;
 
 namespace Tests.Extensions
@@ -279,7 +280,7 @@ namespace Tests.Extensions
 
         protected void Write(string format, params object[] param)
         {
-            Console.WriteLine(format, param);
+            this.LogDebug(format);
         }
 
         class MyClass

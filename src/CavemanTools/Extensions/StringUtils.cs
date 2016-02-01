@@ -178,35 +178,27 @@ namespace System
 		/// <returns></returns>
 		public static string Cut(this string value,int length)
 		{
-			if (String.IsNullOrEmpty(value)) return "";	
+			if (string.IsNullOrEmpty(value)) return "";	
 			var l = value.Length > length ? length : value.Length;
 			return value.Substring(0, l);
 		}
 
-        public static string RemoveLastChar(this string value)
-        {
-            return value.RemoveLastChars(1);
-        }
-        public static string RemoveLastChars(this string value,int length)
+        public static string RemoveLastChar(this string value) => value.RemoveLastChars(1);
+
+	    public static string RemoveLastChars(this string value,int length)
         {
             value.MustNotBeNull();
             if (value.Length == 0) return value;
-            length.MustComplyWith(l=> value.Length>length,"Can't remove more chars than the string's length");
+            length.Must(l=> value.Length>length,"Can't remove more chars than the string's length");
            return value.Remove(value.Length - length, length);
         }
 
-	    public static string StringJoin<T>(this IEnumerable<T> items, string separator = ",")
-	    {
-	        return string.Join(separator, items.Select(t => t.ToString()));
-	    }
+	    public static string StringJoin<T>(this IEnumerable<T> items, string separator = ",") => string.Join(separator, items.Select(t => t.ToString()));
 
-	    public static bool IsNotEmpty(this string value)
-	    {
-	        return !string.IsNullOrWhiteSpace(value);
-	    }
-            
+	    public static bool IsNotEmpty(this string value) => !string.IsNullOrWhiteSpace(value);
 
-        /// <summary>
+
+	    /// <summary>
         /// Returns true if the string is empty 
         /// </summary>
         /// <param name="data"></param>
@@ -399,27 +391,27 @@ namespace System.Text
         /// <returns></returns>
         public static StringBuilder RemoveLastIfEquals(this StringBuilder sb, string value)
         {
-            if (value.IsNullOrEmpty()) return sb;
-            if (sb.ToString().EndsWith(value))
-            {
-                sb.Remove(sb.Length - value.Length, value.Length);
-            }
-            //this is probably more efficient but too much code
-            //bool eq = true;
-            //int pos = sb.Length - value.Length;
-            //if (pos < 0) return sb;
-            //foreach(var ch in value)
+            //if (value.IsNullOrEmpty()) return sb;
+            //if (sb.ToString().EndsWith(value))
             //{
-            //    if (sb[pos]!=ch)
-            //    {
-            //        eq = false;
-            //        break;
-            //    }
-            //    pos++;
+            //    sb.Remove(sb.Length - value.Length, value.Length);
             //}
-            //if (!eq) return sb;
+            
+            bool eq = true;
+            int pos = sb.Length - value.Length;
+            if (pos < 0) return sb;
+            foreach(var ch in value)
+            {
+                if (sb[pos]!=ch)
+                {
+                    eq = false;
+                    break;
+                }
+                pos++;
+            }
+            if (!eq) return sb;
 
-            //sb.Remove(sb.Length - value.Length, value.Length);            
+            sb.Remove(sb.Length - value.Length, value.Length);            
             return sb;
         }           
             

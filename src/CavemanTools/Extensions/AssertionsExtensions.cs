@@ -90,11 +90,6 @@ namespace System
             }
         }
 
-        [Obsolete("Use Must")]
-        public static void MustComplyWith<T>(this T arg, Func<T, bool> condition, string msg)
-            => arg.Must(condition, msg);
-        
-
         /// <summary>
         /// Arugment must implement interface T
         /// </summary>
@@ -160,9 +155,9 @@ namespace System
         public static void MustBeGeneric(this Type type)
         {
 #if COREFX
-            type.MustComplyWith(t => t.GetTypeInfo().IsGenericType, "Type must be a generic type");
+            type.Must(t => t.GetTypeInfo().IsGenericType, "Type must be a generic type");
 #else
-            type.MustComplyWith(t => t.IsGenericType, "Type must be a generic type");
+            type.Must(t => t.IsGenericType, "Type must be a generic type");
 #endif
         }
     }

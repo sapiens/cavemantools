@@ -6,13 +6,7 @@ using Xunit;
 namespace Tests
 {
 
-    class Test
-    {
-        public void Do(string t)
-        {
-           Console.Write(t);
-        } 
-    }
+  
     public class General
     {
         private Stopwatch _t = new Stopwatch();
@@ -28,13 +22,10 @@ namespace Tests
         [Fact]
         public void exception_log()
         {
-            LogManager.OutputToConsole();
+            LogManager.OutputToTrace();
             this.LogError(new InvalidOperationException("something"));
         }
 
-        private void Write(object format, params object[] param)
-        {
-            Console.WriteLine(format.ToString(), param);
-        }
+       
     }  
 }

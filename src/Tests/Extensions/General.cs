@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using CavemanTools.Logging;
 using FluentAssertions;
 using Xunit;
 
@@ -31,7 +32,7 @@ namespace Tests.Extensions
             var all = dt1.EnumerateTo(dt2).ToArray();
             all[0].Should().Be(dt1);
             all[all.Length - 1].Should().Be(dt2);
-            all.ForEach(d=>Console.WriteLine(d));
+            all.ForEach(d=>this.LogDebug(d.ToString()));
             var inverted = dt2.EnumerateTo(dt1).ToArray();
             inverted[0].Should().Be(dt2);
             inverted[all.Length - 1].Should().Be(dt1);
@@ -52,7 +53,7 @@ namespace Tests.Extensions
             var data = "{bla}";
 
             var h1 = data.Hmac256(key);
-            h1.ToConsole();
+            this.LogDebug(h1);
 
             var h2 = "{bla".Hmac256(key);
             h2.Should().NotBe(h1);
@@ -63,9 +64,5 @@ namespace Tests.Extensions
 
         }
 
-        protected void Write(object format, params object[] param)
-        {
-            Console.WriteLine(format.ToString(), param);
-        }
     }
 }

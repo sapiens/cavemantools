@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CavemanTools.Logging;
 using CavemanTools.Testing;
 using Xunit;
 
@@ -29,7 +30,7 @@ namespace Tests
             //}, "create");
            b.ExecuteWarmup();
             b.Execute();
-            b.GetResults.ForEach(Console.WriteLine);
+            b.GetResults.ForEach(d=>this.LogDebug(d.ToString()));
           
             //b.Execute();
             //b.GetResults.ForEach(Console.WriteLine);

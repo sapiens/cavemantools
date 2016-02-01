@@ -5,7 +5,9 @@
     "tags": [ "" ],
     "projectUrl": "",
     "licenseUrl": "",
-
+    "compilationOptions": {
+        "warningsAsErrors": false
+    },
     "frameworks": {
         "dnx46": {
             "frameworkAssemblies": {
@@ -29,7 +31,9 @@
         "xunit": "2.2.0-beta1-build3239",
         "FluentAssertions": "4.2.1",
         "xunit.runner.dnx": "2.1.0-rc1-build204",
-        "CavemanTools": "4.0.0-*"
+        "Microsoft.Extensions.PlatformAbstractions": "1.0.0-*",
+        "CavemanTools": ""
+
     },
     "commands": {
         "test": "xunit.runner.dnx"
