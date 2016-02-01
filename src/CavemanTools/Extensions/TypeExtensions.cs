@@ -11,7 +11,16 @@ namespace System
 {
     public static class TypeExtensions
 	{
-        
+
+#if !COREFX
+        /// <summary>
+        /// Compatibility with coreFX
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static Assembly Assembly(this Type t) => t.Assembly;
+#endif
+
         /// <summary>
         /// Orders an enumerable using [Order] or specified ordering function.
         /// </summary>
@@ -435,7 +444,7 @@ namespace System
 #if COREFX
             return $"{t.FullName}, {t.Assembly().GetName().Name}";
 #else
-            return String.Format("{0}, {1}", t.FullName, Assembly.GetAssembly(t).GetName().Name);
+            return String.Format("{0}, {1}", t.FullName, Reflection.Assembly.GetAssembly(t).GetName().Name);
 #endif
 
         }
