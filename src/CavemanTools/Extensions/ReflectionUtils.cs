@@ -10,10 +10,10 @@ namespace System.Reflection
     {
 #if COREFX
         public static bool IsClass(this Type type) => type.GetTypeInfo().IsClass;
-        public static bool IsValueType(this Type type) => type.GetTypeInfo().IsValueType;
-
-            
-
+        public static bool IsValueType(this Type type) => type.GetTypeInfo().IsValueType;            
+#else
+        public static bool IsClass(this Type type) => type.IsClass;
+        public static bool IsValueType(this Type type) => type.IsValueType;
 #endif
 
         /// <summary>
@@ -141,6 +141,10 @@ namespace System.Reflection
         {
             return (o.GetType() == typeof(T));
         }
+
+        public static bool IsProperty(this MemberInfo info) => info is PropertyInfo;
+        public static bool IsField(this MemberInfo info) => info is FieldInfo;
+        public static bool IsMethod(this MemberInfo info) => info is MethodInfo;
 
         public static Type GetMemberType(this MemberInfo memberInfo)
         {
