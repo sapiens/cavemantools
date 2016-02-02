@@ -1,19 +1,24 @@
 using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Linq.Expressions;
 #if !COREFX
 using System.Reflection.Emit;
+using System.Diagnostics;
+using System.Linq.Expressions;
 #endif
 namespace System.Reflection
 {
     public static class ReflectionUtils
     {
+
 #if COREFX
         public static bool IsClass(this Type type) => type.GetTypeInfo().IsClass;
         public static bool IsValueType(this Type type) => type.GetTypeInfo().IsValueType;            
+        public static bool IsEnum(this Type type) => type.GetTypeInfo().IsEnum;            
+      
+
 #else
         public static bool IsClass(this Type type) => type.IsClass;
         public static bool IsValueType(this Type type) => type.IsValueType;
+        public static bool IsEnum(this Type type) => type.IsEnum;
 #endif
 
         /// <summary>
