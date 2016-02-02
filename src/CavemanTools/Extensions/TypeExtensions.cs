@@ -10,7 +10,7 @@ using CavemanTools;
 namespace System
 {
     public static class TypeExtensions
-	{
+    {
 
 #if !COREFX
         /// <summary>
@@ -19,6 +19,12 @@ namespace System
         /// <param name="t"></param>
         /// <returns></returns>
         public static Assembly Assembly(this Type t) => t.Assembly;
+#endif
+          
+
+#if COREFX
+        public static MethodInfo GetMethod(this Type type, string name) => type.GetTypeInfo().GetDeclaredMethod(name);
+     
 #endif
 
         /// <summary>

@@ -8,6 +8,14 @@ namespace System.Reflection
 {
     public static class ReflectionUtils
     {
+#if COREFX
+        public static bool IsClass(this Type type) => type.GetTypeInfo().IsClass;
+        public static bool IsValueType(this Type type) => type.GetTypeInfo().IsValueType;
+
+            
+
+#endif
+
         /// <summary>
         /// Returns the assembly version
         /// </summary>

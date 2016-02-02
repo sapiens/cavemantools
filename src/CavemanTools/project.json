@@ -1,5 +1,5 @@
 {
-    "version": "4.0.0-pre-1",
+    "version": "4.0.0-pre-2",
     "description": "Evolved toolkit for developing applications faster and with less code. Includes general purpose extension methods, guard clauses, predefined value objects (PasswordHash,Email, Percentage etc) and specialized helper classes for specific tasks.",
     "authors": [ "Mihai Mogosanu" ],
     "owners": [ "Mihai Mogosanu" ],
@@ -7,7 +7,6 @@
     "projectUrl": "https://github.com/sapiens/cavemantools",
     "licenseUrl": "https://github.com/sapiens/cavemantools/blob/master/LICENSE",
     "summary": "Lots for extension methods for general use. Now with core-clr support",
-   
     "frameworks": {
         "net46": {
             "frameworkAssemblies": {
@@ -15,10 +14,9 @@
             }
 
         },
-
         "dotnet5.4": {
             "compilationOptions": {
-                "define": [ "COREFX" ]         
+                "define": [ "COREFX" ]
             },
             "dependencies": {
                 "Microsoft.CSharp": "4.0.1-*",
@@ -30,7 +28,6 @@
                 "System.Threading": "4.0.11-*",
                 "System.Reflection": "4.1.0-*",
                 "System.Reflection.Extensions": "4.0.1-*",
-
                 "System.Diagnostics.TraceSource": "4.0.0-*",
                 "System.Text.RegularExpressions": "4.0.11-*",
                 "System.Security.Cryptography.Primitives": "4.0.0-*",
@@ -38,9 +35,10 @@
                 "System.Console": "4.0.0-*",
                 "System.IO.Compression": "4.1.0-*",
                 "System.Text.Encoding": "4.0.11-*"
-
-
             }
         }
+    },
+    "dependencies": {
+        "FluentAssertions": "4.2.1"
     }
 }
