@@ -21,12 +21,6 @@ namespace System
         public static Assembly Assembly(this Type t) => t.Assembly;
 #endif
           
-
-#if COREFX
-        public static MethodInfo GetMethod(this Type type, string name) => type.GetTypeInfo().GetDeclaredMethod(name);
-     
-#endif
-
         /// <summary>
         /// Orders an enumerable using [Order] or specified ordering function.
         /// </summary>
@@ -34,7 +28,7 @@ namespace System
         /// <param name="other">Optional ascending ordering function</param>
         /// <returns></returns>
         public static IEnumerable<Type> OrderByAttribute(this IEnumerable<Type> types,Func<Type,int> other=null)
-        {
+        {           
             return types.OrderBy(t =>
             {
                 var attrib = t.GetSingleAttribute<OrderAttribute>();
