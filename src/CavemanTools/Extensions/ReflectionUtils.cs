@@ -92,6 +92,8 @@ namespace System.Reflection
             inv(a, value);
         }
 
+        private static ConcurrentDictionary<int, Func<object, object>> _cacheGet;
+
         /// <summary>
         /// Fast getter. aprox 5x faster than simple Reflection, aprox. 10x slower than manual get
         /// </summary>
@@ -224,7 +226,7 @@ namespace System.Reflection
                   return pi.GetValueFast(@object);
 #endif
         }
-        private static ConcurrentDictionary<int, Func<object, object>> _cacheGet;
+  
 
 #if !COREFX
         /// <summary>

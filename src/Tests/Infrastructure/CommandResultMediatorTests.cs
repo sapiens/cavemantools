@@ -27,7 +27,7 @@ namespace Tests.Infrastructure
             m.ActiveListeners.Should().Be(1);
 
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 this.Sleep(TimeSpan.FromMilliseconds(840));
                 m.AddResult(Guid.Empty, new CommandResult());
@@ -60,7 +60,7 @@ namespace Tests.Infrastructure
             var m = new CommandResultMediator();
             var l = m.GetListener(Guid.Empty, TimeSpan.FromMilliseconds(250));
 
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 this.Sleep(TimeSpan.FromMilliseconds(840));
                 m.AddResult(Guid.Empty, new CommandResult());

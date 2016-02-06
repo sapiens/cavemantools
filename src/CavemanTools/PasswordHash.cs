@@ -89,6 +89,11 @@ namespace CavemanTools
             return hash != null && Equals(hash);
         }
 
+        public override int GetHashCode()
+        {
+            return _finalHash.GetHashCode();
+        }
+
         /// <summary>
         /// Returns the hash as string of 92 chars
         /// </summary>

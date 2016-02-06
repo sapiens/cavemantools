@@ -12,7 +12,7 @@ namespace CavemanTools.Hashing
         private static ulong C1 = 0x87c37b91114253d5L;
         private static ulong C2 = 0x4cf5ad432745937fL;
         private ulong length;
-        private uint seed; // if want to start with a seed, create a constructor
+       // private uint seed; // if want to start with a seed, create a constructor
         ulong h1;
         ulong h2;
 
@@ -63,7 +63,7 @@ namespace CavemanTools.Hashing
 
         private void ProcessBytes(byte[] bb)
         {
-            h1 = seed;
+            h1 = 0;
             this.length = 0L;
             int pos = 0;
             ulong remaining = (ulong)bb.Length;

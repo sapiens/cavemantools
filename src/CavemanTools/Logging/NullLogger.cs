@@ -18,7 +18,7 @@ namespace CavemanTools.Logging
 
         public override void LogException(string source, LogLevel level, Exception ex, string context, params object[] args)
         {
-            throw new NotImplementedException();
+          
         }
 
         public override void Log(string source, LogLevel level, string message, params object[] args)

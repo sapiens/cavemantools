@@ -38,5 +38,10 @@ namespace CavemanTools.Model.ValueObjects
         {
             return Equals(obj as Email);
         }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
     }
 }

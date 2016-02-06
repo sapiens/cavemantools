@@ -45,6 +45,11 @@ namespace CavemanTools
             return salt != null && Equals(salt);
         }
 
+        public override int GetHashCode()
+        {
+            return _bytes.GetHashCode();
+        }
+
         /// <summary>
         /// Returns the fully qualified type name of this instance.
         /// </summary>
