@@ -27,8 +27,7 @@ namespace Tests.Security
             var sut = new PasswordHash(Password,Salt.Generate());
             sut.IsValidPassword(Password).Should().BeTrue();
             sut.IsValidPassword(Password + "f").Should().BeFalse();
-            Console.WriteLine(sut.ToString());
-            Console.Write(sut.ToString().Length);
+           
         }
 
         [Fact]
@@ -56,8 +55,7 @@ namespace Tests.Security
             
             var hash2 = new PasswordHash(bytes);
             hash2.Should().Be(hash);
-            hash.ToString().ToConsole();
-            hash2.ToString().ToConsole();
+          
 
         }
     }
