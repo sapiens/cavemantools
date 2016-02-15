@@ -1,35 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace System
 {
     public static class AssertionsExtensions
     {
-        public static void MustNotBeDefault<T>(this T value)
+        /// <exception cref="Exception"></exception>
+        public static void MustNotBeDefault<T>(this T value,string message="",Exception ex=null)
         {
-            if (value.Equals(default(T))) throw new ArgumentException($"Argument must not be {default(T)}");
+            if (value.Equals(default(T))) throw ex??new ArgumentException(message??$"Argument must not be {default(T)}");
         }
             
-         public static void MustNotBeNull<T>(this T param,string paramName=null) where T:class
+         public static void MustNotBeNull<T>(this T param,string message=null, Exception ex = null) where T:class
          {
-             if (param == null) throw new ArgumentNullException(paramName??string.Empty);
+             if (param == null) throw ex??new ArgumentNullException("parameter",message??"");
          }
-         public static void MustNotBeNull<T>(this T param, string msg, string paramName = null) where T : class
-         {
-             if (param == null) throw new ArgumentNullException(paramName??string.Empty,msg);
-         }
+         
 
-        public static void MustNotBeEmpty(this string arg,string paramName=null)
+        public static void MustNotBeEmpty(this string arg,string msg=null,Exception ex=null)
         {
-            if (string.IsNullOrWhiteSpace(arg)) throw new FormatException(string.Format("Argument '{0}' must not be null, empty or whitespaces",paramName??""));
+            if (string.IsNullOrWhiteSpace(arg)) throw ex??new FormatException(msg??"Argument must not be null, empty or whitespaces");
         }
 
-        public static void MustNotBeEmpty<T>(this IEnumerable<T> list,string paramName=null)
+        public static void MustNotBeEmpty<T>(this IEnumerable<T> list, string msg = null, Exception ex = null)
         {
-            if (list.IsNullOrEmpty()) throw new ArgumentException("The collection must contain at least one element",paramName??"");
+            if (list.IsNullOrEmpty()) throw ex??new ArgumentException(msg??"The collection must contain at least one element");
         }
             
         public static void MustRegex(this string source,string regex,RegexOptions options=RegexOptions.None)
@@ -72,21 +68,20 @@ namespace System
 
                 ex = true;
             }
-            if (ex || (value.GetType()!=tp)) throw new ArgumentException("Argument must be of type '{0}'".ToFormat(tp));
+            if (ex || (value.GetType()!=tp)) throw new ArgumentException($"Argument must be of type '{tp}'");
         }
 
 
-        public static void MustBe<T>(this T arg, T value,string argName) where T:IEquatable<T>
-        {
-           if (!arg.Equals(value)) throw new ArgumentException($"Value of {argName} must be {value}");
-        }
+        public static void MustBe<T>(this T arg, T value,string msg="",Exception ex=null) where T:IEquatable<T> 
+            => arg.Must(d=>d.Equals(value),msg,ex);
 
-        public static void Must<T>(this T arg, Func<T, bool> condition, string msg)
+        public static void Must<T>(this T arg, Func<T, bool> condition, string msg=null,Exception ex=null)
         {
             msg.MustNotBeEmpty();
+            condition.MustNotBeNull();
             if (!condition(arg))
             {
-                throw new ArgumentException(msg);
+                throw ex??new ArgumentException(msg??"Argument doesn't meet the specified condition");
             }
         }
 
