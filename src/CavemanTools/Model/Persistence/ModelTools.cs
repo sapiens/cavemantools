@@ -75,7 +75,7 @@ namespace CavemanTools.Model.Persistence
                             return;
                         case OnExceptionAction.Throw:
                             throw;
-                            break;
+                  
                         default:
                             i++;
                             break;
@@ -130,7 +130,7 @@ namespace CavemanTools.Model.Persistence
                             return;
                         case OnExceptionAction.Throw:
                             throw;
-                            break;
+                       
                         default:
                             i++;
                             break;
