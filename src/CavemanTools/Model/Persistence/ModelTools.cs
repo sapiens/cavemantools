@@ -4,6 +4,13 @@ using System.Threading.Tasks;
 
 namespace CavemanTools.Model.Persistence
 {
+    public enum OnExceptionAction
+    {
+        IgnoreAndContinue,
+        IgnoreAndExit,
+        Throw
+    }
+
     public class ModelTools
     {
 
@@ -24,23 +31,25 @@ namespace CavemanTools.Model.Persistence
             return true;
         }
 
+
+
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">Exception type</typeparam>
         /// <param name="update"></param>
-        /// <param name="excHandler">returns true to continue retrying</param>
+        /// <param name="excHandler">what happens on exception</param>
         /// <param name="triesCount"></param>
         /// <param name="wait"></param>
         /// <param name="throttle">If true after 1/4 of the tries it will increase the wait period before tries</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static async Task RetryOnException<T>(Func<Task> update,Func<T,bool> excHandler=null, int triesCount = 10, int wait = 150,bool throttle=true) where T : Exception
+        public static async Task RetryOnException<T>(Func<Task> update,Func<T,OnExceptionAction> excHandler=null, int triesCount = 10, int wait = 150,bool throttle=true) where T : Exception
         {
            
             if (excHandler == null)
             {
-                excHandler = x => true;
+                excHandler = x => OnExceptionAction.IgnoreAndContinue;
             }
 
             for (var i = 0; i < triesCount; i++)
@@ -60,8 +69,18 @@ namespace CavemanTools.Model.Persistence
                 }
                 catch (T ex)
                 {
-                    if (!excHandler(ex)) return;
-                    i++;
+                    switch (excHandler(ex))
+                    {
+                        case OnExceptionAction.IgnoreAndExit:
+                            return;
+                        case OnExceptionAction.Throw:
+                            throw;
+                            break;
+                        default:
+                            i++;
+                            break;
+                    }
+                  
                     if (i == triesCount) throw;
                 }  
             }
@@ -74,18 +93,18 @@ namespace CavemanTools.Model.Persistence
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="update"></param>
-        /// <param name="excHandler">returns true to continue retrying</param>
+        /// <param name="excHandler">what happens on exception</param>
         /// <param name="triesCount"></param>
         /// <param name="wait"></param>
         /// <param name="throttle">If true after 1/4 of the tries it will increase the wait period before tries</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static void RetryOnException<T>(Action update, Func<T,bool> excHandler=null,int triesCount = 10, int wait = 100, bool throttle = true) where T : Exception
+        public static void RetryOnException<T>(Action update, Func<T, OnExceptionAction> excHandler=null,int triesCount = 10, int wait = 100, bool throttle = true) where T : Exception
         {
           
             if (excHandler == null)
             {
-                excHandler = x => true;
+                excHandler = x => OnExceptionAction.IgnoreAndContinue;
             }
 
             for (var i = 0; i < triesCount; i++)
@@ -105,8 +124,18 @@ namespace CavemanTools.Model.Persistence
                 }
                 catch (T ex)
                 {
-                    if (!excHandler(ex)) return;
-                    i++;
+                    switch (excHandler(ex))
+                    {
+                        case OnExceptionAction.IgnoreAndExit:
+                            return;
+                        case OnExceptionAction.Throw:
+                            throw;
+                            break;
+                        default:
+                            i++;
+                            break;
+                    }
+
                     if (i == triesCount) throw;
                 }
             }
