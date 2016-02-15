@@ -32,9 +32,10 @@ namespace CavemanTools.Model.Persistence
         /// <param name="excHandler">returns true to continue retrying</param>
         /// <param name="triesCount"></param>
         /// <param name="wait"></param>
+        /// <param name="throttle">If true after 1/4 of the tries it will increase the wait period before tries</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static async Task RetryOnException<T>(Func<Task> update,Func<T,bool> excHandler=null, int triesCount = 10, int wait = 100) where T : Exception
+        public static async Task RetryOnException<T>(Func<Task> update,Func<T,bool> excHandler=null, int triesCount = 10, int wait = 150,bool throttle=true) where T : Exception
         {
            
             if (excHandler == null)
@@ -44,7 +45,14 @@ namespace CavemanTools.Model.Persistence
 
             for (var i = 0; i < triesCount; i++)
             {
-                if (i>0) await Task.Delay(wait).ConfigureAwait(false);
+                if (i > 0)
+                {
+                    if (throttle && i > triesCount/4)
+                    {
+                        wait *= (int) 1.5;
+                    }
+                    await Task.Delay(wait).ConfigureAwait(false);
+                }
                 try
                 {
                     await update().ConfigureAwait(false);
@@ -69,9 +77,10 @@ namespace CavemanTools.Model.Persistence
         /// <param name="excHandler">returns true to continue retrying</param>
         /// <param name="triesCount"></param>
         /// <param name="wait"></param>
+        /// <param name="throttle">If true after 1/4 of the tries it will increase the wait period before tries</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static void RetryOnException<T>(Action update, Func<T,bool> excHandler=null,int triesCount = 10, int wait = 100) where T : Exception
+        public static void RetryOnException<T>(Action update, Func<T,bool> excHandler=null,int triesCount = 10, int wait = 100, bool throttle = true) where T : Exception
         {
           
             if (excHandler == null)
@@ -81,7 +90,14 @@ namespace CavemanTools.Model.Persistence
 
             for (var i = 0; i < triesCount; i++)
             {
-                if (i > 0) Task.Delay(wait).Wait();
+                if (i > 0)
+                {
+                    if (throttle && i > triesCount / 4)
+                    {
+                        wait *= (int)1.5;
+                    }
+                    Task.Delay(wait).Wait();
+                }
                 try
                 {
                     update();
