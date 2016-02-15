@@ -6,8 +6,17 @@ namespace CavemanTools.Model.Persistence
 {
     public enum OnExceptionAction
     {
+        /// <summary>
+        /// Operation is tried again
+        /// </summary>
         IgnoreAndContinue,
+        /// <summary>
+        /// Exception is ignored but no more retries
+        /// </summary>
         IgnoreAndExit,
+        /// <summary>
+        /// Exception is thrown
+        /// </summary>
         Throw
     }
 
