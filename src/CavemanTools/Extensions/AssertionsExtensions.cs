@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+#if COREFX
+using System.Reflection;
+#endif
 using System.Text.RegularExpressions;
 
 namespace System
@@ -93,7 +96,7 @@ namespace System
         public static void MustImplement<T>(this object value)
         {
             value.MustNotBeNull("value");
-            var tp = typeof (T);
+            var tp = typeof (T);            
 #if COREFX
             if (!tp.GetTypeInfo().IsInterface) throw new ArgumentException("'{0}' is not an interface".ToFormat(tp));
 #else
