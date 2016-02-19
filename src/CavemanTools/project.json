@@ -1,5 +1,5 @@
 {
-    "version": "4.0.0-pre0-10",
+    "version": "4.0.0-beta-1",
     "description": "Evolved toolkit for developing applications faster and with less code. Includes general purpose extension methods, guard clauses, predefined value objects (PasswordHash,Email, Percentage etc) and specialized helper classes for specific tasks.",
     "authors": [ "Mihai Mogosanu" ],
     "owners": [ "Mihai Mogosanu" ],
