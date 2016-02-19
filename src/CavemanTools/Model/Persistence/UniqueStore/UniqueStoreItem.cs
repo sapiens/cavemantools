@@ -14,7 +14,7 @@ namespace CavemanTools.Model.Persistence.UniqueStore
             operationId.MustNotBeDefault();
             uniqueValues.MustNotBeEmpty();
 
-            AspectsMustSameValue(uniqueValues);
+            AspectsMustHaveSameValue(uniqueValues);
 
             EntityId = entityId;
             Uniques = uniqueValues;
@@ -26,7 +26,7 @@ namespace CavemanTools.Model.Persistence.UniqueStore
         /// We can't have different values for the same aspect
         /// </summary>
         /// <param name="uniqueValues"></param>
-        private static void AspectsMustSameValue(UniqueValue[] uniqueValues) 
+        private static void AspectsMustHaveSameValue(UniqueValue[] uniqueValues) 
             => uniqueValues.GroupBy(d=>d.Aspect)
             .ForEach(g=>g
                         .Select(d=>d.Value).Distinct().Count().MustBe(1,""));
