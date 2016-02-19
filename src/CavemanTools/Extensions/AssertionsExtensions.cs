@@ -80,7 +80,6 @@ namespace System
 
         public static void Must<T>(this T arg, Func<T, bool> condition, string msg=null,Exception ex=null)
         {
-            msg.MustNotBeEmpty();
             condition.MustNotBeNull();
             if (!condition(arg))
             {
