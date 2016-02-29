@@ -7,34 +7,37 @@ namespace Tests.Security
 {
     public class PasswordHashTests
     {
+        private Salt _salt;
+        private PasswordHash _sut;
         private const string Password = "bla 123";
 
+        public PasswordHashTests()
+        {
+            _salt = Salt.Generate(PasswordHash.DefaultSaltSize);
+            _sut = new PasswordHash(Password,PasswordHash.DefaultIterations,_salt);
+        }
 
         [Fact]
         public void equatable_test()
         {
-            var salt = Salt.Generate();
-            var p1 = new PasswordHash(Password, salt);
-            var p2 = new PasswordHash(Password, salt);
-            var p3 = new PasswordHash(Password, Salt.Generate());
-            p1.Equals(p2).Should().BeTrue();
+            var p1 = new PasswordHash(Password,PasswordHash.DefaultIterations ,_salt);
+            var p3 = new PasswordHash(Password, PasswordHash.DefaultIterations, Salt.Generate(PasswordHash.DefaultSaltSize));
+            p1.Equals(_sut).Should().BeTrue();
             p1.Equals(p3).Should().BeFalse();
         }
 
         [Fact]
         public void valid_password()
         {
-            var sut = new PasswordHash(Password,Salt.Generate());
-            sut.IsValidPassword(Password).Should().BeTrue();
-            sut.IsValidPassword(Password + "f").Should().BeFalse();
-           
+            _sut.IsValidPassword(Password).Should().BeTrue();
+            _sut.IsValidPassword(Password + "f").Should().BeFalse();
+
         }
 
         [Fact]
         public void valid_pwd_existing_hash()
         {
-            var hash = new PasswordHash(Password,Salt.Generate()).ToString();
-            var sut = PasswordHash.FromHash(hash);
+            var sut = PasswordHash.FromHash(_sut.ToString(), _sut.Salt.Length, PasswordHash.DefaultIterations);
             sut.IsValidPassword(Password).Should().BeTrue();
             sut.IsValidPassword("-" + Password).Should().BeFalse();
         }
@@ -42,20 +45,17 @@ namespace Tests.Security
         [Fact]
         public void different_salts_generate_different_hashes()
         {
-            var hash1 = new PasswordHash(Password,Salt.Generate());
-            var hash2 = new PasswordHash(Password,Salt.Generate());
-            hash1.ToString().Should().NotBe(hash2.ToString());
+            var hash2 = new PasswordHash(Password, PasswordHash.DefaultSaltSize,PasswordHash.DefaultIterations);
+            _sut.ToString().Should().NotBe(hash2.ToString());
         }
 
         [Fact]
         public void hash_from_array()
         {
-            var hash = new PasswordHash(Password, Salt.Generate());
-            var bytes = hash.Hash;
-            
-            var hash2 = new PasswordHash(bytes);
-            hash2.Should().Be(hash);
-          
+            var hash2 = new PasswordHash(_sut.Hash, _sut.Salt.Length,PasswordHash.DefaultIterations);
+            hash2.Hash.Should().BeEquivalentTo(_sut.Hash);
+            hash2.IsValidPassword(Password).Should().BeTrue();
+
 
         }
     }

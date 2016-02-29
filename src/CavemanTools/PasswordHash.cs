@@ -5,11 +5,57 @@ namespace CavemanTools
 {
     public class PasswordHash:IEquatable<PasswordHash>
     {
+        public class HashData
+        {
+            public byte[] Salt;
+            public byte[] HashedPassword;
+        }
+
+       
+        public static Func<HashData, byte[]> PackBytes=PackWithRandomPadding;
+        public static Func<byte[],int,HashData> UnpackBytes=UnpackWithRandomPadding;
+
+        public static byte[] PackWithRandomPadding(HashData data)
+        {
+           
+            var result = new byte[data.Salt.Length + data.HashedPassword.Length];
+            
+            data.Salt.CopyTo(result,0);
+            data.HashedPassword.CopyTo(result,data.Salt.Length);
+            return result;
+        }
+
+
+        public static HashData UnpackWithRandomPadding(byte[] packed, int saltSize)
+        {
+            var res=new HashData();
+            res.Salt=new byte[saltSize];
+            var hashLength = packed.Length-saltSize;
+            res.HashedPassword=new byte[hashLength];
+            Array.Copy(packed,0,res.Salt,0,saltSize);
+            Array.Copy(packed,saltSize,res.HashedPassword,0,hashLength);
+            return res;
+        }
+
         private Salt _salt;
-        private int _iterations;
+        private readonly int _iterations=DefaultIterations;
         private byte[] _finalHash;
+        private readonly int _saltSize=DefaultSaltSize;
         private byte[] _pwdHash;
-        private const int KeySize=32;
+
+        /// <summary>
+        /// Length of the generated hash, it should be at least 32 bytes
+        /// </summary>
+        public static int KeySize=32;
+
+        /// <summary>
+        /// Default value is 32
+        /// </summary>
+        public static int DefaultSaltSize = 32;
+        /// <summary>
+        /// Default value is 64000
+        /// </summary>
+        public static int DefaultIterations = 64000;
 
         public Salt Salt => _salt;
 
@@ -19,16 +65,13 @@ namespace CavemanTools
         /// <returns></returns>
         public static PasswordHash GenerateRandom()
         {
-            return new PasswordHash(Guid.NewGuid().ToString(),Salt.Generate());
+            return new PasswordHash(Guid.NewGuid().ToString(),DefaultIterations,Salt.Generate());
         }
 
-        public static PasswordHash FromHash(string hash)
+        public static PasswordHash FromHash(string hash,int saltSize,int iterations)
         {
             hash.MustNotBeEmpty();
-            var pwd = new PasswordHash();
-            pwd._finalHash= Convert.FromBase64String(hash);   
-            pwd.ExtractParts();
-            return pwd;
+            return new PasswordHash(Convert.FromBase64String(hash),saltSize,iterations);            
         }
 
         private PasswordHash()
@@ -36,29 +79,55 @@ namespace CavemanTools
             
         }
 
-        public PasswordHash(byte[] hash)
+        public PasswordHash(string password):this(password,DefaultSaltSize,DefaultIterations)
         {
-            Hash = hash;            
+            
         }
 
-        public byte[] Hash
+        /// <summary>
+        /// Creates a password hash 
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="saltSize">Salt length should be at least 64 bytes</param>
+        /// <param name="iterations">At least 64000</param>
+        public PasswordHash(string password, int saltSize, int iterations):this(password,iterations,Salt.Generate(saltSize))
         {
-            get { return _finalHash; }
-            private set
-            {
-                _finalHash = value;
-                ExtractParts();
-            }
+            
         }
+        
+        /// <summary>
+        /// Creates a password hash 
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="iterations">At least 64000</param>
+        /// <param name="salt">Salt length should be at least 64 bytes</param>
+        public PasswordHash(string password, Int32 iterations, Salt salt)
+        {
+            _iterations = iterations;
+            _salt = salt;
+            _saltSize = _salt.Length;
+
+            _pwdHash = Pbkdf2Hash(password, Salt.Bytes, iterations);
+
+            SetFinalHash();
+
+        }
+
+        public PasswordHash(byte[] hash,int saltSize,int iterations)
+        {
+            _finalHash = hash;
+            _saltSize = saltSize;
+            _iterations = iterations;          
+            ExtractParts();                        
+        }
+
+        public byte[] Hash => _finalHash;
 
         void ExtractParts()
         {
-           _iterations = BitConverter.ToInt32(_finalHash,0);
-            _pwdHash=new byte[KeySize];
-            Array.Copy(_finalHash,4,_pwdHash,0,KeySize);
-            var saltBytes=  new byte[_finalHash.Length-4-KeySize];
-            Array.Copy(_finalHash,KeySize+4,saltBytes,0,saltBytes.Length);
-            _salt = new Salt(saltBytes);
+            var data = UnpackBytes(_finalHash, _saltSize);
+            _salt=new Salt(data.Salt);
+            _pwdHash = data.HashedPassword;            
         }
 
         public bool IsValidPassword(string pwd)
@@ -67,21 +136,9 @@ namespace CavemanTools
             return _pwdHash.IsEqual(pwdHash);            
         }
 
-        public PasswordHash(string password,Salt salt=null,Int32 iterations=50000)
-        {
-            _iterations = iterations;
-           _salt = salt??Salt.Generate();
-           
-            _pwdHash = Pbkdf2Hash(password,Salt.Bytes,iterations);
+     
 
-            _finalHash = GetFinalHash(_pwdHash);
-            
-        }
-
-        public bool Equals(PasswordHash other)
-        {
-            return other != null && _finalHash.IsEqual(other._finalHash);
-        }
+        public bool Equals(PasswordHash other) => other != null && _finalHash.IsEqual(other._finalHash);
 
         public override bool Equals(object obj)
         {
@@ -89,28 +146,18 @@ namespace CavemanTools
             return hash != null && Equals(hash);
         }
 
-        public override int GetHashCode()
-        {
-            return _finalHash.GetHashCode();
-        }
+        public override int GetHashCode() => _finalHash.GetHashCode();
 
-        /// <summary>
-        /// Returns the hash as string of 92 chars
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return Convert.ToBase64String(_finalHash);
-        }
+        
+        public override string ToString() => Convert.ToBase64String(_finalHash);
 
 
-        byte[] GetFinalHash(byte[] pwdHash)
+        void SetFinalHash()
         {
-            byte[] final=new byte[pwdHash.Length+Salt.Length+4];
-            BitConverter.GetBytes(_iterations).CopyTo(final,0);
-            pwdHash.CopyTo(final,4);
-            Salt.Bytes.CopyTo(final,KeySize+4);
-            return final;
+            var data=new HashData();
+            data.Salt = _salt.Bytes;
+            data.HashedPassword = _pwdHash;
+            _finalHash= PackBytes(data);            
         }
 
         static byte[] Pbkdf2Hash(string data,byte[] salt,int iterations)
