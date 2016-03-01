@@ -31,11 +31,16 @@ Target "Build" (fun _ ->
  
 Target "Pack" ( fun _ ->
     pack projDir |> ignore
+    additionalPack 
+        |> Seq.map (fun d -> (projDir+d))
+        |> Seq.iter (fun d-> 
+                            trace ("packing "+d)
+                            pack d |> ignore)    
 )
 
 Target "Test" (fun _ ->
    runTests clr
-   runTests clrCore    
+   if testOnCore then runTests clrCore 
 )
 
 Target "Push"(fun _ -> push pkgFiles |> ignore)
