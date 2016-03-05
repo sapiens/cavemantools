@@ -113,6 +113,14 @@ namespace CavemanTools
 
         }
 
+        /// <summary>
+        /// Instantiates from final hash using the DefaultSaltSize and DefaultIterations values
+        /// </summary>
+        /// <param name="hash"></param>
+        public PasswordHash(byte[] hash):this(hash,DefaultSaltSize,DefaultIterations)
+        {
+            
+        }
         public PasswordHash(byte[] hash,int saltSize,int iterations)
         {
             _finalHash = hash;
