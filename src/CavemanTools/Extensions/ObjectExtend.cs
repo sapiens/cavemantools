@@ -133,23 +133,7 @@ namespace System
 	       }
 	    }
 
-	    ///// <summary>
-	    ///// 
-	    ///// If object is not null invokes function else returns default of type
-	    ///// </summary>
-	    ///// <typeparam name="V"></typeparam>
-	    ///// <typeparam name="T"></typeparam>
-	    ///// <param name="item"></param>
-	    ///// <param name="invoke"></param>
-	    ///// <returns></returns>
-     //   public static T ReturnDefaultOrResult<V, T>(this V item, Func<V, T> invoke,T defaultValue=default(T)) where V : class
-	    //{
-	    //    if (item == null) return defaultValue;
-     //       return invoke(item);
-     //   }
-        
-        
-
+	   
 	
 
 	    public static T GetValue<T>(this AbstractValueObject<T> d, T defaultValue = default(T))
@@ -315,6 +299,10 @@ namespace System
 	        }
 	        return instance;
 	    }
+
+	    public static V Project<T, V>(this T src, Func<T, V> projection) where T : class
+	        => projection(src);
+
 	}
 
     
