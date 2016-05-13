@@ -293,11 +293,8 @@ namespace System
 	            return instance;
 	        }
             instance=new T();
-	        if (config != null)
-	        {
-	            config(instance);
-	        }
-	        return instance;
+            config?.Invoke(instance);
+            return instance;
 	    }
 
 	    public static V Project<T, V>(this T src, Func<T, V> projection) where T : class
