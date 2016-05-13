@@ -1,4 +1,4 @@
-namespace CavemanTools
+namespace System
 {
     public struct Optional<T> where T:class 
     {

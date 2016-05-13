@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace CavemanTools
+namespace System
 {
     public class AnyOf<T, V>
     {
