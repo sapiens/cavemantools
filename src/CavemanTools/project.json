@@ -16,6 +16,9 @@
         "net46": {
             "frameworkAssemblies": {
                 "System.Xml": "4.0.0.0"
+            },
+            "dependencies": {
+               
             }
         },
         "netstandard1.5": {
@@ -24,10 +27,11 @@
             },
             "dependencies": {
                 "Microsoft.NETCore.App": {
-                    "version": "1.0.0-rc2-3002702",
+                    "version": "1.0.0-rc2-*",
                     "type": "platform"
                 },
                 "System.Diagnostics.TraceSource": "4.0.0-rc2-24027"
+
             }
         }
     },

@@ -15,7 +15,7 @@ let nugetExeDir="tools"
 let outDir=combinePaths currentDirectory <|"artifacts" 
 
 let dotnet="dotnet.exe"
-
+let nugetServer= "https://www.nuget.org/api/v2/package"
 
 let restore (proj:string)= 
         let result = ExecProcessAndReturnMessages(fun c -> 
@@ -34,7 +34,7 @@ let runTests dir=
     let result = ExecProcess(fun c -> 
                                         c.FileName<- dotnet
                                         c.Arguments<-("test  \""+dir+"\""))(TimeSpan.FromMinutes 5.0)
-    if result <> 0 then failwith "Testing failed"
+    if result <> 0 then failwith "Tests fail!"
 
 
 let pack proj =ExecProcess(fun c -> 
@@ -42,6 +42,6 @@ let pack proj =ExecProcess(fun c ->
                                         c.Arguments<-("pack "+proj+" --no-build  -o "+outDir))(TimeSpan.FromMinutes 5.0)
 let push file = ExecProcess(fun c ->
                             c.FileName<- (currentDirectory @@ nugetExeDir @@ "nuget.exe")
-                            c.Arguments <- ("push "+ file))(TimeSpan.FromMinutes 5.0)
+                            c.Arguments <- ("push "+ file+" -Source "+nugetServer))(TimeSpan.FromMinutes 5.0)
                        
                                                         

@@ -58,7 +58,7 @@ Target "Local"( fun _ ->
 "Clean"
     ==> "Test"
     ==>"Pack"
-  //  ==>"Local"
+    ==>"Local"
 
 "Clean"
     ==>"Test"
