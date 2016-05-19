@@ -9,12 +9,17 @@ open StringHelper
 open EnvironmentHelper
 open Settings
 open Utils
+open FileSystemHelper
 
 
 
 let buildDir = "./build/"
-let pkgFiles= (projName+"*.nupkg") |> combinePaths "release" |> combinePaths outDir
 
+
+let pkgFiles=
+    let packFilesPattern=outDir @@ "*.nupkg"
+    let ignoreSymbolsPattern=outDir @@ "*symbols.nupkg"
+    (--) !!packFilesPattern <| ignoreSymbolsPattern |> Seq.head
 
 
 Target "Clean" (fun _ ->  
@@ -39,8 +44,8 @@ Target "Pack" ( fun _ ->
 )
 
 Target "Test" (fun _ ->
-   runTests clr
-   if testOnCore then runTests clrCore 
+   runTests testDir
+  
 )
 
 Target "Push"(fun _ -> push pkgFiles |> ignore)
@@ -53,7 +58,7 @@ Target "Local"( fun _ ->
 "Clean"
     ==> "Test"
     ==>"Pack"
-    ==>"Local"
+  //  ==>"Local"
 
 "Clean"
     ==>"Test"
