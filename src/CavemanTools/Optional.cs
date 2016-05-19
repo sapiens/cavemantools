@@ -1,11 +1,13 @@
+using System.Diagnostics;
+
 namespace System
 {
     public struct Optional<T> where T:class 
     {
         public static readonly Optional<T> Empty=new Optional<T>();
 
-        public T Value { get; }
-
+        public T Value { [DebuggerStepThrough]get; }
+        
         public bool HasValue => !IsEmpty;
 
         public bool IsEmpty => Value == null;
@@ -15,6 +17,7 @@ namespace System
         /// </summary>
         /// <param name="other">Value to return if option is empty</param>
         /// <returns></returns>
+        [DebuggerStepThrough]
         public T ValueOr(T other) => Value??other;
 
         public Optional(T value)

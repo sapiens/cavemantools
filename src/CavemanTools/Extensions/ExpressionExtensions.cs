@@ -74,15 +74,15 @@ namespace System.Linq.Expressions
             if (node.IsParameter(type) || node.BelongsToParameter(type)) return true;
             if (node.NodeType == ExpressionType.Call)
             {
-                return node.As<MethodCallExpression>().HasParameterArgument(type);
+                return node.CastAs<MethodCallExpression>().HasParameterArgument(type);
             }
             if (node.NodeType == ExpressionType.New)
             {
-                return node.As<NewExpression>().HasParameterArgument(type);
+                return node.CastAs<NewExpression>().HasParameterArgument(type);
             }
             if (node.NodeType == ExpressionType.NewArrayInit)
             {
-                return node.As<NewArrayExpression>().Expressions.Any(e => e.BelongsToParameter(type));
+                return node.CastAs<NewArrayExpression>().Expressions.Any(e => e.BelongsToParameter(type));
             }
             return false;
         }
@@ -101,10 +101,10 @@ namespace System.Linq.Expressions
             switch (node.NodeType)
             {
                 case ExpressionType.MemberAccess:
-                    parent= node.As<MemberExpression>().Expression;
+                    parent= node.CastAs<MemberExpression>().Expression;
                     break;
                 case ExpressionType.Call:
-                    var m = node.As<MethodCallExpression>();
+                    var m = node.CastAs<MethodCallExpression>();
                     parent= m.Object;
                     if (m.HasParameterArgument(type))
                     {
@@ -194,21 +194,21 @@ namespace System.Linq.Expressions
             switch (node.NodeType)
             {
                case ExpressionType.Convert:
-                    return node.As<UnaryExpression>().Operand.GetValue();
+                    return node.CastAs<UnaryExpression>().Operand.GetValue();
                 case ExpressionType.Constant:
-                    return node.As<ConstantExpression>().Value;                    
+                    return node.CastAs<ConstantExpression>().Value;                    
                 case ExpressionType.New:
-                    return node.As<NewExpression>().CreateObject();  
+                    return node.CastAs<NewExpression>().CreateObject();  
                 case ExpressionType.MemberInit:
-                    return node.As<MemberInitExpression>().GetValue();                    
+                    return node.CastAs<MemberInitExpression>().GetValue();                    
                 case ExpressionType.NewArrayInit:
-                    return node.As<NewArrayExpression>().CreateArray();
+                    return node.CastAs<NewArrayExpression>().CreateArray();
                 case ExpressionType.MemberAccess:
-                    return node.As<MemberExpression>().GetValue();
+                    return node.CastAs<MemberExpression>().GetValue();
                 case ExpressionType.ArrayIndex:
-                    return GetArrayIndex(node.As<BinaryExpression>());
+                    return GetArrayIndex(node.CastAs<BinaryExpression>());
                 case ExpressionType.Call:
-                    return node.As<MethodCallExpression>().GetValue();
+                    return node.CastAs<MethodCallExpression>().GetValue();
             }
             throw new InvalidOperationException("You can get the value of a property,field,constant or method call");
         }
@@ -220,7 +220,7 @@ namespace System.Linq.Expressions
             {
                 throw new NotSupportedException("Only array indexes are supported");
             }
-            var arr = node.Left.GetValue().As<Array>();
+            var arr = node.Left.GetValue().CastAs<Array>();
             var idx = node.Right.GetValue();
             if (idx is int)
                 return arr.GetValue((int) idx);
@@ -280,7 +280,7 @@ namespace System.Linq.Expressions
             if (node.Member is PropertyInfo)
 #endif
             {
-                return node.Member.As<PropertyInfo>().GetValue(parentValue, null);
+                return node.Member.CastAs<PropertyInfo>().GetValue(parentValue, null);
             }
 #if !COREFX
             if (node.Member.MemberType == MemberTypes.Field)
@@ -288,7 +288,7 @@ namespace System.Linq.Expressions
             if (node.Member is FieldInfo)
 #endif
             {
-                return node.Member.As<FieldInfo>().GetValue(parentValue);
+                return node.Member.CastAs<FieldInfo>().GetValue(parentValue);
             }
            
             throw new InvalidOperationException();

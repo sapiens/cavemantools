@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -23,6 +24,7 @@ namespace System
 
         public dynamic Value
         {
+            [DebuggerStepThrough]
             get { return _value; }
             protected set
             {
@@ -35,11 +37,13 @@ namespace System
         {
             Value = value;
         }
-
+        [DebuggerStepThrough]
         public bool Is<TValue>() => !IsEmpty && (Value is TValue);
 
+        [DebuggerStepThrough]
         public TResult As<TResult>() => (TResult) Value;
 
+        [DebuggerStepThrough]
         public void When<TValue>(Action<TValue> action)
         {
             var type = typeof(TValue);

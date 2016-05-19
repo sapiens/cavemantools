@@ -190,13 +190,13 @@ namespace System.Reflection
             var prop = member as PropertyInfo;
             if (prop != null)
             {
-                member.As<PropertyInfo>().SetValue(data, value);
+                member.CastAs<PropertyInfo>().SetValue(data, value);
                 return;
             }
             var field = member as FieldInfo;
             if (field != null)
             {
-                member.As<FieldInfo>().SetValue(data, value);
+                member.CastAs<FieldInfo>().SetValue(data, value);
                 return;
             }
          

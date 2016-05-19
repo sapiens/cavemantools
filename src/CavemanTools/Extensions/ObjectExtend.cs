@@ -258,14 +258,15 @@ namespace System
         /// <typeparam name="T"></typeparam>
         /// <param name="o"></param>
         /// <returns></returns>
+       [Obsolete("Use CastAs",true)]
        public static T As<T>(this object o) where T:class 
         {
             return o as T ;
 		}
+        public static T CastAs<T>(this object o) where T:class => o as T;
 
 
-       
-        /// <summary>
+	    /// <summary>
         /// Shortcut for 'object is type'
         /// </summary>
         /// <typeparam name="T"></typeparam>
