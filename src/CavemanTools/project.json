@@ -10,24 +10,32 @@
         "summary": "Lots for extension methods for general use. Now with .NET Core support"
     },
     "dependencies": {
-        "System.Diagnostics.TraceSource": "4.0.0-rc2-24027"
+       
     },
     "frameworks": {
-       
+        "net46": {
+            "frameworkAssemblies": {
+                "System.Xml": "4.0.0.0"
+            }
+        },
         "netstandard1.5": {
             "buildOptions": {
                 "define": [ "COREFX" ]
             },
             "dependencies": {
                 "Microsoft.NETCore.App": {
-
                     "version": "1.0.0-rc2-3002702",
-
                     "type": "platform"
-
-                }
+                },
+                "System.Diagnostics.TraceSource": "4.0.0-rc2-24027"
             }
         }
+    },
+    "buildOptions": {
+        "xmlDoc": true,
+        "nowarn": [
+            "CS1591","CS1573","CS1712"
+        ],
+        "warningsAsErrors": true
     }
-    
 }

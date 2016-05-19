@@ -149,7 +149,7 @@ namespace System
 		/// </summary>
 		/// <exception cref="InvalidCastException"></exception>
 		/// <param name="data">Object to be converted</param>
-		/// <param name="tp">Type to convert to</param>
+		/// <param name="type">Type to convert to</param>
 		/// <returns></returns>
 		public static object ConvertTo(this object data, Type type)
 		{

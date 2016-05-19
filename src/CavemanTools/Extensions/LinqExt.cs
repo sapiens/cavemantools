@@ -13,10 +13,10 @@ namespace System.Linq
 		/// </summary>
 		/// <typeparam name="TSource">Sequence</typeparam>
 		/// <param name="source">Function to execute</param>
+		/// <param name="action"></param>
 		/// <returns></returns>
          [DebuggerStepThrough]
-    	public static void ForEach<TSource>(this IEnumerable<TSource> source,Action<TSource> action
-			) 
+    	public static void ForEach<TSource>(this IEnumerable<TSource> source,Action<TSource> action) 
 		{
 			if (source == null) throw new ArgumentNullException("source");
 			if (action == null) throw new ArgumentNullException("action");
@@ -26,8 +26,7 @@ namespace System.Linq
 			}
 		}
         [DebuggerStepThrough]
-         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<int,TSource> action
-             )
+         public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<int,TSource> action)
          {
              if (source == null) throw new ArgumentNullException("source");
              if (action == null) throw new ArgumentNullException("action");

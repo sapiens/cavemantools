@@ -66,7 +66,7 @@ namespace System
 		/// Returns decrypted data from Base64 string
 		/// </summary>
 		/// <param name="data">Base 64 encoded encryption</param>
-		/// <param name="salt">Salt of 16 chars</param>
+		/// <param name="key">Salt of 16 chars</param>
 		/// <exception cref="CryptographicException"></exception>
 		/// <exception cref="ArgumentOutOfRangeException"></exception>
 		/// <returns></returns>

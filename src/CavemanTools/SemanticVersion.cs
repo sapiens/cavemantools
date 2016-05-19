@@ -179,6 +179,8 @@ namespace CavemanTools
         /// Creates semantic version from Version
         /// </summary>
         /// <param name="version">The Revision number is ignored</param>
+        /// <param name="preRelease"></param>
+        /// <param name="build"></param>
         public SemanticVersion(Version version,string preRelease=null,string build=null)
         {
             Setup((uint)version.Major,(uint)version.Minor,(uint)version.Build,preRelease,build);
