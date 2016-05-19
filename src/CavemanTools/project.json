@@ -7,7 +7,7 @@
         "tags": [ "toolkit", "tools", "utility", "reflection", "guard" ],
         "projectUrl": "https://github.com/sapiens/cavemantools",
         "licenseUrl": "https://github.com/sapiens/cavemantools/blob/master/LICENSE",
-        "summary": "Lots for extension methods for general use. Now with .NET Core support"
+        "summary": "Lots of extension methods for general use. Now with .NET Core support"
     },
     "dependencies": {
        
