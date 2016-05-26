@@ -301,6 +301,14 @@ namespace System
 	    public static V Project<T, V>(this T src, Func<T, V> projection) where T : class
 	        => projection(src);
 
+        /// <summary>
+        /// Allows fluent chaining: foo.Then((Foo f)=>bar(f));
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="src"></param>
+        /// <param name="action"></param>
+        public static void Then<T>(this T src, Action<T> action) => action(src);
+
 	}
 
     
