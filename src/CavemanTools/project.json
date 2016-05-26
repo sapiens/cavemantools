@@ -34,7 +34,7 @@
 
             }
         }
-    },
+    }, 
     "buildOptions": {
         "xmlDoc": true,
         "nowarn": [
