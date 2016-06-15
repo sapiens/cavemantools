@@ -77,6 +77,8 @@ namespace System
 
         public static void MustBe<T>(this T arg, T value,string msg="",Exception ex=null) where T:IEquatable<T> 
             => arg.Must(d=>d.Equals(value),msg,ex);
+        public static void MustNotBe<T>(this T arg, T value,string msg="",Exception ex=null) where T:IEquatable<T> 
+            => arg.Must(d=>!d.Equals(value),msg,ex);
 
         public static void Must<T>(this T arg, Func<T, bool> condition, string msg=null,Exception ex=null)
         {
