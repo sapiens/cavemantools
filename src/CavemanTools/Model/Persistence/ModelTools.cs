@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using CavemanTools.Logging;
 
 namespace CavemanTools.Model.Persistence
 {
@@ -55,7 +57,7 @@ namespace CavemanTools.Model.Persistence
         [DebuggerStepThrough]
         public static async Task RetryOnException<T>(Func<Task> update,Func<T,OnExceptionAction> excHandler=null, int triesCount = 10, int wait = 150,bool throttle=true) where T : Exception
         {
-           
+            var log = $"RetryOnException<{typeof(T)}>";
             if (excHandler == null)
             {
                 excHandler = x => OnExceptionAction.IgnoreAndContinue;
@@ -73,18 +75,24 @@ namespace CavemanTools.Model.Persistence
                 }
                 try
                 {
+                    if (i > 0)
+                    {
+                        log.LogDebug($"Current retry: {i}");
+                    }
                     await update().ConfigureAwait(false);
                     break;
                 }
                 catch (T ex)
                 {
+                    log.LogDebug($"Caught exception... Retried for {i} times");
                     switch (excHandler(ex))
                     {
                         case OnExceptionAction.IgnoreAndExit:
+                            log.LogDebug($"Ignoring and exiting...");
                             return;
                         case OnExceptionAction.Throw:
                             throw;
-                  
+                            log.LogDebug($"Rethrowing...");
                         default:
                             i++;
                             break;
@@ -110,7 +118,7 @@ namespace CavemanTools.Model.Persistence
         [DebuggerStepThrough]
         public static void RetryOnException<T>(Action update, Func<T, OnExceptionAction> excHandler=null,int triesCount = 10, int wait = 100, bool throttle = true) where T : Exception
         {
-          
+            var log = $"RetryOnException<{typeof(T)}>";
             if (excHandler == null)
             {
                 excHandler = x => OnExceptionAction.IgnoreAndContinue;
@@ -128,16 +136,23 @@ namespace CavemanTools.Model.Persistence
                 }
                 try
                 {
+                    if (i > 0)
+                    {
+                        log.LogDebug($"Current retry: {i}");
+                    }
                     update();
                     break;
                 }
                 catch (T ex)
                 {
+                    log.LogDebug($"Caught exception... Retried for {i} times");
                     switch (excHandler(ex))
                     {
                         case OnExceptionAction.IgnoreAndExit:
+                            log.LogDebug($"Ignoring and exiting...");
                             return;
                         case OnExceptionAction.Throw:
+                            log.LogDebug($"Rethrowing...");
                             throw;
                        
                         default:

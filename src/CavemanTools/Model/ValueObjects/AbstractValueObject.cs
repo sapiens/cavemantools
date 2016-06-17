@@ -19,6 +19,11 @@ namespace CavemanTools.Model.ValueObjects
         protected AbstractValueObject(T value)
         {
             if (!Validate(value)) throw new ArgumentException();
+            SetValue(value);
+        }
+
+        protected virtual void SetValue(T value)
+        {
             _value = value;
         }
 
