@@ -91,8 +91,9 @@ namespace CavemanTools.Model.Persistence
                             log.LogDebug($"Ignoring and exiting...");
                             return;
                         case OnExceptionAction.Throw:
-                            throw;
                             log.LogDebug($"Rethrowing...");
+                            throw;
+                            
                         default:
                             i++;
                             break;
