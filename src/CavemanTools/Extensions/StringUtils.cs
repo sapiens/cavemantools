@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+#if !COREFX
 using System.IO.Compression;
+#endif
 using System.Linq;
 #if COREFX
 using System.Reflection;
@@ -28,7 +30,7 @@ namespace System
 	    /// <param name="data"></param>
 	    /// <returns></returns>
 	    public static byte[] ToByteArray(this string data) => Encoding.Unicode.GetBytes(data);
-	    
+#if !COREFX
 
         /// <summary>
         /// Compress using GZip
@@ -73,7 +75,7 @@ namespace System
                 return Encoding.UTF8.GetString(mso.ToArray());
             }
         }
-
+#endif
         public static string AddSlashes(this string data,bool singleQuotes=true,bool doubleQuotes=true)
 	    {
 	        if (singleQuotes)
@@ -312,7 +314,8 @@ namespace System
             return String.Format(pattern, args);
         }
 
-	    public static void ToConsole(this object text)
+#if !COREFX
+        public static void ToConsole(this object text)
 	    {
 	        Console.WriteLine(text.ToString());
 	    }
@@ -320,7 +323,7 @@ namespace System
 	    {
 	        Console.WriteLine(text);
 	    }
-            
+#endif
 
         public static T ToEnum<T>(this string value)
         {

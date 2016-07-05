@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !COREFX
+using System;
 
 namespace CavemanTools.Logging
 {
@@ -9,3 +10,4 @@ namespace CavemanTools.Logging
         }
     }
 }
+#endif

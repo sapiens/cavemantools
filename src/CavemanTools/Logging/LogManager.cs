@@ -13,6 +13,7 @@ namespace CavemanTools.Logging
             Writer = writer;
         }
 
+#if !COREFX
         /// <summary>
         /// Sets the default logger to be consoler. 
         /// Logger name is "console"
@@ -21,7 +22,7 @@ namespace CavemanTools.Logging
         {
             Writer=new ConsoleLogger();
         }
-
+#endif
         public static void OutputToTrace()
         {
             OutputTo(s=> Trace.WriteLine(s));
@@ -37,7 +38,7 @@ namespace CavemanTools.Logging
             Writer=new DeveloperLogger(writer);
         }
 
-        #region Extensions
+#region Extensions
 
         public static void Log<T>(this T source, LogLevel level, string message, params object[] args)
         {
@@ -76,7 +77,7 @@ namespace CavemanTools.Logging
         }
 
 
-        #endregion
+#endregion
 
         public static string SourceToString(object src)
         {
