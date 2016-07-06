@@ -16,10 +16,7 @@ open FileSystemHelper
 let buildDir = "./build/"
 
 
-let pkgFiles=
-    let packFilesPattern=outDir @@ "*.nupkg"
-    let ignoreSymbolsPattern=outDir @@ "*symbols.nupkg"
-    (--) !!packFilesPattern <| ignoreSymbolsPattern |> Seq.head
+
 
 
 Target "Clean" (fun _ ->  
@@ -29,9 +26,7 @@ Target "Clean" (fun _ ->
 Target "Build" (fun _ -> 
     restore projDir |> ignore
     let result= compile projDir
-    if result = 0 then trace "build ok"
-    else 
-        failwith "build failed"            
+    if result <> 0 then failwith "build failed"            
 )
  
 Target "Pack" ( fun _ ->
@@ -48,19 +43,30 @@ Target "Test" (fun _ ->
   
 )
 
-Target "Push"(fun _ -> push pkgFiles |> ignore)
+let pkgFiles= lazy(
+    let packFilesPattern=outDir @@ "*.nupkg"
+    let ignoreSymbolsPattern=outDir @@ "*symbols.nupkg"
+    let file=ignoreSymbolsPattern|> (--) !!packFilesPattern |> Seq.tryHead
+    match file with
+    | None -> traceError "wtf?"
+              ""
+    | _ ->file.Value)
+
+Target "Push"(fun _ -> push pkgFiles.Value |> ignore)
 
 Target "Local"( fun _ ->
-   !! pkgFiles |> CopyFiles localNugetRepo
+   !! pkgFiles.Value |> CopyFiles localNugetRepo
 )
 
 // Dependencies
 "Clean"
-    ==> "Test"
+    ==>"Build"
+    ==>"Test"
     ==>"Pack"
     ==>"Local"
 
 "Clean"
+    ==>"Build"
     ==>"Test"
     ==>"Pack"
     ==>"Push"
