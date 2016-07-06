@@ -16,7 +16,7 @@ open FileSystemHelper
 let buildDir = "./build/"
 
 
-let pkgFiles=
+let pkgFiles()=
     let packFilesPattern=outDir @@ "*.nupkg"
     let ignoreSymbolsPattern=outDir @@ "*symbols.nupkg"
     (--) !!packFilesPattern <| ignoreSymbolsPattern |> Seq.head
@@ -48,19 +48,21 @@ Target "Test" (fun _ ->
   
 )
 
-Target "Push"(fun _ -> push pkgFiles |> ignore)
+Target "Push"(fun _ -> pkgFiles()|> push |> ignore)
 
 Target "Local"( fun _ ->
-   !! pkgFiles |> CopyFiles localNugetRepo
+   !! pkgFiles() |> CopyFiles localNugetRepo
 )
 
 // Dependencies
 "Clean"
+    ==> "Build"
     ==> "Test"
     ==>"Pack"
     ==>"Local"
 
-"Clean"
+"Clean" 
+    ==>"Build"
     ==>"Test"
     ==>"Pack"
     ==>"Push"
