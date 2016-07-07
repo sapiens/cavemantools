@@ -16,10 +16,14 @@ open FileSystemHelper
 let buildDir = "./build/"
 
 
+
 let pkgFiles()=
     let packFilesPattern=outDir @@ "*.nupkg"
     let ignoreSymbolsPattern=outDir @@ "*symbols.nupkg"
     (--) !!packFilesPattern <| ignoreSymbolsPattern |> Seq.head
+
+
+
 
 
 Target "Clean" (fun _ ->  
@@ -29,9 +33,7 @@ Target "Clean" (fun _ ->
 Target "Build" (fun _ -> 
     restore projDir |> ignore
     let result= compile projDir
-    if result = 0 then trace "build ok"
-    else 
-        failwith "build failed"            
+    if result <> 0 then failwith "build failed"            
 )
  
 Target "Pack" ( fun _ ->
@@ -48,20 +50,23 @@ Target "Test" (fun _ ->
   
 )
 
+
 Target "Push"(fun _ -> pkgFiles()|> push |> ignore)
 
 Target "Local"( fun _ ->
-   !! pkgFiles() |> CopyFiles localNugetRepo
-)
+   !! pkgFiles() |> CopyFiles localNugetRepo)
+
+
 
 // Dependencies
+
 "Clean"
-    ==> "Build"
-    ==> "Test"
+    ==>"Build"
+    ==>"Test"
     ==>"Pack"
     ==>"Local"
 
-"Clean" 
+"Clean"
     ==>"Build"
     ==>"Test"
     ==>"Pack"
