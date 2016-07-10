@@ -31,9 +31,8 @@ Target "Clean" (fun _ ->
 )
  
 Target "Build" (fun _ -> 
-    restore projDir |> ignore
-    let result= compile projDir
-    if result <> 0 then failwith "build failed"            
+    restore projDir |> checkResult "Restore failed"
+    compile projDir |> checkResult "Build failed"     
 )
  
 Target "Pack" ( fun _ ->
@@ -46,8 +45,7 @@ Target "Pack" ( fun _ ->
 )
 
 Target "Test" (fun _ ->
-   runTests testDir
-  
+   runTests testDir |> checkResult "Tests failed"  
 )
 
 
