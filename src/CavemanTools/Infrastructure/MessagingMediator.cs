@@ -6,9 +6,6 @@ namespace CavemanTools.Infrastructure
 {
     public static class MessagingMediatorStatic
     {
-       
-
-
         /// <summary>
         /// Specify the input of a request
         /// </summary>
@@ -16,8 +13,28 @@ namespace CavemanTools.Infrastructure
         /// <param name="med"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static IHandlerResultFrom<TInput> For<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);        
-        
+        public static IHandlerResultFrom<TInput> For<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);
+
+        /// <summary>
+        /// Used as a very light in-memory command bus returning a <see cref="CommandResult"/>. 
+        /// </summary>
+        /// <typeparam name="TCommand"></typeparam>
+        /// <param name="med"></param>
+        /// <param name="cmd">command</param>
+        /// <returns></returns>
+        public static CommandResult SendCommand<TCommand>(this IMediateMessages med,TCommand cmd) => med.For(cmd).Request<CommandResult>();
+
+        /// <summary>
+        /// Used as a very light in-memory command bus returning a <see cref="CommandResult"/>. 
+        /// </summary>
+        /// <typeparam name="TCommand"></typeparam>
+        /// <param name="med"></param>
+        /// <param name="cmd">command</param>
+        /// <param name="cancel">token</param>
+        /// <returns></returns>
+        public static Task<CommandResult> SendCommandAsync<TCommand>(this IMediateMessages med,TCommand cmd,CancellationToken cancel) => med.For(cmd).RequestAsync<CommandResult>(cancel);
+
+
         class Builder<T>:IHandlerResultFrom<T>
         {
             private readonly IMediateMessages _med;
@@ -85,5 +102,6 @@ namespace CavemanTools.Infrastructure
         Task<TResult> RequestAsync<TResult>(CancellationToken token) where TResult: class;
 
     }
+
 
 }
