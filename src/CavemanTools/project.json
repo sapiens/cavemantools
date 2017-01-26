@@ -1,5 +1,5 @@
 {
-    "version": "4.5.1",
+    "version": "4.6.0",
     "description": "Evolved toolkit for developing applications faster and with less code. Includes general purpose extension methods, guard clauses, predefined value objects (PasswordHash,Email, Percentage etc) and specialized helper classes for specific tasks.",
     "authors": [ "Mihai Mogosanu" ],
     "packOptions": {

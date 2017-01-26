@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CavemanTools.Localization
 {
@@ -8,6 +9,7 @@ namespace CavemanTools.Localization
 
         public Translations(string language)
         {
+            language.MustNotBeNull();
             Language = language;
         }
     }
