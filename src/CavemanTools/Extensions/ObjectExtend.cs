@@ -287,6 +287,7 @@ namespace System
             return !Is<T>(o);
         }
 
+     
 	    public static T CreateIfNull<T>(this T instance, Action<T> config = null) where T : new()
 	    {
 	        if (instance != null)

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CavemanTools", "CavemanTools\CavemanTools.xproj", "{EF2B24C9-42E3-4885-A7A3-3FEF8A42202C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E377377B-C6AE-4B2D-8594-6EE0F4A0F1BE}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tests", "Tests\Tests.xproj", "{94E10873-4499-4B22-A916-272636E8E208}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CavemanTools", "CavemanTools\CavemanTools.csproj", "{EF2B24C9-42E3-4885-A7A3-3FEF8A42202C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{94E10873-4499-4B22-A916-272636E8E208}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
