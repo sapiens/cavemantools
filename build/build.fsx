@@ -44,18 +44,16 @@ Target "Test" (fun _ ->
 )
 
 let pkgFiles= lazy(
-    let packFilesPattern=outDir @@ "*.nupkg"
+    let packFilesPattern=outDir @@ "*.nupkg"    
     let ignoreSymbolsPattern=outDir @@ "*symbols.nupkg"
-    let file=ignoreSymbolsPattern|> (--) !!packFilesPattern |> Seq.tryHead
-    match file with
-    | None -> traceError "wtf?"
-              ""
-    | _ ->file.Value)
+    let files=ignoreSymbolsPattern|> (--) !!packFilesPattern
+    files
+    )
 
-Target "Push"(fun _ -> push pkgFiles.Value |> ignore)
+Target "Push"(fun _ -> pkgFiles.Value |> Seq.iter(fun i-> push i |> ignore)  )
 
 Target "Local"( fun _ ->
-   !! pkgFiles.Value |> CopyFiles localNugetRepo
+     pkgFiles.Value |> CopyFiles localNugetRepo
 )
 
 // Dependencies

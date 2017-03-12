@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CavemanTools")]
-[assembly: AssemblyCopyright("Copyright ©  2009-2016 Mihai Mogosanu")]
+[assembly: AssemblyCopyright("Copyright ©  2009-2017 Mihai Mogosanu")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,6 +31,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("4.6.0")]
-[assembly: AssemblyFileVersion("4.6.0")]
+[assembly: AssemblyVersion("4.7.0")]
+[assembly: AssemblyFileVersion("4.7.0")]
 
