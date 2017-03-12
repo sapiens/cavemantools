@@ -4,6 +4,11 @@ namespace CavemanTools.Model.Persistence.UniqueStore
 {
     public class UniqueValueChange
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="aspect"> Aspect of the data the value refers to. Eg: name, email</param>
         public UniqueValueChange(string value, string aspect=UniqueValue.DefaultAspect)
         {
             value.MustNotBeEmpty();
@@ -14,7 +19,11 @@ namespace CavemanTools.Model.Persistence.UniqueStore
             Aspect = aspect;
         }
 
-        public string Value { get; }   
+
+        public string Value { get; }
+        /// <summary>
+        ///  Gets aspect of the data the value refers to. Eg: name, email
+        /// </summary>
         public string Aspect { get;}
     }
 }
