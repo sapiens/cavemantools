@@ -13,26 +13,49 @@ namespace CavemanTools.Infrastructure
         /// <param name="med"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static IHandlerResultFrom<TInput> For<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);
+        internal static IHandlerResultFrom<TInput> For<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);
+
 
         /// <summary>
-        /// Used as a very light in-memory command bus returning a <see cref="CommandResult"/>. 
+        /// Used to invoke query functionality (CQRS level queries or sql query objects) which implement <see cref="IHandleQuery{TInput,TOutput}"/>
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="mediator"></param>
+        /// <param name="input">query input data</param>
+        /// <returns>query result</returns>
+        public static TResult Query<TInput, TResult>(this IMediateMessages mediator, TInput input) where TResult : class => mediator.For(input).Request<TResult>();
+
+        /// <summary>
+        /// Used to invoke query functionality (CQRS level queries or sql query objects) which implement <see cref="IHandleQueryAsync{TInput,TOutput}"/>
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="mediator"></param>
+        /// <param name="input">query input data</param>
+        /// <param name="cancel"></param>
+        /// <returns>query result</returns>
+        public static Task<TResult> QueryAsync<TInput, TResult>(this IMediateMessages mediator, TInput input,CancellationToken cancel) where TResult : class => mediator.For(input).RequestAsync<TResult>(cancel);
+
+        /// <summary>
+        /// Used as a very light in-memory command bus returning a <see cref="CommandResult"/>. Handler must implement <see cref="IHandleRequest{TInput,CommandResult}"/>
         /// </summary>
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="med"></param>
-        /// <param name="cmd">command</param>
+        /// <param name="cmd">command data</param>
         /// <returns></returns>
-        public static CommandResult SendCommand<TCommand>(this IMediateMessages med,TCommand cmd) => med.For(cmd).Request<CommandResult>();
+        public static CommandResult Execute<TCommand>(this IMediateMessages med,TCommand cmd) => med.For(cmd).Request<CommandResult>();
 
         /// <summary>
         /// Used as a very light in-memory command bus returning a <see cref="CommandResult"/>. 
+        /// Handler must implement <see cref="IHandleRequestAsync{TInput,CommandResult}"/> 
         /// </summary>
         /// <typeparam name="TCommand"></typeparam>
         /// <param name="med"></param>
         /// <param name="cmd">command</param>
         /// <param name="cancel">token</param>
         /// <returns></returns>
-        public static Task<CommandResult> SendCommandAsync<TCommand>(this IMediateMessages med,TCommand cmd,CancellationToken cancel) => med.For(cmd).RequestAsync<CommandResult>(cancel);
+        public static Task<CommandResult> ExecuteAsync<TCommand>(this IMediateMessages med,TCommand cmd,CancellationToken cancel) => med.For(cmd).RequestAsync<CommandResult>(cancel);
 
 
         class Builder<T>:IHandlerResultFrom<T>
