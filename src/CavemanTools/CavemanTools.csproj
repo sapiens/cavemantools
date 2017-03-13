@@ -22,7 +22,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <DocumentationFile>bin\Release\$(TargetFramework)\CavemanTools.xml</DocumentationFile>
-    <Version>4.7.1</Version>
+    <Version>4.7.2</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">

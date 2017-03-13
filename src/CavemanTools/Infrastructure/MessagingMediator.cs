@@ -13,7 +13,7 @@ namespace CavemanTools.Infrastructure
         /// <param name="med"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        internal static IHandlerResultFrom<TInput> For<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);
+        public static IHandlerResultFrom<TInput> For<TInput>(this IMediateMessages med, TInput input) =>new Builder<TInput>(med,input);
 
 
         /// <summary>
