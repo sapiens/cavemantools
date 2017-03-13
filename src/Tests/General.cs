@@ -22,8 +22,7 @@ namespace Tests
         [Fact]
         public void exception_log()
         {
-            LogManager.OutputToTrace();
-            this.LogError(new InvalidOperationException("something"));
+          
         }
 
        

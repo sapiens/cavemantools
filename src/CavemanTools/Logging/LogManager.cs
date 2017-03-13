@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace CavemanTools.Logging
 {
@@ -22,12 +21,12 @@ namespace CavemanTools.Logging
         {
             Writer=new ConsoleLogger();
         }
-#endif
+
         public static void OutputToTrace()
         {
-            OutputTo(s=> Trace.WriteLine(s));
+            OutputTo(s=> System.Diagnostics.Trace.WriteLine(s));
         }
-
+#endif
         /// <summary>
         /// Sends all the logging to the writer.
         /// Logger name is "devel"
