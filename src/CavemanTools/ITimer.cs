@@ -21,7 +21,8 @@ namespace CavemanTools
     {
         private Timer _timer;
         private TimerCallback _action;
-        
+        private TimeSpan _interval = -1.ToMiliseconds();
+
 
         public void Dispose()
         {
@@ -42,7 +43,16 @@ namespace CavemanTools
             IsRunning = false;
         }
 
-        public TimeSpan Interval { get; set; } = -1.ToMiliseconds();
+        public TimeSpan Interval
+        {
+            get { return _interval; }
+            set
+            {
+                if (IsRunning) throw new InvalidOperationException("You have to stop the timer first");
+                _interval = value;
+            }
+        }
+
         public void SetHandler(Action<object> action)
         {
             if (IsRunning) throw new InvalidOperationException("You have to Stop the timer, then change the handler, then start it again");
