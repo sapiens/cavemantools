@@ -41,7 +41,11 @@ namespace System
             if (source.IsNullOrEmpty() || !Regex.IsMatch(source,regex,options)) throw new FormatException(string.Format("Argument doesn't match expression '{0}'",regex));
         }
 
-       
+
+        public static void MustBeNone<T>(this IEnumerable<T> data, Func<T,bool> predicate, Exception ex = null, string paramName = "")
+        {
+            if (data.Any(predicate)) throw ex ?? new ArgumentException($" All elements of {paramName??"argument"} must not satisfy he given condition");
+        }
 
         /// <summary>
         /// Throws if the value can't be used as-is in an url
