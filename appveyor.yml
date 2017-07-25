@@ -1,0 +1,57 @@
+version: 4.9.0.{build}
+
+skip_tags: true
+
+image: Visual Studio 2017
+
+configuration: Release
+
+assembly_info:
+
+  patch: true
+
+  file: '**\AssemblyInfo.*'
+
+  assembly_version: '{version}'
+
+  assembly_file_version: '{version}'
+
+  assembly_informational_version: '{version}'
+
+before_build:
+
+- ps: dotnet restore src\
+
+build:
+
+  verbosity: minimal
+
+after_build:
+
+- ps: msbuild /t:pack src\CavemanTools
+
+test_script:
+
+- ps: dotnet test src\tests\tests.csproj
+
+artifacts:
+
+- path: '**\*.nupkg'
+
+  name: nuget
+
+before_deploy:
+
+- ps: 
+
+deploy:
+
+- provider: NuGet
+
+  api_key:
+
+    secure: UV4wi5mwnxKE84Iq66ICuliIpB58Gl9siNdPMNv6mh7HsAAscGH65AeeDUSA1K2wX0mN40KnKJcKJmly1kCgCcA2zTvXU13taZj3kbHOWd8=
+
+  on:
+
+    branch: master
