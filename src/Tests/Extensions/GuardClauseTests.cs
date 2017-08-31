@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using FluentAssertions;
 using Xunit;
 
 namespace Tests.Extensions
@@ -25,6 +26,18 @@ namespace Tests.Extensions
             Assert.Throws<ArgumentException>(() => 2.Must(i => i > 3, "Argument must > 3"));
         }
 
-       
+        [Fact]
+        public void must_be_at_least_3()
+        {
+            5.MustBeAtLeast(1);
+            (-1).Invoking(d => d.MustBeAtLeast(3)).ShouldThrow<ArgumentException>();
+        }
+
+        [Fact]
+        public void must_be_greater_than_0()
+        {
+            4.MustBeGreaterThan0();
+            0.Invoking(d => d.MustBeGreaterThan0()).ShouldThrow<ArgumentException>();
+        }
     }
 }

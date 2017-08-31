@@ -160,6 +160,53 @@ namespace System
             }            
         }
 
+        public static void MustBeAtLeast(this int value, int limit,string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  should be at least {limit}");
+            if (value < limit) throw ex;
+        }
+        
+        public static void MustBeBetween(this DateTime value, DateTime start, DateTime end,string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  should be between {start} and {end}");
+            if (!(value >=start && value <=end)) throw ex;
+        }
+        
+        public static void MustBeBetween(this DateTimeOffset value, DateTimeOffset start, DateTimeOffset end,string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  should be between {start} and {end}");
+            if (!(value >=start && value <=end)) throw ex;
+        }
+        
+        public static void MustBeAtLeast(this decimal value, decimal limit,string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  should be at least {limit}");
+            if (value < limit) throw ex;
+        }
+        
+        public static void MustBeAtLeast(this DateTime value, DateTime limit,string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  should be at least {limit}");
+            if (value < limit) throw ex;
+        }
+        
+        public static void MustBeAtLeast(this DateTimeOffset value, DateTimeOffset limit,string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  should be at least {limit}");
+            if (value < limit) throw ex;
+        }
+        
+        public static void MustBeGreaterThan0(this int value, string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  must be greater than 0");
+            if (value <= 0) throw ex;
+        }
+        public static void MustBeGreaterThan0(this decimal value, string varName=null,Exception ex=null)
+        {
+            ex = ex ?? new ArgumentException($"Value of {varName ?? "argument"}  must be greater than 0");
+            if (value <= 0) throw ex;
+        }
+        
         public static void MustBeGeneric(this Type type)
         {
 #if COREFX

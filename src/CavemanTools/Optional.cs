@@ -24,6 +24,8 @@ namespace System
         {
             Value = value;
         }
+        public static implicit operator Optional<T>(T d)  => new Optional<T>(d);
+
     }
     
 }
