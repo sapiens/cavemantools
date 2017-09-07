@@ -173,7 +173,7 @@ namespace CavemanTools
             using (var pbkdf2 = new Rfc2898DeriveBytes(data, salt, iterations))
             {
                 return  pbkdf2.GetBytes(KeySize);
-            };
+            }
             
         }
 

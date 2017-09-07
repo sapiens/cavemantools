@@ -25,7 +25,11 @@ namespace System
             Value = value;
         }
         public static implicit operator Optional<T>(T d)  => new Optional<T>(d);
-
+        public static implicit operator T(Optional<T> d)
+        {
+            if (d.IsEmpty) throw new InvalidOperationException("Optional value is empty!");
+            return d.Value;
+        }
     }
     
 }
