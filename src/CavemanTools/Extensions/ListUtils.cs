@@ -26,50 +26,50 @@ namespace System.Collections.Generic
 	public static class ListUtils
 	{
 
-	    /// <summary>
+		/// <summary>
 		/// Checks if 2 enumerables have the same elements in the same order
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="first"></param>
 		/// <param name="second"></param>
 		/// <returns></returns>
-        public static bool HasTheSameElementsAs<T>(this IEnumerable<T> first,IEnumerable<T> second)
+		public static bool HasTheSameElementsAs<T>(this IEnumerable<T> first, IEnumerable<T> second)
 		{
-		    first.MustNotBeNull();
-            second.MustNotBeNull();
+			first.MustNotBeNull();
+			second.MustNotBeNull();
 
-            var cnt1 = first.Count();
-		    if (cnt1 != second.Count()) return false;
-		    T item1 = default(T);
-		    T item2 = default(T);
-            for(int i=0;i<cnt1;i++)
-            {
-                item1 = first.Skip(i).Take(1).First();
-                item2 = second.Skip(i).Take(1).First();
-                if (!item1.Equals(item2)) return false;
-            }
-		    return true;
+			var cnt1 = first.Count();
+			if (cnt1 != second.Count()) return false;
+			T item1 = default(T);
+			T item2 = default(T);
+			for (int i = 0; i < cnt1; i++)
+			{
+				item1 = first.Skip(i).Take(1).First();
+				item2 = second.Skip(i).Take(1).First();
+				if (!item1.Equals(item2)) return false;
+			}
+			return true;
 		}
 
-      
-        /// <summary>
+
+		/// <summary>
 		/// Compares two sequences and returns the added or removed items.
 		/// </summary>
 		/// <typeparam name="T">Implements IEquatable</typeparam>
 		/// <param name="fresh">Recent sequence</param>
 		/// <param name="old">Older sequence used as base of comparison</param>
 		/// <returns></returns>
-		public static IModifiedSet<T> Diff<T>(this IEnumerable<T> fresh, IEnumerable<T> old)	where T:IEquatable<T>
+		public static IModifiedSet<T> Diff<T>(this IEnumerable<T> fresh, IEnumerable<T> old) where T : IEquatable<T>
 		{
 			if (fresh == null) throw new ArgumentNullException("fresh");
 			if (old == null) throw new ArgumentNullException("old");
 			var mods = new ModifiedSet<T>();
-			
+
 			foreach (var item in old)
 			{
 				if (!fresh.Contains(item)) mods.RemovedItem(item);
 			}
-			
+
 			foreach (var item in fresh)
 			{
 				if (!old.Contains(item)) mods.AddedItem(item);
@@ -77,33 +77,33 @@ namespace System.Collections.Generic
 			return mods;
 		}
 
-	    /// <summary>
-	    /// Compares two sequences and returns the added or removed items.
-	    /// Use this when T doesn't implement IEquatable
-	    /// </summary>
-	    /// <typeparam name="T">Type</typeparam>
-	    /// <param name="fresh">Recent sequence</param>
-	    /// <param name="old">Older sequence used as base of comparison</param>
-	    /// <param name="match">function to check equality</param>
-	    /// <returns></returns>
-	    public static IModifiedSet<T> Compare<T>(this IEnumerable<T> fresh, IEnumerable<T> old,Func<T,T,bool> match)
-        {
-            if (fresh == null) throw new ArgumentNullException("fresh");
-            if (old == null) throw new ArgumentNullException("old");
-            if (match == null) throw new ArgumentNullException("match");
-            var mods = new ModifiedSet<T>();
+		/// <summary>
+		/// Compares two sequences and returns the added or removed items.
+		/// Use this when T doesn't implement IEquatable
+		/// </summary>
+		/// <typeparam name="T">Type</typeparam>
+		/// <param name="fresh">Recent sequence</param>
+		/// <param name="old">Older sequence used as base of comparison</param>
+		/// <param name="match">function to check equality</param>
+		/// <returns></returns>
+		public static IModifiedSet<T> Compare<T>(this IEnumerable<T> fresh, IEnumerable<T> old, Func<T, T, bool> match)
+		{
+			if (fresh == null) throw new ArgumentNullException("fresh");
+			if (old == null) throw new ArgumentNullException("old");
+			if (match == null) throw new ArgumentNullException("match");
+			var mods = new ModifiedSet<T>();
 
-            foreach (var item in old)
-            {
-                if (!fresh.Any(d=>match(d,item))) mods.RemovedItem(item);
-            }
+			foreach (var item in old)
+			{
+				if (!fresh.Any(d => match(d, item))) mods.RemovedItem(item);
+			}
 
-            foreach (var item in fresh)
-            {
-                if (!old.Any(d=>match(d,item))) mods.AddedItem(item);
-            }
-            return mods;
-        }
+			foreach (var item in fresh)
+			{
+				if (!old.Any(d => match(d, item))) mods.AddedItem(item);
+			}
+			return mods;
+		}
 
 		/// <summary>
 		/// Compares two sequences and returns the result.
@@ -115,7 +115,8 @@ namespace System.Collections.Generic
 		/// <param name="detectChange">Delegate to determine if the items are identical.
 		/// First parameter is new item, second is the item used as base for comparison</param>
 		/// <returns></returns>
-		public static IModifiedSet<T> WhatChanged<T>(this IEnumerable<T> fresh, IEnumerable<T> old,Func<T,T,bool> detectChange) where T : IEquatable<T>
+		public static IModifiedSet<T> WhatChanged<T>(this IEnumerable<T> fresh, IEnumerable<T> old,
+			Func<T, T, bool> detectChange) where T : IEquatable<T>
 		{
 			if (fresh == null) throw new ArgumentNullException("fresh");
 			if (old == null) throw new ArgumentNullException("old");
@@ -124,69 +125,69 @@ namespace System.Collections.Generic
 
 			foreach (var item in old)
 			{
-				if (!fresh.Any(d=> d.Equals(item))) mods.RemovedItem(item);
+				if (!fresh.Any(d => d.Equals(item))) mods.RemovedItem(item);
 			}
 
 			foreach (var item in fresh)
 			{
-				if (!old.Any(d=>d.Equals(item))) mods.AddedItem(item);
+				if (!old.Any(d => d.Equals(item))) mods.AddedItem(item);
 				else
 				{
-					var oldItem = old.First(d => d.Equals(item));	
-					if (detectChange(item,oldItem))
-					{						
-						mods.ModifiedItem(oldItem,item);
+					var oldItem = old.First(d => d.Equals(item));
+					if (detectChange(item, oldItem))
+					{
+						mods.ModifiedItem(oldItem, item);
 					}
 				}
 			}
 			return mods;
 		}
 
-        /// <summary>
-        /// Updates the old collection with new items, while removing the inexistent.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="old"></param>
-        /// <param name="fresh"></param>
-        /// <returns></returns>
-        public static void Update<T>(this IList<T> old,IEnumerable<T> fresh) where T:IEquatable<T>
-        {
-            if (old == null) throw new ArgumentNullException("old");
-            if (fresh == null) throw new ArgumentNullException("fresh");
-            var diff = fresh.Diff(old);
-            foreach (var item in diff.Removed)
-            {
-                old.Remove(item);
-            }
-            foreach (var item in diff.Added)
-            {
-                old.Add(item);
-            }          
-        }
+		/// <summary>
+		/// Updates the old collection with new items, while removing the inexistent.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="old"></param>
+		/// <param name="fresh"></param>
+		/// <returns></returns>
+		public static void Update<T>(this IList<T> old, IEnumerable<T> fresh) where T : IEquatable<T>
+		{
+			if (old == null) throw new ArgumentNullException("old");
+			if (fresh == null) throw new ArgumentNullException("fresh");
+			var diff = fresh.Diff(old);
+			foreach (var item in diff.Removed)
+			{
+				old.Remove(item);
+			}
+			foreach (var item in diff.Added)
+			{
+				old.Add(item);
+			}
+		}
 
-        /// <summary>
-        /// Updates the old collection with new items, while removing the inexistent.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="old"></param>
-        /// <param name="fresh"></param>
-        /// <returns></returns>
-        public static void Update<T>(this IList<T> old, IEnumerable<T> fresh,Func<T,T,bool> isEqual)
-        {
-            if (old == null) throw new ArgumentNullException("old");
-            if (fresh == null) throw new ArgumentNullException("fresh");
-            var diff = fresh.Compare(old,isEqual);
-            
-            foreach (var item in diff.Removed)
-            {
-                var i = old.Where(d => isEqual(d, item)).Select((d,idx)=>idx).First();
-                old.RemoveAt(i);
-            }
-            foreach (var item in diff.Added)
-            {
-                old.Add(item);
-            }
-        }
+		/// <summary>
+		/// Updates the old collection with new items, while removing the inexistent.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="old"></param>
+		/// <param name="fresh"></param>
+		/// <returns></returns>
+		public static void Update<T>(this IList<T> old, IEnumerable<T> fresh, Func<T, T, bool> isEqual)
+		{
+			if (old == null) throw new ArgumentNullException("old");
+			if (fresh == null) throw new ArgumentNullException("fresh");
+			var diff = fresh.Compare(old, isEqual);
+
+			foreach (var item in diff.Removed)
+			{
+				var i = old.Where(d => isEqual(d, item)).Select((d, idx) => idx).First();
+				old.RemoveAt(i);
+			}
+			foreach (var item in diff.Added)
+			{
+				old.Add(item);
+			}
+		}
 
 		/// <summary>
 		/// Checks if a collection is null or empty duh!
@@ -199,45 +200,63 @@ namespace System.Collections.Generic
 			return items == null || !items.Any();
 		}
 
-	    public static bool HasItems<T>(this IEnumerable<T> items)
-	    {
-	        return !items.IsNullOrEmpty();
-	    }
+		public static bool HasItems<T>(this IEnumerable<T> items)
+		{
+			return !items.IsNullOrEmpty();
+		}
 
-        /// <summary>
-        /// Gets typed value from dictionary or a default value if key is missing
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dic"></param>
-        /// <param name="key"></param>
-        /// <param name="defValue">Value to return if dictionary doesn't contain the key</param>
-        /// <returns></returns>
-        public static T GetValue<T>(this IDictionary<string,object> dic,string key,T defValue=default(T))
-        {
-            if (dic.ContainsKey(key)) return (T)dic[key];
-            return defValue;
-        }
+		/// <summary>
+		/// Gets typed value from dictionary or a default value if key is missing
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="dic"></param>
+		/// <param name="key"></param>
+		/// <param name="defValue">Value to return if dictionary doesn't contain the key</param>
+		/// <returns></returns>
+		public static T GetValue<T>(this IDictionary<string, object> dic, string key, T defValue = default(T))
+		{
+			if (dic.ContainsKey(key)) return (T) dic[key];
+			return defValue;
+		}
 
-        public static bool AddIfNotPresent<T>(this IList<T> list, T item)
-        {
-            list.MustNotBeNull();
-            if (!list.Contains(item))
-            {
-                list.Add(item);
-                return true;
-            }
-            return false;
-        }
+		public static bool AddIfNotPresent<T>(this IList<T> list, T item)
+		{
+			list.MustNotBeNull();
+			if (!list.Contains(item))
+			{
+				list.Add(item);
+				return true;
+			}
+			return false;
+		}
 
-	    public static void AddIfNotPresent<T>(this IList<T> list, IEnumerable<T> items)
-	    {
-	        foreach (var item in items)
-	        {
-	            AddIfNotPresent(list,item);
-	        }
-	    }
+		public static void AddIfNotPresent<T>(this IList<T> list, IEnumerable<T> items)
+		{
+			foreach (var item in items)
+			{
+				AddIfNotPresent(list, item);
+			}
+		}
 
-        /// <summary>
+		/// <summary>
+		/// Removes all items matched by predicate
+		///  Returns number of items removed
+		/// </summary>
+		/// <param name="dic"></param>
+		/// <param name="predicate"></param>
+		/// <typeparam name="K"></typeparam>
+		/// <typeparam name="V"></typeparam>
+		/// <returns></returns>
+		public static int RemoveAll<K, V>(this IDictionary<K, V> dic, Func<KeyValuePair<K, V>, bool> predicate)
+		{
+			predicate.MustNotBeNull();
+			dic.MustNotBeNull();
+			var keys = dic.TakeWhile(predicate).ToArray();
+			foreach (var kv in keys) dic.Remove(kv);
+			return keys.Length;
+		}
+
+	/// <summary>
         /// Returns number of items removed
         /// </summary>
         /// <typeparam name="T"></typeparam>
