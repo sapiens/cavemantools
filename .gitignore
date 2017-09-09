@@ -262,6 +262,5 @@ $RECYCLE.BIN/
 *.opt
 
 src/CavemanTools/PortabilityAnalysis.html
-src/.idea/.idea.CavemanTools/.idea/workspace.xml
-src/.idea/.idea.CavemanTools/riderModule.iml
-src/.idea/.idea.CavemanTools/riderModule.iml
+
+
