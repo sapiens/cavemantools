@@ -1,4 +1,4 @@
-version: 4.10.0.{build}
+version: 4.10.1.{build}
 
 skip_tags: true
 
@@ -17,6 +17,16 @@ assembly_info:
   assembly_file_version: '{version}'
 
   assembly_informational_version: '{version}'
+
+dotnet_csproj:
+
+  patch: true
+
+  file: '**\*.csproj'
+
+  version: '{version}'
+
+  package_version: '{version}'
 
 before_build:
 
