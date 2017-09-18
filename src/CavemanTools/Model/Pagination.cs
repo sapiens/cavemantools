@@ -17,6 +17,11 @@ namespace CavemanTools.Model
             Skip = (page - 1)*pageSize;
         }
 
+        private Pagination()
+        {
+            
+        }
+        
         public static Pagination Create(long skip, int pageSize)
         {
             pageSize.Must(p => p > 0, "Page size must be a positive number");
@@ -25,7 +30,11 @@ namespace CavemanTools.Model
             {
                 page = (int)(skip / pageSize + 1);
             }
-            return new Pagination(page, pageSize);
+            var r= new Pagination();
+            r.Skip = skip;
+            r.PageSize = pageSize;
+            r.Page = page;
+            return r;
         }
     }
 }

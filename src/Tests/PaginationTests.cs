@@ -23,12 +23,12 @@ namespace Tests
             Assert.Equal(skip,p.Skip);
         }
 
-        //[Fact]
-        //public void page_from_skips()
-        //{
-        //    var p = Pagination.Create(12, 5);
-        //    Assert.Equal(2,p.Page);
-        //}
+        [Fact]
+        public void page_from_skips()
+        {
+            var p = Pagination.Create(12, 5);
+            Assert.Equal(3,p.Page);
+        }
 
         protected void Write(string format, params object[] param)
         {
