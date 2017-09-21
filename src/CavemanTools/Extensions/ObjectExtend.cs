@@ -13,12 +13,22 @@ namespace System
 	public static class ObjectExtend
 	{
 	    private static ConcurrentDictionary<Type, TypeInfo> _typeDicts;
+
 		/// <summary>
 		/// Creates dictionary from object properties.
 		/// </summary>
 		/// <param name="value">Object</param>
 		/// <returns></returns>
-		public static IDictionary<string,object> ToDictionary(this object value)
+		[Obsolete("Use ValuesToDictionary")]
+		public static IDictionary<string, object> ToDictionary(this object value) => ValuesToDictionary(value);
+		
+		
+		/// <summary>
+		/// Creates dictionary from object properties.
+		/// </summary>
+		/// <param name="value">Object</param>
+		/// <returns></returns>
+		public static IDictionary<string,object> ValuesToDictionary(this object value)
 		{
             value.MustNotBeNull();
             if (value is IDictionary<string, object>)
