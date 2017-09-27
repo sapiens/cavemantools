@@ -4,4 +4,9 @@
     {
         void Create();
     }
+
+    public interface ICreateRelationStorage : ICreateStorage
+    {
+        void Create(string schema);
+    }
 }
