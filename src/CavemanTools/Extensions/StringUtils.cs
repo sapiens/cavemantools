@@ -24,6 +24,14 @@ namespace System
 	        return hasher.ComputeHash(Encoding.Unicode.GetBytes(data));            
 	    }
 
+		public static string Strip(this string s, Func<char, bool> stripPredicate)
+		{
+			var rez = new char[s.Length];
+			for(var i=0;i<s.Length;i++) if (!stripPredicate(s[i])) rez[i] =s[i] ;
+			return new string(rez.Where(d=>d!=default(char)).ToArray());
+		}
+
+		public static string Strip(this string s, params char[] toRemove)=> s.Strip(toRemove.Contains);
 	    /// <summary>
 	    /// Get bytes from Unicode string
 	    /// </summary>

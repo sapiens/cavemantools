@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text;
+using FluentAssertions;
 using Xunit;
 
 namespace Tests.Strings
@@ -30,6 +31,15 @@ namespace Tests.Strings
         private void Write(string format, params object[] param)
         {
             Console.WriteLine(format, param);
+        }
+    }
+
+    public class StringExtTests
+    {
+        [Fact]
+        public void strip_string()
+        {
+            "12-vb22  ;".Strip('-', ' ', ';').Should().Be("12vb22");
         }
     }
 }

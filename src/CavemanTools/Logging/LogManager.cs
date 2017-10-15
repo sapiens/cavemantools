@@ -11,7 +11,6 @@ namespace CavemanTools.Logging
             writer.MustNotBeNull();
             Writer = writer;
         }
-
 #if !COREFX
         /// <summary>
         /// Sets the default logger to be consoler. 
@@ -24,7 +23,7 @@ namespace CavemanTools.Logging
 
         public static void OutputToTrace()
         {
-            OutputTo(s=> System.Diagnostics.Trace.WriteLine(s));
+            OutputTo(s=>System.Diagnostics.Trace.WriteLine(s));
         }
 #endif
         /// <summary>
