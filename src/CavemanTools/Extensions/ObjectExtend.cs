@@ -23,6 +23,8 @@ namespace System
 		public static IDictionary<string, object> ToDictionary(this object value) => ValuesToDictionary(value);
 		
 		
+		public  static Optional<T> ToOptional<T>(this T obj) where T:class => new Optional<T>(obj);
+		
 		/// <summary>
 		/// Creates dictionary from object properties.
 		/// </summary>
