@@ -20,6 +20,20 @@ namespace System
         [DebuggerStepThrough]
         public T ValueOr(T other) => Value??other;
 
+        public Optional<V> Map<V>(Func<T, V> mapper) where V : class
+        {
+            if (Value==null) return Optional<V>.Empty;
+            return new Optional<V>(mapper(Value));
+        }
+
+        public V? MapValue<V>(Func<T, V> mapper) where V : struct
+        {
+            if (Value == null) return null;
+            return mapper(Value);
+        }
+
+        public void Execute(Action<T> action) => action?.Invoke(Value);
+        
         public Optional(T value)
         {
             Value = value;

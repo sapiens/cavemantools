@@ -38,9 +38,7 @@ namespace System.Linq
              }
          }
 
-
-
-        /// <summary>
+		/// <summary>
         /// Tries to cast each item to the specified type. If it fails,  it just ignores the item
         /// </summary>
         /// <typeparam name="T"></typeparam>
