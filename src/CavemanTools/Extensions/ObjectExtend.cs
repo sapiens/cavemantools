@@ -323,6 +323,8 @@ namespace System
         /// <param name="src"></param>
         /// <param name="action"></param>
         public static void Then<T>(this T src, Action<T> action) => action(src);
+		
+		public static T[] AsArray<T>(this T item) => new[] {item};
 
 	}
 
