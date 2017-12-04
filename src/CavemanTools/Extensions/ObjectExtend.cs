@@ -311,7 +311,10 @@ namespace System
             return instance;
 	    }
 
-	    public static V Project<T, V>(this T src, Func<T, V> projection)=> projection(src);
+	    public static V Pipe<T, V>(this T src, Func<T, V> projection)=> projection(src); 
+		
+		[Obsolete("Use Pipe")]
+		public static V Project<T, V>(this T src, Func<T, V> projection)=> projection(src);
 
         /// <summary>
         /// Allows fluent chaining: foo.Then((Foo f)=>bar(f));
