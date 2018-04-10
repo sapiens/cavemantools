@@ -8,10 +8,11 @@ namespace CavemanTools.Model.Persistence
     /// </summary>
     public class IdempotencyId
     {
-        public static readonly IdempotencyId Empty=new IdempotencyId() ;
-        public bool IsEmpty() => OperationId == Guid.Empty && ModelIdentifier==null;
+        public static readonly IdempotencyId Empty = new IdempotencyId();
+        public bool IsEmpty() => OperationId == Guid.Empty && ModelIdentifier == null;
 
         public Guid OperationId { get; set; }
+
         /// <summary>
         /// Its actually an identifier of the entity/model/event involved
         /// </summary>
@@ -22,7 +23,7 @@ namespace CavemanTools.Model.Persistence
         /// </summary>
         /// <param name="operationId"></param>
         /// <param name="modelIdentifier">Identifier of the entity/model/event involved</param>
-        public IdempotencyId(Guid operationId,string modelIdentifier)
+        public IdempotencyId(Guid operationId, string modelIdentifier)
         {
             modelIdentifier.MustNotBeEmpty();
             OperationId = operationId;
@@ -31,7 +32,7 @@ namespace CavemanTools.Model.Persistence
 
         private IdempotencyId()
         {
-            
+
         }
 
         /// <summary>
@@ -41,4 +42,21 @@ namespace CavemanTools.Model.Persistence
         public string GetStorableHash() => (OperationId + ModelIdentifier).MurmurHash().ToBase64();
 
     }
+
+    public class ConcurrencyException : Exception
+    {
+        public ConcurrencyException()
+        {
+
+        }
+
+        public ConcurrencyException(string msg) : base(msg)
+        {
+
+        }
+    }
 }
+    
+    
+    
+    
