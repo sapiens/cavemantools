@@ -31,7 +31,7 @@ namespace Tests.Lists
         [Fact]
         public void setting_null_values_is_accepted()
         {
-            _kv["test"].Invoking(d=>d.Add(null)).ShouldNotThrow();            
+            _kv["test"].Invoking(d=>d.Add(null)).Should().NotThrow();            
         }
 
         [Fact]

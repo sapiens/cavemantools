@@ -1,25 +1,20 @@
 using System.Collections.Concurrent;
-#if !COREFX
+
 using System.Reflection.Emit;
-using System.Diagnostics;
 using System.Linq.Expressions;
-#endif
+
 namespace System.Reflection
 {
     public static class ReflectionUtils
     {
 
-#if COREFX
+
         public static bool IsClass(this Type type) => type.GetTypeInfo().IsClass;
         public static bool IsValueType(this Type type) => type.GetTypeInfo().IsValueType;            
         public static bool IsEnum(this Type type) => type.GetTypeInfo().IsEnum;            
       
 
-#else
-        public static bool IsClass(this Type type) => type.IsClass;
-        public static bool IsValueType(this Type type) => type.IsValueType;
-        public static bool IsEnum(this Type type) => type.IsEnum;
-#endif
+
 
         /// <summary>
         /// Returns the assembly version
@@ -45,85 +40,92 @@ namespace System.Reflection
             if (tp == null) throw new ArgumentException("Property doesn't exist.", "propertyName");
             return tp.GetValue(null, null).ConvertTo<T>();
         }
-#if !COREFX
+
         private delegate void Setter(object dest, object value);
 
-        private static ConcurrentDictionary<int, Setter> _cache;
+     //   private static ConcurrentDictionary<int, Setter> _cache;
         //static object setLock=new object();
 
-        /// <summary>
-        /// Fast setter. aprox 8x faster than simple Reflection
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="value"></param>
-        public static void SetValueFast(this PropertyInfo p, object a, object value)
-        {
-            Setter inv = null;
+        ///// <summary>
+        ///// Fast setter. aprox 8x faster than simple Reflection
+        ///// </summary>
+        ///// <param name="a"></param>
+        ///// <param name="value"></param>
+        //public static void SetValueFast(this PropertyInfo p, object a, object value)
+        //{
+        //    Setter inv = null;
 
-            if (_cache == null)
-            {
-                _cache = new ConcurrentDictionary<int, Setter>();
-            }
-            var key = p.GetHashCode();
+        //    if (_cache == null)
+        //    {
+        //        _cache = new ConcurrentDictionary<int, Setter>();
+        //    }
+        //    var key = p.GetHashCode();
 
-            if (!_cache.TryGetValue(key, out inv))
-            {
-                var mi = p.GetSetMethod();                
+        //    if (!_cache.TryGetValue(key, out inv))
+        //    {
+        //        var mi = p.GetSetMethod();                
 
-                
+        //        var exp=Expression.Block()
 
-                DynamicMethod met = new DynamicMethod("set_" + key, typeof(void), new[] { typeof(object), typeof(object) }, typeof(ObjectExtend).Module, true);
-                var il = met.GetILGenerator();
-                il.Emit(OpCodes.Ldarg_0);//instance           
-                il.Emit(OpCodes.Ldarg_1);//value
-                if (p.PropertyType.IsValueType)
-                {
-                    il.Emit(OpCodes.Unbox_Any, p.PropertyType);
-                }
-                il.Emit(OpCodes.Call, mi);
-                il.Emit(OpCodes.Ret);
-                inv = (Setter)met.CreateDelegate(typeof(Setter));
+        //        DynamicMethod met = new DynamicMethod("set_" + key, typeof(void), new[] { typeof(object), typeof(object) }, typeof(ObjectExtend).Module, true);
+        //        var il = met.GetILGenerator();
+        //        il.Emit(OpCodes.Ldarg_0);//instance           
+        //        il.Emit(OpCodes.Ldarg_1);//value
+        //        if (p.PropertyType.IsValueType)
+        //        {
+        //            il.Emit(OpCodes.Unbox_Any, p.PropertyType);
+        //        }
+        //        il.Emit(OpCodes.Call, mi);
+        //        il.Emit(OpCodes.Ret);
+        //        inv = (Setter)met.CreateDelegate(typeof(Setter));
 
-        _cache.TryAdd(key, inv);
+        //_cache.TryAdd(key, inv);
 
-            }
+        //    }
 
 
-            inv(a, value);
-        }
+        //    inv(a, value);
+        //}
 
-        private static ConcurrentDictionary<int, Func<object, object>> _cacheGet;
+        //private static ConcurrentDictionary<int, Func<object, object>> _cacheGet;
 
-        /// <summary>
-        /// Fast getter. aprox 5x faster than simple Reflection, aprox. 10x slower than manual get
-        /// </summary>
-        /// <param name="a"></param>	      
-        public static object GetValueFast(this PropertyInfo p, object a)
-        {
-            Func<object, object> inv = null;
-            if (_cacheGet == null)
-            {
-                _cacheGet = new ConcurrentDictionary<int, Func<object, object>>();
-            }
-            var key = p.GetHashCode();
+        ///// <summary>
+        ///// Fast getter. aprox 5x faster than simple Reflection, aprox. 10x slower than manual get
+        ///// </summary>
+        ///// <param name="a"></param>	      
+        //public static object GetValueFast<T>(this PropertyInfo p, T a)
+        //{
             
-            if (!_cacheGet.TryGetValue(key, out inv))
-            {
-                var mi = p.GetGetMethod();
-                DynamicMethod met = new DynamicMethod("get_" + key, typeof(object), new[] { typeof(object) }, typeof(ObjectExtend).Module, true);
-                var il = met.GetILGenerator();
-                il.Emit(OpCodes.Ldarg_0);//instance           
-                il.Emit(OpCodes.Call, mi);//call getter
-                if (p.PropertyType.IsValueType) il.Emit(OpCodes.Box, p.PropertyType);
-                il.Emit(OpCodes.Ret);
-                inv = (Func<object, object>)met.CreateDelegate(Expression.GetFuncType(typeof(object), typeof(object)));
-                _cacheGet.TryAdd(key, inv);
+        //    if (_cacheGet == null)
+        //    {
+        //        _cacheGet = new ConcurrentDictionary<int, Func<object, object>>();
+        //    }
 
-            }
+            
 
-            return inv(a);
-        }
-#endif
+
+        //    var key = p.GetHashCode();
+            
+        //    if (!_cacheGet.TryGetValue(key, out var inv))
+        //    {
+        //        //var mi = p.GetGetMethod();
+        //        //DynamicMethod met = new DynamicMethod("get_" + key, typeof(object), new[] { typeof(object) }, typeof(ObjectExtend).Module, true);
+        //        //var il = met.GetILGenerator();
+        //        //il.Emit(OpCodes.Ldarg_0);//instance           
+        //        //il.Emit(OpCodes.Call, mi);//call getter
+        //        //if (p.PropertyType.IsValueType) il.Emit(OpCodes.Box, p.PropertyType);
+        //        //il.Emit(OpCodes.Ret);
+        //        //inv = (Func<object, object>)met.CreateDelegate(Expression.GetFuncType(typeof(object), typeof(object)));
+        //        var param = Expression.Parameter(a.GetType());
+        //        var body = Expression.MakeMemberAccess(param, p);
+        //        inv = (Func<object, object>) Expression.Lambda(body, param).Compile();
+        //        _cacheGet.TryAdd(key, inv);
+
+        //    }
+
+        //    return inv(a);
+        //}
+
         /// <summary>
         /// Gets delegate to quickly create instances of type using public parameterless constructor.
         /// Use this only when you want to create LOTS of instances (dto scenario)
@@ -219,16 +221,16 @@ namespace System.Reflection
                                     BindingFlags.Instance | BindingFlags.Public);
             if (pi == null) throw new ArgumentException("Property doesn't exist.", "property");
 
-#if COREFX
+
             return pi.GetValue(@object);
 
-#else
+
                   return pi.GetValueFast(@object);
-#endif
+
         }
   
 
-#if !COREFX
+
         /// <summary>
         /// Gets the file version of current executing assembly
         /// </summary>
@@ -247,6 +249,6 @@ namespace System.Reflection
             return Assembly.GetCallingAssembly().GetName().Version;
         }
 
-#endif
+
     }
 }

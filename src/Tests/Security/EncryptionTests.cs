@@ -22,7 +22,7 @@ namespace Tests.Security
             var dec = enc.DecryptAsString(Key);
             test.Should().Be(dec);
             
-            enc.Invoking(d =>dec= enc.DecryptAsString("434")).ShouldThrow<CryptographicException>();
+            enc.Invoking(d =>dec= enc.DecryptAsString("434")).Should().Throw<CryptographicException>();
           
         }
 
