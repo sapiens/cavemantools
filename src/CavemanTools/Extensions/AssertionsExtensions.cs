@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-#if COREFX
+
 using System.Reflection;
-#endif
+
 using System.Text.RegularExpressions;
 
 namespace System
@@ -72,11 +72,9 @@ namespace System
             bool ex = false;
             if (value == null)
             {
-#if COREFX
+
                 if (tp.GetTypeInfo().IsClass) return;
-#else
-              if (tp.IsClass) return;
-#endif
+
 
                 ex = true;
             }
@@ -107,11 +105,9 @@ namespace System
         {
             value.MustNotBeNull("value");
             var tp = typeof (T);            
-#if COREFX
+
             if (!tp.GetTypeInfo().IsInterface) throw new ArgumentException("'{0}' is not an interface".ToFormat(tp));
-#else
-            if (!tp.IsInterface) throw new ArgumentException("'{0}' is not an interface".ToFormat(tp));
-#endif
+
             var otype = value.GetType();
             
             if (value is Type)
@@ -209,11 +205,9 @@ namespace System
         
         public static void MustBeGeneric(this Type type)
         {
-#if COREFX
+
             type.Must(t => t.GetTypeInfo().IsGenericType, "Type must be a generic type");
-#else
-            type.Must(t => t.IsGenericType, "Type must be a generic type");
-#endif
+
         }
     }
 }

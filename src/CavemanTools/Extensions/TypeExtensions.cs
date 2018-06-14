@@ -12,14 +12,14 @@ namespace System
     public static class TypeExtensions
     {
 
-#if !COREFX
+
         /// <summary>
         /// Compatibility with coreFX
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static Assembly Assembly(this Type t) => t.Assembly;
-#endif
+        public static Assembly Assembly(this Type t) => t.GetTypeInfo().Assembly;
+
           
         /// <summary>
         /// Orders an enumerable using [Order] or specified ordering function.
@@ -128,11 +128,9 @@ namespace System
         {
             type.MustNotBeNull();
             interfaceType.MustNotBeNull();
-#if COREFX
+
             if (!interfaceType.GetTypeInfo().IsInterface) throw new ArgumentException("The generic type '{0}' is not an interface".ToFormat(interfaceType));
-#else
-            if (!interfaceType.IsInterface) throw new ArgumentException("The generic type '{0}' is not an interface".ToFormat(interfaceType));
-#endif
+
             return interfaceType.IsAssignableFrom(type);
         }
 
@@ -161,17 +159,7 @@ namespace System
             return parent.IsAssignableFrom(type);
         }
 
-#if !COREFX
-        public static bool CheckIfAnonymousType(this Type type)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false)
-                && type.IsGenericType && type.Name.Contains("AnonymousType")
-                && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
-                && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
-        }
-#else
+
         public static bool CheckIfAnonymousType(this Type type)
         {
             if (type == null)
@@ -182,7 +170,7 @@ namespace System
                 && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
                 && (info.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
         }
-#endif
+
 
         public static bool ImplementsGenericInterfaceOf<T>(this Type type,
             params Type[] genericArgs)
@@ -218,38 +206,7 @@ namespace System
 
             
         }
-#if !COREFX
-        public static bool InheritsGenericType(this Type tp, Type genericType,params Type[] genericArgs)
-        {
-            tp.MustNotBeNull();
-            genericType.Must(t => t.IsGenericType, "Type must be a generic type");
-            if (tp.BaseType == null) return false;
-            
-            var baseType = tp.BaseType;
-            bool found = false;
-            if (baseType.IsGenericType)
-            {
-                if (baseType.Name == genericType.Name)
-                {
-                    var comparer = genericType.GenericTypeArguments().Any()
-               ? genericType.GenericTypeArguments()
-               : genericArgs;
-                    if (comparer.Length>0)
-                    {
-                        found = baseType.GenericTypeArguments().HasTheSameElementsAs(comparer);
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
-            }
-            if (!found) return baseType.InheritsGenericType(genericType);
-           
-            return true;
-        }
 
-#else
         public static bool InheritsGenericType(this Type tp, Type genericType, params Type[] genericArgs)
         {
             tp.MustNotBeNull();
@@ -283,7 +240,7 @@ namespace System
             return true;
         }
 
-#endif
+
 
         /// <summary>
         /// 
@@ -297,11 +254,9 @@ namespace System
         public static Type GetGenericArgument(this Type tp, int index = 0)
         {
             tp.MustNotBeNull();
-#if COREFX
+
             if (!tp.GetTypeInfo().IsGenericType) throw new InvalidOperationException("Provided type is not generic");
-#else
-            if (!tp.IsGenericType) throw new InvalidOperationException("Provided type is not generic");
-#endif
+
 
             return tp.GenericTypeArguments()[index];            
         }
@@ -421,16 +376,8 @@ namespace System
         /// </summary>
         /// <returns></returns>
         public static Version AssemblyVersion(this Type tp) =>
-#if COREFX
-            tp.GetTypeInfo().Assembly.Version();
-#else
-            tp.GetTypeInfo().Assembly.Version();
-#endif
 
-#if COREFX
-        public static Assembly Assembly(this Type type) => type.GetTypeInfo().Assembly;
-#endif
-
+            tp.GetTypeInfo().Assembly.Version();
 
 
         /// <summary>
@@ -441,21 +388,16 @@ namespace System
         public static string GetFullTypeName(this Type t)
         {
             if (t == null) throw new ArgumentNullException("t");
-#if COREFX
+
             return $"{t.FullName}, {t.Assembly().GetName().Name}";
-#else
-            return String.Format("{0}, {1}", t.FullName, Reflection.Assembly.GetAssembly(t).GetName().Name);
-#endif
+
 
         }
 
         public static object GetDefault(this Type type)
         {
-#if COREFX
             if (type.GetTypeInfo().IsValueType) return Activator.CreateInstance(type);
-#else
-             if (type.IsValueType) return Activator.CreateInstance(type);
-#endif
+
             return null;
         }
 

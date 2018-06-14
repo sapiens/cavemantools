@@ -14,15 +14,7 @@ namespace System
 	{
 	    private static ConcurrentDictionary<Type, TypeInfo> _typeDicts;
 
-		/// <summary>
-		/// Creates dictionary from object properties.
-		/// </summary>
-		/// <param name="value">Object</param>
-		/// <returns></returns>
-		[Obsolete("Use ValuesToDictionary")]
-		public static IDictionary<string, object> ToDictionary(this object value) => ValuesToDictionary(value);
-		
-		
+	
 		public  static Optional<T> ToOptional<T>(this T obj) where T:class => new Optional<T>(obj);
 		
 		/// <summary>
@@ -219,8 +211,7 @@ namespace System
                    return data.ConvertTo(under);
                }
            }
-         //  else if (type == typeof(CultureInfo)) return new CultureInfo(data.ToString());
-
+         
            return System.Convert.ChangeType(data, type);
 		}
 
@@ -264,17 +255,7 @@ namespace System
 		}
 
         
-        /// <summary>
-        /// Shorthand for lazy people to cast an object to a type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="o"></param>
-        /// <returns></returns>
-       [Obsolete("Use CastAs",true)]
-       public static T As<T>(this object o) where T:class 
-        {
-            return o as T ;
-		}
+       
         public static T CastAs<T>(this object o) where T:class => o as T;
 
 
@@ -313,9 +294,7 @@ namespace System
 
 	    public static V Pipe<T, V>(this T src, Func<T, V> projection)=> projection(src); 
 		
-		[Obsolete("Use Pipe")]
-		public static V Project<T, V>(this T src, Func<T, V> projection)=> projection(src);
-
+	
         /// <summary>
         /// Allows fluent chaining: foo.Then((Foo f)=>bar(f));
         /// </summary>

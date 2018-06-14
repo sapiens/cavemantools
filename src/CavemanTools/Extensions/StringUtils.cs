@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-#if !COREFX
 using System.IO.Compression;
-#endif
 using System.Linq;
-#if COREFX
+
 using System.Reflection;
-#endif
+
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,7 +36,7 @@ namespace System
 	    /// <param name="data"></param>
 	    /// <returns></returns>
 	    public static byte[] ToByteArray(this string data) => Encoding.Unicode.GetBytes(data);
-#if !COREFX
+
 
         /// <summary>
         /// Compress using GZip
@@ -83,7 +81,7 @@ namespace System
                 return Encoding.UTF8.GetString(mso.ToArray());
             }
         }
-#endif
+
         public static string AddSlashes(this string data,bool singleQuotes=true,bool doubleQuotes=true)
 	    {
 	        if (singleQuotes)
@@ -322,24 +320,18 @@ namespace System
             return String.Format(pattern, args);
         }
 
-#if !COREFX
-        public static void ToConsole(this object text)
+
+        public static void ToConsole<T>(this T text)
 	    {
 	        Console.WriteLine(text.ToString());
 	    }
-        public static void ToConsole(this string text)
-	    {
-	        Console.WriteLine(text);
-	    }
-#endif
+        
 
         public static T ToEnum<T>(this string value)
         {
-#if COREFX
+
             if (!(typeof(T).GetTypeInfo().IsEnum)) throw new ArgumentException("Type '{0}' is not an enum".ToFormat(typeof(T)));
-#else
-            if (!typeof(T).IsEnum) throw new ArgumentException("Type '{0}' is not an enum".ToFormat(typeof(T)));
-#endif
+
             return (T)Enum.Parse(typeof(T), value, true);
         }
 

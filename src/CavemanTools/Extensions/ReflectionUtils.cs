@@ -1,7 +1,3 @@
-using System.Collections.Concurrent;
-
-using System.Reflection.Emit;
-using System.Linq.Expressions;
 
 namespace System.Reflection
 {
@@ -225,30 +221,7 @@ namespace System.Reflection
             return pi.GetValue(@object);
 
 
-                  return pi.GetValueFast(@object);
-
         }
   
-
-
-        /// <summary>
-        /// Gets the file version of current executing assembly
-        /// </summary>
-        /// <returns></returns>
-        public static string CurrentFileVersion()
-        {
-            return FileVersionInfo.GetVersionInfo(Assembly.GetCallingAssembly().Location).FileVersion;
-        }
-
-        /// <summary>
-        /// Gets the assembly version
-        /// </summary>
-        /// <returns></returns>
-        public static Version CurrentAssemblyVersion()
-        {
-            return Assembly.GetCallingAssembly().GetName().Version;
-        }
-
-
     }
 }

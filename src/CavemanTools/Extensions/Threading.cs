@@ -15,21 +15,6 @@ namespace System.Threading.Tasks
         }
 
         /// <summary>
-        /// Thread.Sleep alternative, using Task.Delay
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="duration"></param>
-        public static void Sleep(this object item, TimeSpan duration)
-        {
-            Task.Delay(duration).Wait();
-        }
-
-        public static Task EmptyTask()
-        {
-            return Task.WhenAll();
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
