@@ -1,7 +1,7 @@
-#if !COREFX
+
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+
 using System.Text;
 
 namespace CavemanTools.Model.Validation
@@ -9,7 +9,7 @@ namespace CavemanTools.Model.Validation
 	/// <summary>
 	/// Collects error messages from validation
 	/// </summary>
-	public class DefaultValidationWrapper:IValidationDictionary, IDataErrorInfo
+	public class DefaultValidationWrapper:IValidationDictionary
 	{
 		private IDictionary<string, string> err = new Dictionary<string, string>();
 
@@ -71,4 +71,3 @@ namespace CavemanTools.Model.Validation
 		}
 	}
 }
-#endif
