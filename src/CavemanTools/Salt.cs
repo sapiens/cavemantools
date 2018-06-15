@@ -18,11 +18,9 @@ namespace CavemanTools
         {
             length.Must(d => d >= MinSize, "Salt length must be at least 8 bytes");
             var bytes = new byte[length];
-#if COREFX
+
             RandomNumberGenerator.Create().GetBytes(bytes);
-#else
-            RandomNumberGenerator.Create().GetNonZeroBytes(bytes);
-#endif
+
             return new Salt(bytes);
         }
 

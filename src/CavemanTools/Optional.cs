@@ -32,8 +32,15 @@ namespace System
             return mapper(Value);
         }
 
-        public void Execute(Action<T> action) => action?.Invoke(Value);
-        
+        /// <summary>
+        /// Executes only if it has a value
+        /// </summary>
+        /// <param name="action"></param>
+        public void Execute(Action<T> action)
+        {
+            if (HasValue) action?.Invoke(Value);
+        }
+
         public Optional(T value)
         {
             Value = value;
