@@ -1,7 +1,5 @@
 using System;
-#if COREFX
 using System.Reflection;
-#endif
 
 namespace CavemanTools.Infrastructure
 {
@@ -13,12 +11,10 @@ namespace CavemanTools.Infrastructure
         private ActivatorContainer() : base(t =>
             {
 
-#if COREFX
+
                 var ti = t.GetTypeInfo();
                 if (ti.IsInterface || ti.IsAbstract) return null;
-#else
-                if (t.IsInterface || t.IsAbstract) return null;
-#endif
+
                 var res = Activator.CreateInstance(t);
                 return res;
             })
