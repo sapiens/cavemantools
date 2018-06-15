@@ -11,7 +11,7 @@ namespace CavemanTools.Logging
             writer.MustNotBeNull();
             Writer = writer;
         }
-#if !COREFX
+
         /// <summary>
         /// Sets the default logger to be consoler. 
         /// Logger name is "console"
@@ -21,11 +21,11 @@ namespace CavemanTools.Logging
             Writer=new ConsoleLogger();
         }
 
-        public static void OutputToTrace()
+        public static void OutputToDebug()
         {
-            OutputTo(s=>System.Diagnostics.Trace.WriteLine(s));
+            OutputTo(s=>System.Diagnostics.Debug.WriteLine(s));
         }
-#endif
+
         /// <summary>
         /// Sends all the logging to the writer.
         /// Logger name is "devel"
