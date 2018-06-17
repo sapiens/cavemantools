@@ -51,9 +51,6 @@ artifacts:
 
   name: nuget
 
-before_deploy:
-
-- ps: 
 
 deploy:
 
