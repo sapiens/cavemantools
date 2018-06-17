@@ -23,7 +23,7 @@ before_build:
 skip_commits:
   files:
     - appveyor.yml
-    - *gitignore
+    - '*gitignore'
     - '**/*.md'
     - '**/*.markdown'
 build:
