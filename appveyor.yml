@@ -26,7 +26,6 @@ skip_commits:
     - *gitignore
     - '**/*.md'
     - '**/*.markdown
-
 build:
   verbosity: minimal
 
