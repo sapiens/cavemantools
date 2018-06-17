@@ -25,7 +25,7 @@ skip_commits:
     - appveyor.yml
     - *gitignore
     - '**/*.md'
-    - '**/*.markdown
+    - '**/*.markdown'
 build:
   verbosity: minimal
 
