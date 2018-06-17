@@ -78,12 +78,8 @@ namespace System.Reflection
         internal static object WrapObjectIfNeeded(object o)
         {
 
-#if COREFX
-            if (o == null || o.GetType().GetTypeInfo().IsPrimitive || o is string)
-#else
-            // Don't wrap primitive types, which don't have many interesting internal APIs
-            if (o == null || o.GetType().IsPrimitive || o is string)
-#endif
+          if (o == null || o.GetType().GetTypeInfo().IsPrimitive || o is string)
+
                 return o;
 
             return new PrivateReflectionDynamicObject() { RealObject = o };
@@ -208,16 +204,11 @@ namespace System.Reflection
             }
 
 
-#if COREFX
+
             if (type.GetTypeInfo().BaseType != null)
             {
                 foreach (IProperty prop in GetTypeProperties(type.GetTypeInfo().BaseType).Values)
-#else
-            // Finally, recurse on the base class to add its fields
-            if (type.BaseType != null)
-            {
-                foreach (IProperty prop in GetTypeProperties(type.BaseType).Values)
-#endif
+
                 {
                     typeProperties[prop.Name] = prop;
                 }
@@ -229,7 +220,7 @@ namespace System.Reflection
             return typeProperties;
         }
        
-#if COREFX
+
         private static object InvokeMemberOnType(Type type, object target, string name, object[] args)
         {
             type.MustNotBeNull();
@@ -249,32 +240,7 @@ namespace System.Reflection
             return null;        
         }
 
-#else
-        private static object InvokeMemberOnType(Type type, object target, string name, object[] args)
-        {
-            
-            try
-            {
-                // Try to incoke the method
-                return type.InvokeMember(
-                    name,
-                    BindingFlags.InvokeMethod | bindingFlags,
-                    null,
-                    target,
-                    args);
-            }
-            catch (MissingMethodException)
-            {
-                // If we couldn't find the method, try on the base class
-                if (type.BaseType != null)
-                {
-                    return InvokeMemberOnType(type.BaseType, target, name, args);
-                }
-                //quick greg hack to allow methods to not exist!
-                return null;
-            }
-        }
-#endif
+
     }
 
 
