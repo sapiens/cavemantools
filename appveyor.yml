@@ -1,12 +1,5 @@
 version: 5.0.0
 
-skip_commits:
-  files:
-    - appveyor.yml
-    - *gitignore
-    - '**/*.md'
-    - '**/*.markdown
-
 image: Visual Studio 2017
 
 configuration: Release
@@ -36,6 +29,13 @@ dotnet_csproj:
 before_build:
 
 - ps: dotnet restore src\
+
+skip_commits:
+  files:
+    - appveyor.yml
+    - *gitignore
+    - '**/*.md'
+    - '**/*.markdown
 
 build:
 
