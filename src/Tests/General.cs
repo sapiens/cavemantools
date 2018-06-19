@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using CavemanTools.Logging;
+
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Tests
 {
@@ -9,11 +10,12 @@ namespace Tests
   
     public class General
     {
+        private readonly ITestOutputHelper _h;
         private Stopwatch _t = new Stopwatch();
       
-        public General()
+        public General(ITestOutputHelper h)
         {
-            
+            _h = h;
         }
 
      
@@ -22,6 +24,7 @@ namespace Tests
         [Fact]
         public void exception_log()
         {
+            _h.WriteLine("testing");
           
         }
 
