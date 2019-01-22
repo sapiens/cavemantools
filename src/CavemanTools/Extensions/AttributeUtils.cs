@@ -17,7 +17,17 @@ namespace System.Reflection
         }
 
         public static bool HasCustomAttribute<T>(this Type tp, Func<T, bool> condition = null, bool inherit = true) where T : Attribute
-            =>tp.GetTypeInfo().HasCustomAttribute<T>(condition,inherit);
+        {
+            condition=condition??(t=> true);
+            var a = tp.GetCustomAttribute<T>(inherit);
+
+            if (a != null)
+            {
+                return condition(a);
+            }
+            return false; 
+        }
+            
 
         public static bool HasCustomAttribute<T>(this MemberInfo mi, Func<T, bool> condition=null, bool inherit = true) where T : Attribute
         {

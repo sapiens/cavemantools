@@ -21,6 +21,11 @@ namespace Tests.Extensions
             dt.ConvertTo<DateTimeOffset>().Should().Be(new DateTimeOffset(dt));
         }
 
+        [Fact]
+        public void check_if_anon_type()
+        {
+            new {Id = 1}.GetType().CheckIfAnonymousType().Should().BeTrue();
+        }
 
         [Fact]
         public void convert_datetimeoffset_todatetime()
