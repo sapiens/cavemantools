@@ -194,7 +194,7 @@ namespace System.Linq.Expressions
             switch (node.NodeType)
             {
                case ExpressionType.Convert:
-                    return node.CastAs<UnaryExpression>().Operand.GetValue();
+                    return GetConvertValue(node.CastAs<UnaryExpression>());
                 case ExpressionType.Constant:
                     return node.CastAs<ConstantExpression>().Value;                    
                 case ExpressionType.New:
@@ -211,6 +211,43 @@ namespace System.Linq.Expressions
                     return node.CastAs<MethodCallExpression>().GetValue();
             }
             throw new InvalidOperationException("You can get the value of a property,field,constant or method call");
+        }
+        
+        /// <summary>
+        /// Is Enum or nullable of Enum
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsEnumType(this Type type) => type.IsEnum() || (type.IsNullable() && type.GetGenericArgument().IsEnum());
+        
+        static object GetConvertValue(UnaryExpression node)
+        {
+            var value = node.Operand.GetValue();
+          
+            if (node.Type.IsEnumType())
+            {
+                if (node.Type.IsEnum())
+                {
+                    
+                    return value is string?Enum.Parse(node.Type,value.ToString()): Enum.ToObject(node.Type, value);
+                }
+
+                //nullable
+                if(value!=null)                    
+                    return value= value is string?Enum.Parse(node.Type.GetGenericArgument(),value.ToString()): Enum.ToObject(node.Type.GetGenericArgument(), value);
+
+            }
+
+            if (value != null)
+            {
+                if (node.Type.IsNullable())
+                {
+                    Convert.ChangeType(value, node.Type.GetGenericArgument());
+                } else 
+                    return Convert.ChangeType(value, node.Type);
+            }
+            
+           return value;           
         }
 
         internal static object GetArrayIndex(BinaryExpression node)

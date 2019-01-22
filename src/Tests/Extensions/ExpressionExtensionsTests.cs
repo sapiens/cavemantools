@@ -27,9 +27,15 @@ namespace Tests.Extensions
         public bool IsActive { get; set; }
         public string Data { get; set; }
         public Guid? Uid { get; set; }
+        public TestEnum Enum { get; set; }
         public Test Child { get; set; }
     }
-    
+
+    public enum TestEnum    
+    {
+        None,First,Second
+    }
+
     public class ExpressionExtensionsTests
     {
         private Stopwatch _t = new Stopwatch();
@@ -62,6 +68,49 @@ namespace Tests.Extensions
         {
             Expression<Func<Test, bool>> data = t => t.Data == "23";
             Assert.True(ObjectExtend.CastAs<MemberExpression>(data.Body.CastAs<BinaryExpression>().Left).BelongsToParameter());
+        }
+
+        [Fact]
+        public void get_convert_nullable_enum_value()
+        {
+            var c = Expression.Convert(Expression.Constant(1), typeof(TestEnum?));
+            var v = (TestEnum?) c.GetValue();
+            Assert.True(v.Value==TestEnum.First);
+        }
+        
+        [Fact]
+        public void get_convert_nullable_enum_null_value()
+        {
+            var c = Expression.Convert(Expression.Constant(null), typeof(TestEnum?));
+            var v = (TestEnum?) c.GetValue();
+            Assert.True(v==null);
+        }
+      
+        [Fact]
+        public void get_convert_enum_value()
+        {
+            var c = Expression.Convert(Expression.Constant(1), typeof(TestEnum));
+            Assert.IsType<TestEnum>(c.GetValue());
+            var v = (TestEnum) c.GetValue();
+            Assert.True(v==TestEnum.First);
+        }
+        
+        [Fact]
+        public void get_convert_value()
+        {
+            var c = Expression.Convert(Expression.Constant(1), typeof(double));
+            var o = c.GetValue();
+            Assert.IsType<double>(o);
+          
+        }
+      
+        [Fact]
+        public void enum_is_handled_correctly()
+        {
+            TestEnum f=TestEnum.Second;            
+            Expression<Func<Test, bool>> data = t => t.Enum==f;
+            var j = data.Body.CastAs<BinaryExpression>().Right;
+            var s = j.GetValue();
         }
         
         [Fact]
