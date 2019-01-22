@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Description>Tests Class Library</Description>
     <Authors>t</Authors>
-    <TargetFramework>net4.7</TargetFramework>
+    <TargetFrameworks>netcoreapp20;net4.7</TargetFrameworks>
     <AssemblyName>Tests</AssemblyName>
     <PackageId>Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
