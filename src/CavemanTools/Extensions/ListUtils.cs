@@ -288,7 +288,7 @@ namespace System.Collections.Generic
         /// <param name="key"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-	    public static V GetValueOrDefault<T, V>(this IDictionary<T, V> dict,T key, V other = default(V))
+	    public static V GetValueOrDefaultOld<T, V>(this IDictionary<T, V> dict,T key, V other = default(V))
 	    {
 	        V val=other;
 	        if (!dict.TryGetValue(key, out val))

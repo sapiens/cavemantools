@@ -27,11 +27,11 @@ namespace CavemanTools.Infrastructure
 
         public object this[string key]
         {
-            get { return _data.GetValueOrDefault(key); }
+            get { return _data.GetValueOrDefaultOld(key); }
             set { _data[key] = value; }
         }
 
-        public T Get<T>(string key, T defValue = default(T)) => (T)_data.GetValueOrDefault(key,defValue);
+        public T Get<T>(string key, T defValue = default(T)) => (T)_data.GetValue(key,defValue);
 
     }
 }
