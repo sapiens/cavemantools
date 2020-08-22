@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CavemanTools")]
-[assembly: AssemblyCopyright("Copyright ©  2009-2017 Mihai Mogosanu")]
+[assembly: AssemblyCopyright("Copyright ©  2009-2020 Mihai Mogosanu")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
