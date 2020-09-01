@@ -9,8 +9,7 @@
     <AssemblyName>CavemanTools</AssemblyName>
     <PackageId>CavemanTools</PackageId>
     <PackageTags>toolkit;tools;utility;reflection;guard</PackageTags>
-    <PackageProjectUrl>https://github.com/sapiens/cavemantools</PackageProjectUrl>
-    <PackageLicenseExpression>https://github.com/sapiens/cavemantools/blob/master/LICENSE</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/sapiens/cavemantools</PackageProjectUrl>  
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
