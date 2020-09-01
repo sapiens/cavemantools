@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Description>Tests Class Library</Description>
     <Authors>t</Authors>
-    <TargetFrameworks>netcoreapp20;net4.7</TargetFrameworks>
+    <TargetFrameworks>netcoreapp30</TargetFrameworks>
     <AssemblyName>Tests</AssemblyName>
     <PackageId>Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
@@ -30,7 +30,7 @@
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">
     <DefineConstants>TRACE;DEBUG;netcoreapp2</DefineConstants>
   </PropertyGroup>
 </Project>

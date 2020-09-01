@@ -1,4 +1,4 @@
-version: 5.2.0
+version: 5.2.1
 
 image: Visual Studio 2017
 
@@ -38,4 +38,4 @@ artifacts:
 deploy:
 - provider: NuGet
   api_key:
-    secure: 6zFHDLM+fORKb3+N6sf/BxFt+0oNw1s0DZ0ozf1p0+nrvU16MGYf9GnklsUXWQaf
+    secure: 6W7USG8YoCPjDSV9agsMdy9P1nTzDmhv9gWoHvqtECiKNSHNYVWwf69m88S84eKv
