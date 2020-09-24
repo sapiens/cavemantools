@@ -34,8 +34,8 @@ namespace System.Reflection
                 if (!_actCache.TryGetValue(t,out inv))
                 {
 
-                var constructor = t.GetConstructor(Type.EmptyTypes) ?? t.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).First();
-
+                var constructor = t.GetConstructor(Type.EmptyTypes) ?? t.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault();
+                    constructor.MustNotBeNull($"We need a parameterless constructor on '{t.Name}'");
                     var body = Expression.New(constructor);
                     inv = Expression.Lambda<Func<object>>(body).Compile();
                     _actCache[t] = inv;
