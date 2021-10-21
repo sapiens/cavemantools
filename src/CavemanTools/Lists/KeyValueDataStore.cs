@@ -4,6 +4,7 @@ namespace System.Collections
 {
     /// <summary>
     ///  A simple bag object, where a string key can hold a list of string values
+    ///  Not thread safe
     /// </summary>
     public class KeyValueDataStore:IEnumerable<KeyValuePair<string,ICollection<string>>>
     {

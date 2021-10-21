@@ -22,6 +22,12 @@ namespace System
 	        return hasher.ComputeHash(Encoding.Unicode.GetBytes(data));            
 	    }
 
+		/// <summary>
+		/// Removes characters from string based on predicate
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="stripPredicate"></param>
+		/// <returns></returns>
 		public static string Strip(this string s, Func<char, bool> stripPredicate)
 		{
 			var rez = new char[s.Length];
@@ -29,6 +35,12 @@ namespace System
 			return new string(rez.Where(d=>d!=default(char)).ToArray());
 		}
 
+		/// <summary>
+		/// Removes specified chars from string
+		/// </summary>
+		/// <param name="s"></param>
+		/// <param name="toRemove"></param>
+		/// <returns></returns>
 		public static string Strip(this string s, params char[] toRemove)=> s.Strip(toRemove.Contains);
 	    /// <summary>
 	    /// Get bytes from Unicode string
@@ -214,7 +226,7 @@ namespace System
         /// <returns></returns>
         public static bool IsNullOrEmpty(this string data,bool checkBlancs=false)
         {
-            if (data == null) return true;
+            if (data == null) return true;		
             if (checkBlancs)
             {
                 data = data.Trim();

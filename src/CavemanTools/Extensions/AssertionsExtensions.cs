@@ -31,11 +31,6 @@ namespace System
             if (list.IsNullOrEmpty()) throw ex??new ArgumentException(msg??"The collection must contain at least one element");
         }
             
-        [Obsolete("Renamed to MustMatch")]
-        public static void MustRegex(this string source,string regex,RegexOptions options=RegexOptions.None)
-        {
-            if (source.IsNullOrEmpty() || !Regex.IsMatch(source,regex,options)) throw new FormatException(string.Format("Argument doesn't match expression '{0}'",regex));
-        }
         public static void MustMatch(this string source,string regex,RegexOptions options=RegexOptions.None)
         {
             if (source.IsNullOrEmpty() || !Regex.IsMatch(source,regex,options)) throw new FormatException(string.Format("Argument doesn't match expression '{0}'",regex));

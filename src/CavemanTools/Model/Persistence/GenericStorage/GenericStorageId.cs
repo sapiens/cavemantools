@@ -1,5 +1,8 @@
 ﻿namespace CavemanTools.Model.Persistence.GenericStorage
 {
+    /// <summary>
+    /// Partition.Entity
+    /// </summary>
     public class GenericStorageId
     {
 

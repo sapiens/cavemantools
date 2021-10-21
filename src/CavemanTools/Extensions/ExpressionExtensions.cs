@@ -218,7 +218,7 @@ namespace System.Linq.Expressions
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static bool IsEnumType(this Type type) => type.IsEnum() || (type.IsNullable() && type.GetGenericArgument().IsEnum());
+        public static bool IsEnumType(this Type type) => type.IsEnum || (type.IsNullable() && type.GetGenericArgument().IsEnum);
         
         static object GetConvertValue(UnaryExpression node)
         {
@@ -226,7 +226,7 @@ namespace System.Linq.Expressions
           
             if (node.Type.IsEnumType())
             {
-                if (node.Type.IsEnum())
+                if (node.Type.IsEnum)
                 {
                     
                     return value is string?Enum.Parse(node.Type,value.ToString()): Enum.ToObject(node.Type, value);
@@ -281,6 +281,11 @@ namespace System.Linq.Expressions
             return arr;
         }
 
+        /// <summary>
+        /// Uses reflection
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public static object CreateObject(this NewExpression node)
         {
             node.MustNotBeNull();
@@ -310,20 +315,15 @@ namespace System.Linq.Expressions
                 }
             }
 
-#if !COREFX
+
             if (node.Member.MemberType == MemberTypes.Property)
-#else
-            
-            if (node.Member is PropertyInfo)
-#endif
+
             {
                 return node.Member.CastAs<PropertyInfo>().GetValue(parentValue, null);
             }
-#if !COREFX
+
             if (node.Member.MemberType == MemberTypes.Field)
-#else
-            if (node.Member is FieldInfo)
-#endif
+
             {
                 return node.Member.CastAs<FieldInfo>().GetValue(parentValue);
             }
@@ -353,7 +353,7 @@ namespace System.Linq.Expressions
         }
 
         /// <summary>
-        /// 
+        /// Uses reflection
         /// </summary>
         /// <exception cref="NotSupportedException"></exception>
         /// <param name="node"></param>

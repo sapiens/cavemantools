@@ -1,6 +1,5 @@
-﻿namespace System
-{
-    using System.Security.Cryptography;
+﻿namespace System.Security.Cryptography
+{    
     using System.Text;
     public static class Hashing
     {
