@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using CavemanTools.Logging;
+
 
 namespace System.Threading.Tasks
 {
@@ -9,7 +9,7 @@ namespace System.Threading.Tasks
         {
             if (errorHandler == null)
             {
-                errorHandler = t => taskName.LogError(t.Exception);
+                errorHandler = t => { };
             }
             task.ContinueWith(errorHandler, TaskContinuationOptions.OnlyOnFaulted);
         }

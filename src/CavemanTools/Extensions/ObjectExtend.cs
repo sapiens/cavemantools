@@ -140,13 +140,7 @@ namespace System
 	   
 	
 
-	    public static T GetValue<T>(this AbstractValueObject<T> d, T defaultValue = default(T))
-	    {
-	        if (d == null) return defaultValue;
-	        return d.Value;
-	    }
-
-       
+	        
 		/// <summary>
 		/// Converts object to type.
 		/// Supports conversion to Enum, DateTime,TimeSpan and CultureInfo

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using CavemanTools.Logging;
+
 
 namespace CavemanTools.Model.Persistence
 {
@@ -55,9 +55,10 @@ namespace CavemanTools.Model.Persistence
         /// <param name="throttle">If true after 1/4 of the tries it will increase the wait period before tries</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static async Task RetryOnException<T>(Func<Task> update,Func<T,OnExceptionAction> excHandler=null, int triesCount = 10, int wait = 150,bool throttle=true) where T : Exception
+        public static async Task RetryOnException<T>(Func<Task> update,Func<T,OnExceptionAction> excHandler=null, int triesCount = 10, int wait = 150,bool throttle=true,Action<string> logger=null) where T : Exception
         {
             var log = $"RetryOnException<{typeof(T)}>";
+			logger = logger ?? (d=>{ });
             if (excHandler == null)
             {
                 excHandler = x => OnExceptionAction.IgnoreAndContinue;
@@ -77,21 +78,21 @@ namespace CavemanTools.Model.Persistence
                 {
                     if (i > 0)
                     {
-                        log.LogDebug($"Current retry: {i}");
+                        //log
                     }
                     await update().ConfigureAwait(false);
                     break;
                 }
                 catch (T ex)
                 {
-                    log.LogDebug($"Caught exception... Retried for {i} times");
+                  //  log.LogDebug($"Caught exception... Retried for {i} times");
                     switch (excHandler(ex))
                     {
                         case OnExceptionAction.IgnoreAndExit:
-                            log.LogDebug($"Ignoring and exiting...");
+                        //    log.LogDebug($"Ignoring and exiting...");
                             return;
                         case OnExceptionAction.Throw:
-                            log.LogDebug($"Rethrowing...");
+                        //    log.LogDebug($"Rethrowing...");
                             throw;
                             
                         default:
@@ -117,7 +118,7 @@ namespace CavemanTools.Model.Persistence
         /// <param name="throttle">If true after 1/4 of the tries it will increase the wait period before tries</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static void RetryOnException<T>(Action update, Func<T, OnExceptionAction> excHandler=null,int triesCount = 10, int wait = 100, bool throttle = true) where T : Exception
+        public static void RetryOnException<T>(Action update, Func<T, OnExceptionAction> excHandler=null,int triesCount = 10, int wait = 100, bool throttle = true, Action<string> logger = null) where T : Exception
         {
             var log = $"RetryOnException<{typeof(T)}>";
             if (excHandler == null)
@@ -139,21 +140,21 @@ namespace CavemanTools.Model.Persistence
                 {
                     if (i > 0)
                     {
-                        log.LogDebug($"Current retry: {i}");
+                       // log.LogDebug($"Current retry: {i}");
                     }
                     update();
                     break;
                 }
                 catch (T ex)
                 {
-                    log.LogDebug($"Caught exception... Retried for {i} times");
+                  //  log.LogDebug($"Caught exception... Retried for {i} times");
                     switch (excHandler(ex))
                     {
                         case OnExceptionAction.IgnoreAndExit:
-                            log.LogDebug($"Ignoring and exiting...");
+                          //  log.LogDebug($"Ignoring and exiting...");
                             return;
                         case OnExceptionAction.Throw:
-                            log.LogDebug($"Rethrowing...");
+                           // log.LogDebug($"Rethrowing...");
                             throw;
                        
                         default:
