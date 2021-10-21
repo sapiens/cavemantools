@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using CavemanTools.Logging;
+using System.Security.Cryptography;
 using FluentAssertions;
 using Xunit;
 
@@ -31,8 +31,7 @@ namespace Tests.Extensions
             var dt2 = new DateTime(2015, 3, 1);
             var all = dt1.EnumerateTo(dt2).ToArray();
             all[0].Should().Be(dt1);
-            all[all.Length - 1].Should().Be(dt2);
-            all.ForEach(d=>this.LogDebug(d.ToString()));
+            all[all.Length - 1].Should().Be(dt2);           
             var inverted = dt2.EnumerateTo(dt1).ToArray();
             inverted[0].Should().Be(dt2);
             inverted[all.Length - 1].Should().Be(dt1);
@@ -53,7 +52,7 @@ namespace Tests.Extensions
             var data = "{bla}";
 
             var h1 = data.Hmac256(key);
-            this.LogDebug(h1);
+           
 
             var h2 = "{bla".Hmac256(key);
             h2.Should().NotBe(h1);

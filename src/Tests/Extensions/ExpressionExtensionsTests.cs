@@ -5,8 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using CavemanTools.Logging;
+
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Tests.Extensions
 {
@@ -40,28 +41,15 @@ namespace Tests.Extensions
     {
         private Stopwatch _t = new Stopwatch();
         private Type _tp;
+		private readonly ITestOutputHelper _l;
 
-        public ExpressionExtensionsTests()
+		public ExpressionExtensionsTests(Xunit.Abstractions.ITestOutputHelper l)
         {
             _tp = typeof (Test);
-        }
+			_l = l;
+		}
 
-        //[Fact]
-        //public void get_method_info_from_expression_when_returning_void()
-        //{
-        //    var mi = ExpressionExtensions.GetMethodInfo<Test>(t => t.Method(2));
-        //    Assert.Equal(_tp.GetMethod("Method"),mi);
-        //    ExpressionExtensions.GetPropertyInfo<Test>(t => t.Child);
-        //    ExpressionExtensions.GetPropertyInfo<Test>(t => t.Child.Child);
-        //}
-    
-        //[Fact]
-        //public void get_method_info_from_expression_when_returning_something()
-        //{
-        //    var mi = ExpressionExtensions.GetMethodInfo<Test>(t => t.Bla());
-        //    Assert.Equal(_tp.GetMethod("Bla"),mi);
-        //}
-
+       
 
         [Fact]
         public void member_belongs_to_paramater()
@@ -329,7 +317,7 @@ namespace Tests.Extensions
 
         protected void Write(string format, params object[] param)
         {
-            this.LogDebug(format);
+            _l.WriteLine(format);
         }
 
         class MyClass

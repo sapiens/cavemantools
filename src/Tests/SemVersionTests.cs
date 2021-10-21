@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Diagnostics;
 using CavemanTools;
-using CavemanTools.Logging;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Tests
 {
     public class SemVersionTests
     {
         private Stopwatch _t = new Stopwatch();
+		private readonly ITestOutputHelper _l;
 
-        public SemVersionTests()
+		public SemVersionTests(ITestOutputHelper l)
         {
-
-        }
+			_l = l;
+		}
 
         [Theory]
         [InlineData("alpha","alpha.1",-1)]
@@ -90,7 +91,7 @@ namespace Tests
 
         private void Write(string format, params object[] param)
         {
-            this.LogDebug(format);
+            _l.WriteLine(format);
         }
     }
 }
