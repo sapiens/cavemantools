@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace CavemanTools.Model.ValueObjects
 {
-    public class Tag : AbstractValueObject<string>,IEquatable<Tag>,IEquatable<string>
+    public record Tag : IEquatable<string>
     {
        
         /// <summary>
@@ -18,14 +18,18 @@ namespace CavemanTools.Model.ValueObjects
         /// </summary>
         public static byte MaxLength = 100;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        /// <param name="value"></param>
-        public Tag(string value) : base(value.ToLowerInvariant())
+		public string Value { get; private set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <exception cref="ArgumentException"></exception>
+		/// <param name="value"></param>
+		public Tag(string value)
         {
-        }
+            IsValid(value).MustBe(true);
+            Value = value;
+		}
 
         /// <summary>
         /// Splits the value into tags, separated by ','.
@@ -54,7 +58,7 @@ namespace CavemanTools.Model.ValueObjects
         /// <returns></returns>
         public static Tag CreateFromValid(string value)
         {
-            return new Tag(){_value = value.ToLowerInvariant()};
+            return new Tag(){Value = value};
         }
 
         private Tag()
@@ -66,27 +70,10 @@ namespace CavemanTools.Model.ValueObjects
         {
             return string.Join(",", tags.Select(t => t.Value));
         }
+      
+      
 
-        public bool Equals(Tag other)
-        {
-            if (other == null) return false;
-            return _value == other._value;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var t = obj as Tag;
-            return Equals(t);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return 17 + Value.GetHashCode();
-            }
-        }
-
+       
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -96,22 +83,13 @@ namespace CavemanTools.Model.ValueObjects
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(string other)
         {
-            return other != null && other.ToLowerInvariant() == _value;
+            return other != null && other == Value;
         }
-
-        /// <summary>
-        /// Is automatically invoked by the constructor
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected override bool Validate(string value)
-        {
-            return IsValid(value);
-        }
+        
 
         public override string ToString()
         {
-            return _value;
+            return Value;
         }
     }
 }
