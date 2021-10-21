@@ -27,7 +27,7 @@ namespace CavemanTools.Infrastructure
 
         public object this[string key]
         {
-            get { return _data.GetValueOrDefaultOld(key); }
+            get { return _data.GetValueOrDefault(key); }
             set { _data[key] = value; }
         }
 

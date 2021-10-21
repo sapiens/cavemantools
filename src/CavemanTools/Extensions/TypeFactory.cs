@@ -21,11 +21,11 @@ namespace System.Reflection
         /// <summary>
         /// Gets factory to create instance of type using the public parameterless ctor.
         /// Use it when you want to create many instances of the same type in different objects
-        /// Aprox, 1.3x faster than Activator, almost as fast a manual if you cache and reuse the delegate
+        /// Aprox, 1.3x faster than Activator, almost as fast a manual
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static Func<object> GetFactory(Type t)
+        public static Func<object> GetFactory(this Type t)
         {
             Func<object> inv;      
             lock (actLock)

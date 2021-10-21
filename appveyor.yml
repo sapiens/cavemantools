@@ -1,4 +1,4 @@
-version: 5.2.2
+version: 6
 
 image: Visual Studio 2019
 
@@ -31,4 +31,4 @@ before_deploy:
 deploy:
 - provider: NuGet
   api_key:
-   secure: 6W7USG8YoCPjDSV9agsMdy9P1nTzDmhv9gWoHvqtECiKNSHNYVWwf69m88S84eKv
+   secure: LWDAxyY2ons6xrgD91BY2AkQoAQORwk4Pj1X4ImwgLp6TmgaU46fT4lw7AcTKhuL

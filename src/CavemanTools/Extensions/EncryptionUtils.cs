@@ -1,10 +1,7 @@
-
-
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 
-namespace System
+namespace System.Security.Cryptography
 {
     public static class EncryptionUtils
 	{

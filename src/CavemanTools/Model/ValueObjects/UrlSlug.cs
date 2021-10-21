@@ -5,7 +5,7 @@ namespace CavemanTools.Model.ValueObjects
     /// <summary>
     /// Encapsulates the url friendly version of a string
     /// </summary>
-    public class UrlSlug : IEquatable<UrlSlug>
+    public record UrlSlug
     {
         /// <summary>
         /// 
@@ -20,10 +20,7 @@ namespace CavemanTools.Model.ValueObjects
 
         public string Value { get; private set; }
 
-        public bool Equals(UrlSlug other)
-        {
-            return other != null && Value == other.Value;
-        }
+     
 
         public override string ToString()
         {

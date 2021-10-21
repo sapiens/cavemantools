@@ -279,25 +279,7 @@ namespace System.Collections.Generic
             return removed;
         }
 
-        /// <summary>
-        /// Tries to get value for key and returns a provided value or default if key not found
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="V"></typeparam>
-        /// <param name="dict"></param>
-        /// <param name="key"></param>
-        /// <param name="other"></param>
-        /// <returns></returns>
-	    public static V GetValueOrDefaultOld<T, V>(this IDictionary<T, V> dict,T key, V other = default(V))
-	    {
-	        V val=other;
-	        if (!dict.TryGetValue(key, out val))
-	        {
-	            return other;
-	        }
-	        return val;
-	    }
-
+       
 
         /// <summary>
         /// If there is no value for the key, it creates one, adds it to the dictionary, then returns it
@@ -319,6 +301,12 @@ namespace System.Collections.Generic
             return val;
 	    }
 
+		/// <summary>
+		/// Creates an empty enumerable if null
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="src"></param>
+		/// <returns></returns>
 	    public static IEnumerable<T> ToEmptyIfNull<T>(this IEnumerable<T> src)
 	    {
 	        return src ?? Enumerable.Empty<T>();

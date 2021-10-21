@@ -13,14 +13,7 @@ namespace System
     {
 
 
-        /// <summary>
-        /// Compatibility with coreFX
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        public static Assembly Assembly(this Type t) => t.GetTypeInfo().Assembly;
-
-          
+                
         /// <summary>
         /// Orders an enumerable using [Order] or specified ordering function.
         /// </summary>
@@ -115,7 +108,7 @@ namespace System
         public static object CreateInstance(this Type type)
         {
             type.MustNotBeNull();
-            return Activator.CreateInstance(type);
+            return type.GetFactory()();
         }
 
         /// <summary>
@@ -389,7 +382,7 @@ namespace System
         {
             if (t == null) throw new ArgumentNullException("t");
 
-            return $"{t.FullName}, {t.Assembly().GetName().Name}";
+            return $"{t.FullName}, {t.Assembly.GetName().Name}";
 
 
         }

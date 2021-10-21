@@ -49,7 +49,7 @@ namespace System
             var type = typeof(TValue);
             if (!_types.Any(t=>t==type)) throw new InvalidOperationException();
            
-            if (Value==null && !(type.IsClass() || type.IsNullable())) throw new InvalidOperationException("You're trying to use a null value as a non-nullable type");
+            if (Value==null && !(type.IsClass || type.IsNullable())) throw new InvalidOperationException("You're trying to use a null value as a non-nullable type");
 
             if (Is<TValue>()) action(As<TValue>());
         }

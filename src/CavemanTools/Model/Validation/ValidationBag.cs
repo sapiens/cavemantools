@@ -9,7 +9,7 @@ namespace CavemanTools.Model.Validation
 	public class ValidationBag
 	{
 		/// <summary>
-		/// DEfault validation state is invalid
+		/// Default validation state is invalid
 		/// </summary>
 		public ValidationBag():this(false)
 		{

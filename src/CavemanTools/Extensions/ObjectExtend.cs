@@ -1,11 +1,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using CavemanTools.Model.ValueObjects;
 
 
 namespace System
@@ -14,11 +11,10 @@ namespace System
 	{
 	    private static ConcurrentDictionary<Type, TypeInfo> _typeDicts;
 
-	
-		public  static Optional<T> ToOptional<T>(this T obj) where T:class => new Optional<T>(obj);
+			
 		
 		/// <summary>
-		/// Creates dictionary from object properties.
+		/// Creates dictionary from object properties. Retrieving object values is done via compiled lambda
 		/// </summary>
 		/// <param name="value">Object</param>
 		/// <returns></returns>
@@ -140,13 +136,7 @@ namespace System
 	   
 	
 
-	    public static T GetValue<T>(this AbstractValueObject<T> d, T defaultValue = default(T))
-	    {
-	        if (d == null) return defaultValue;
-	        return d.Value;
-	    }
-
-       
+	        
 		/// <summary>
 		/// Converts object to type.
 		/// Supports conversion to Enum, DateTime,TimeSpan and CultureInfo
@@ -240,7 +230,7 @@ namespace System
 		/// <param name="data">Object</param>
 		/// <param name="defaultValue">IF not set , the default for T is used</param>
 		/// <returns></returns>
-		public static T SilentConvertTo<T>(this object data,T defaultValue=default(T))
+		public static T SilentlyConvertTo<T>(this object data,T defaultValue=default(T))
 		{
 			var tp = typeof (T);  
 			try
@@ -280,29 +270,7 @@ namespace System
             return !Is<T>(o);
         }
 
-     
-	    public static T CreateIfNull<T>(this T instance, Action<T> config = null) where T : new()
-	    {
-	        if (instance != null)
-	        {
-	            return instance;
-	        }
-            instance=new T();
-            config?.Invoke(instance);
-            return instance;
-	    }
-
-	    public static V Pipe<T, V>(this T src, Func<T, V> projection)=> projection(src); 
-		
-	
-        /// <summary>
-        /// Allows fluent chaining: foo.Then((Foo f)=>bar(f));
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="src"></param>
-        /// <param name="action"></param>
-        public static void Then<T>(this T src, Action<T> action) => action(src);
-		
+     	  	        		
 		public static T[] AsArray<T>(this T item) => new[] {item};
 
 	}
