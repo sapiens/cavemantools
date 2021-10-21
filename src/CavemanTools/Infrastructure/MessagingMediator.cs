@@ -87,6 +87,10 @@ namespace CavemanTools.Infrastructure
     {
         private readonly Func<Type, object> _resolve;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="resolve">DI Container func to resolve types</param>
         public MessagingMediator(Func<Type, object> resolve)
         {
             resolve.MustNotBeNull();
