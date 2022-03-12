@@ -1,0 +1,23 @@
+name: "build and deploy to nuget"
+
+on: push
+
+jobs:
+ build_pack:  
+  runs-on: ubuntu-latest
+  
+  steps:
+  - uses: actions/checkout@v3.0.0
+  - name: Get .Net
+    uses: actions/setup-dotnet@v2.0.0
+    with: 
+      dotnet-version: 5.x.x
+  - name: restore packs
+    run: dotnet restore src\
+  - name: Build
+    run: dotnet build --no-restore
+  - name: Test
+    run: dotnet test --no-build --verbosity normal src\tests\tests.csproj
+
+   
+ 

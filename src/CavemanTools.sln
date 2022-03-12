@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\appveyor.yml-old = ..\appveyor.yml-old
+		.github\workflows\nuget.yml = .github\workflows\nuget.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CavemanTools", "CavemanTools\CavemanTools.csproj", "{EF2B24C9-42E3-4885-A7A3-3FEF8A42202C}"
