@@ -15,7 +15,7 @@ jobs:
   - name: restore packs
     run: dotnet restore src\
   - name: Build
-    run: dotnet build --no-restore
+    run: dotnet build --no-restore src\
   - name: Test
     run: dotnet test --no-build --verbosity normal src\tests\tests.csproj
 
