@@ -1,6 +1,6 @@
 ﻿namespace CavemanTools.Infrastructure
 {
-    public class YesNoResult
+	public class YesNoResult
     {
         public static YesNoResult Yes=new YesNoResult(true);
         public static YesNoResult No=new YesNoResult(false);
@@ -13,4 +13,5 @@
             Value = value;
         }
     }
+
 }
