@@ -17,7 +17,7 @@ jobs:
   - name: Build
     run: dotnet build --no-restore src/
   - name: Test
-    run: dotnet test --no-build --verbosity normal src/tests/tests.csproj
+    run: dotnet test --no-build --verbosity normal src/Tests/Tests.csproj
 
    
  
