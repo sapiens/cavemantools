@@ -5,9 +5,6 @@ on:
     tags:
     - 'v*'
 
-env:
- VERSION: '1.0.0'
-
 jobs:
  build_pack:  
   runs-on: ubuntu-latest
@@ -21,9 +18,9 @@ jobs:
       semver_only: true
   - name: Set version
     run: |
-      echo "ver=${{ steps.latest-tag.outputs.tag }}" >> $GITHUB_ENV      
-      echo ${{ env.vers }}
-      echo ${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g'
+      echo "ver=$(${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g')" >> $GITHUB_ENV      
+      echo ${{ env.ver }}
+#      echo ${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g'
   
 # - name: Get .Net
 #   uses: actions/setup-dotnet@v2.0.0
