@@ -36,11 +36,11 @@ jobs:
     with: 
      dotnet-version: 6.x.x
   - name: restore packs
-    run: dotnet restore src\
+    run: dotnet restore src
   - name: Build
-    run: dotnet build --no-restore -c Release
+    run: dotnet build --no-restore -c Release src/CavemanTools/CavemanTools.csproj
   - name: Test
-    run: dotnet test --no-build --verbosity normal src\tests\tests.csproj
+    run: dotnet test --no-build --verbosity normal src/Tests/Tests.csproj
   - uses: NuGet/setup-nuget@v1.0.6
     with:
       nuget-api-key: ${{ secrets.NUGET_API_KEY }}
