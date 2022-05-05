@@ -30,6 +30,16 @@ jobs:
     run: |
       echo ${{ env.ver }}
       echo $ver
+  - name: Patch version
+    id: patch
+    uses: AlexRogalskiy/github-action-tag-replacer@v2.0.1
+    with:
+      placeholder: '<Version1></Version1>'
+      replacement: '<Version>${{ env.ver} }</Version>'
+  - if: ${{ steps.patch.output.false }}
+    run: |
+      echo "Patching version failed"
+      exit 1
   
   - name: Get .Net
     uses: actions/setup-dotnet@v2.0.0
@@ -38,9 +48,9 @@ jobs:
   - name: restore packs
     run: dotnet restore src
   - name: Build
-    run: dotnet build --no-restore -c Release src/CavemanTools/CavemanTools.csproj
+    run: dotnet build src/ --no-restore -c Release 
   - name: Test
-    run: dotnet test --no-build --verbosity normal src/Tests/Tests.csproj
+    run: dotnet test src/Tests/Tests.csproj --no-build --verbosity normal
   - uses: NuGet/setup-nuget@v1.0.6
     with:
       nuget-api-key: ${{ secrets.NUGET_API_KEY }}
