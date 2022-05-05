@@ -2,8 +2,6 @@ name: "build and deploy to nuget"
 
 on: 
   push:
-    branches:
-    - 'master'
     tags:
     - 'v*'
 
