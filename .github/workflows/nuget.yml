@@ -25,9 +25,11 @@ jobs:
       replace-with: ''
       
   - name: Set version
+    env:
+      ver: ${{ steps.extract-ver.outputs.replaced }}      
     run: |
-      echo "ver=${{ steps.extract-ver.outputs.replaced }}" >> $GITHUB_ENV      
       echo ${{ env.ver }}
+      echo $ver
   
 # - name: Get .Net
 #   uses: actions/setup-dotnet@v2.0.0
