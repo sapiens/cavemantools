@@ -18,7 +18,7 @@ jobs:
       semver_only: true
   - name: Set version
     run: |
-      echo "ver=$(${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g')" >> $GITHUB_ENV      
+      echo "ver=$(echo ${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g')" >> $GITHUB_ENV      
       echo ${{ env.ver }}
 #      echo ${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g'
   
