@@ -35,7 +35,7 @@ jobs:
     uses: AlexRogalskiy/github-action-tag-replacer@v2.0.1
     with:
       placeholder: '<Version1></Version1>'
-      replacement: '<Version>${{ env.ver} }</Version>'
+      replacement: '<Version>${{ env.ver }}</Version>'
   - if: ${{ steps.patch.output.false }}
     run: |
       echo "Patching version failed"
