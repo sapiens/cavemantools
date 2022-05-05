@@ -16,11 +16,18 @@ jobs:
     uses: actions-ecosystem/action-get-latest-tag@v1.6.0
     with:
       semver_only: true
+  - name: Extract version
+    id: extract-ver
+    uses: frabert/replace-string-action@v2.0
+    with:
+      string: ${{ steps.latest-tag.outputs.tag }}
+      pattern: v
+      replace-with: ''
+      
   - name: Set version
     run: |
-      echo "ver=$(echo ${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g')" >> $GITHUB_ENV      
+      echo "ver= ${{ steps.extract-ver.outputs.replaced }}" >> $GITHUB_ENV      
       echo ${{ env.ver }}
-#      echo ${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g'
   
 # - name: Get .Net
 #   uses: actions/setup-dotnet@v2.0.0
