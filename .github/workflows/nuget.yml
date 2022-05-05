@@ -1,6 +1,14 @@
 name: "build and deploy to nuget"
 
-on: push
+on: 
+  push:
+    branches:
+    - 'master'
+    tags:
+    - 'v*'
+
+env:
+ VERSION: '1.0.0'
 
 jobs:
  build_pack:  
@@ -8,16 +16,26 @@ jobs:
   
   steps:
   - uses: actions/checkout@v3.0.0
-  - name: Get .Net
-    uses: actions/setup-dotnet@v2.0.0
-    with: 
-      dotnet-version: 5.x.x
-  - name: restore packs
-    run: dotnet restore src/
-  - name: Build
-    run: dotnet build --no-restore src/
-  - name: Test
-    run: dotnet test --no-build --verbosity normal src/Tests/Tests.csproj
+  - name: Get tag
+    id: latest-tag
+    uses: actions-ecosystem/action-get-latest-tag@v1.6.0
+    with:
+      semver_only: true
+  - name: Set version
+    run: |
+      echo "version=${{ steps.latest-tag.outputs.tag }}" >> $GITHUB_ENV
+      echo $VERSION
+  
+# - name: Get .Net
+#   uses: actions/setup-dotnet@v2.0.0
+#   with: 
+#     dotnet-version: 6.x.x
+# - name: restore packs
+#   run: dotnet restore src\
+# - name: Build
+#   run: dotnet build --no-restore
+# - name: Test
+#   run: dotnet test --no-build --verbosity normal src\tests\tests.csproj
 
    
  
