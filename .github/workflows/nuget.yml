@@ -23,8 +23,8 @@ jobs:
       semver_only: true
   - name: Set version
     run: |
-      echo "VERSION=${{ steps.latest-tag.outputs.tag }}" >> $GITHUB_ENV
-      echo $VERSION
+      echo "ver=${{ steps.latest-tag.outputs.tag }}" >> $GITHUB_ENV      
+      echo ${{ env.vers }}
       echo ${{ steps.latest-tag.outputs.tag }} | sed 's/[v]//g'
   
 # - name: Get .Net
