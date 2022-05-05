@@ -2,16 +2,19 @@
 
 namespace CavemanTools.Infrastructure
 {
-    public class CommandResult
-    {
+
+	/// <summary>
+	/// Used to return a result when invoking an application service. Only for actions that change data.
+	/// </summary>
+	public class CommandResult
+    {       
         public bool HasErrors
         {
             get { return Errors.Count != 0; }
         }
 
         public IDictionary<string,string> Errors { get; }
-
-        public Dictionary<string, object> Data => _data;
+   
 
         public CommandResult()
         {
@@ -21,17 +24,27 @@ namespace CavemanTools.Infrastructure
         public void AddError(string key, string msg)
         {
             Errors.Add(key,msg);
-        }
-
-        Dictionary<string,object> _data=new Dictionary<string, object>();
-
-        public object this[string key]
-        {
-            get { return _data.GetValueOrDefault(key); }
-            set { _data[key] = value; }
-        }
-
-        public T Get<T>(string key, T defValue = default(T)) => (T)_data.GetValue(key,defValue);
+        }                      
 
     }
+
+
+    /// <summary>
+    /// Used to return a result when invoking an application service. Only for actions that change data.
+    /// </summary>
+    public class CommandResult<T> : CommandResult
+	{
+		public CommandResult()
+		{
+
+		}
+        public CommandResult(T value)
+		{
+			Value = value;
+		}
+		public T? Value { get; init; }
+	}
+
+   
+
 }

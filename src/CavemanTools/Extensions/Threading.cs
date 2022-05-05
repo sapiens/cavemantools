@@ -22,8 +22,7 @@ namespace System.Threading.Tasks
         /// <returns></returns>
         public static Task<T> ToTask<T>(this T data) => Task.FromResult(data);
       
-        public static ConfiguredTaskAwaitable<T> ConfigureFalse<T>(this Task<T> task) => task.ConfigureAwait(false);
-        public static ConfiguredTaskAwaitable ConfigureFalse(this Task task) => task.ConfigureAwait(false);
+       
 
     }
 }

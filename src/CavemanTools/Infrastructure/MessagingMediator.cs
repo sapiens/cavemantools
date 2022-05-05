@@ -83,12 +83,13 @@ namespace CavemanTools.Infrastructure
     /// <summary>
     ///  Should be singleton
     /// </summary>
+    [DIContainer(IsSingleton =true)]
     public class MessagingMediator:IMediateMessages
     {
         private readonly Func<Type, object> _resolve;
 
         /// <summary>
-        /// 
+        ///   Mediator
         /// </summary>
         /// <param name="resolve">DI Container func to resolve types</param>
         public MessagingMediator(Func<Type, object> resolve)

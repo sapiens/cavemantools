@@ -50,50 +50,6 @@ namespace System
 	    public static byte[] ToByteArray(this string data) => Encoding.Unicode.GetBytes(data);
 
 
-        /// <summary>
-        /// Compress using GZip
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static byte[] Zip(this string str)
-        {
-         if (str.IsNullOrEmpty()) return new byte[0];
-            var bytes = Encoding.UTF8.GetBytes(str);
-
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-
-                using (var gs = new GZipStream(mso, CompressionLevel.Optimal))
-
-                {
-                   msi.CopyTo(gs);                   
-                }
-
-                return mso.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Unzip a compressed string using GZip
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        public static string Unzip(this byte[] bytes)
-        {
-            if (bytes.IsNullOrEmpty()) return "";
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(msi, CompressionMode.Decompress))
-                {
-                    gs.CopyTo(mso);                    
-                }
-
-                return Encoding.UTF8.GetString(mso.ToArray());
-            }
-        }
-
         public static string AddSlashes(this string data,bool singleQuotes=true,bool doubleQuotes=true)
 	    {
 	        if (singleQuotes)
@@ -332,12 +288,6 @@ namespace System
             return String.Format(pattern, args);
         }
 
-
-        public static void ToConsole<T>(this T text)
-	    {
-	        Console.WriteLine(text.ToString());
-	    }
-        
 
         public static T ToEnum<T>(this string value)
         {

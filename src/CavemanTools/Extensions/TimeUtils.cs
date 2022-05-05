@@ -17,14 +17,7 @@ namespace System
 		    return duration.Multiply((double)modifier);
 		}
 
-	    public static TimeSpan MeasureTime(Action action)
-	    {
-	        var s = new Stopwatch();
-            s.Start();
-	        action();
-            s.Stop();
-	        return s.Elapsed;
-	    }
+	 
 
         public static TimeSpan Multiply(this TimeSpan duration, double modifier)
 		{
@@ -40,21 +33,7 @@ namespace System
 				return TimeSpan.MinValue;
 			}
 		}
-
-        public static TimeSpan ToDays(this int value)
-        {
-            return TimeSpan.FromDays(value);
-        }
-
-        public static TimeSpan ToMiliseconds(this int value)
-        {
-            return TimeSpan.FromMilliseconds(value);
-        }
-
-        public static TimeSpan ToSeconds(this int value)
-        {
-            return TimeSpan.FromSeconds(value);
-        }
+      
 
         /// <summary>
         /// Outputs the 'human friendly' format (ex: 4 days ago). English only

@@ -6,12 +6,7 @@
     /// <typeparam name="T"></typeparam>
     public class OutputValue<T>
     {
-        public T Value { get; set; }
-
-        public OutputValue()
-        {
-            
-        }
+        public T Value { get; set; }       
 
         public OutputValue(T value)
         {

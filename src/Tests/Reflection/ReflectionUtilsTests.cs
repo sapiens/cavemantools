@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using CavemanTools.Data;
 using Xunit;
 
 namespace Tests.Reflection
@@ -32,21 +31,7 @@ namespace Tests.Reflection
             Assert.Equal(new DateTime(2012,05,03),c.GetPropertyValue("Date"));
         }
 
-        [Fact]
-        public void convert_to_nullable()
-        {
-            object d="Ok";
-            JsonStatus? target;
-            target = d.ConvertTo<JsonStatus?>();
-            Assert.Equal(JsonStatus.Ok, target);
-            target = d.ConvertTo<JsonStatus>();
-            Assert.Equal(JsonStatus.Ok,target);
-            d =2;
-            target = d.ConvertTo<JsonStatus?>();
-            Assert.Equal(JsonStatus.Redirect, target);
-            target = d.ConvertTo<JsonStatus>();
-            Assert.Equal(JsonStatus.Redirect, target);
-        }
+     
 
         [Fact]
         public void object_dictionary()

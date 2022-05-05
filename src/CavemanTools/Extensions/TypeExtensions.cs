@@ -15,7 +15,7 @@ namespace System
 
                 
         /// <summary>
-        /// Orders an enumerable using [Order] or specified ordering function.
+        /// Orders an enumerable using <see cref="OrderAttribute"/> or specified ordering function.
         /// </summary>
         /// <param name="types"></param>
         /// <param name="other">Optional ascending ordering function</param>
