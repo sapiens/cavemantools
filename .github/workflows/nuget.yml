@@ -35,15 +35,10 @@ jobs:
       placeholder: '<Version1><\/Version1>'
       replacement: '<Version>${{ steps.extract-ver.outputs.replaced }}</Version>'
       sourceFile: src/CavemanTools/CavemanTools.csproj
-  - name: Proj file
-    run: |
-      cat src/CavemanTools/CavemanTools.csproj
-      exit 1
-  - if: ${{ steps.patch.output.false }}
-    run: |
-      echo "Patching version failed"
-      exit 1
-  
+#  - name: debug Proj file
+#    run: |
+#      cat src/CavemanTools/CavemanTools.csproj
+#      exit 1  
   - name: Get .Net
     uses: actions/setup-dotnet@v2.0.0
     with: 
@@ -57,8 +52,8 @@ jobs:
   - uses: NuGet/setup-nuget@v1.0.6
     with:
       nuget-api-key: ${{ secrets.NUGET_API_KEY }}
-#  - name: Publish to nuget
-#    run: nuget push **/*.nupkg -Source https://api.nuget.org/v3/index.json
+  - name: Publish to nuget
+    run: nuget push **/*.nupkg -Source https://api.nuget.org/v3/index.json
 
    
  
