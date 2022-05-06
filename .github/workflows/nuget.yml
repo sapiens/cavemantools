@@ -49,9 +49,9 @@ jobs:
   - name: restore packs
     run: dotnet restore src
   - name: Build
-    run: dotnet build src/CavemanTools.sln --no-restore -c Release -v minimum
+    run: dotnet build src/CavemanTools.sln --no-restore -c Release -v minimal
   - name: Test
-    run: dotnet test src/Tests/Tests.csproj --no-build -c Release -v minimum
+    run: dotnet test src/Tests/Tests.csproj --no-build -c Release -v minimal
   - uses: NuGet/setup-nuget@v1.0.6
     with:
       nuget-api-key: ${{ secrets.NUGET_API_KEY }}
