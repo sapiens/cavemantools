@@ -36,6 +36,7 @@ jobs:
     with:
       placeholder: '<Version1></Version1>'
       replacement: '<Version>${{ env.ver }}</Version>'
+      sourceFile: src/CavemanTools/CavemanTools.csproj
   - if: ${{ steps.patch.output.false }}
     run: |
       echo "Patching version failed"
