@@ -56,7 +56,7 @@ jobs:
     with:
       nuget-api-key: ${{ secrets.NUGET_API_KEY }}
   - name: Publish to nuget
-    run: nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json
+    run: nuget push **/*.nupkg
 
    
  
