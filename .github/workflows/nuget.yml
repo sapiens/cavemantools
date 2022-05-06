@@ -37,6 +37,10 @@ jobs:
       placeholder: '<Version1><\/Version1>'
       replacement: '<Version>${{ env.ver }}</Version>'
       sourceFile: src/CavemanTools/CavemanTools.csproj
+  - if: ${{ steps.patch.output.true }}
+    run: |
+      cat src/CavemanTools/CavemanTools.csproj
+      exit 1
   - if: ${{ steps.patch.output.false }}
     run: |
       echo "Patching version failed"
@@ -55,8 +59,8 @@ jobs:
   - uses: NuGet/setup-nuget@v1.0.6
     with:
       nuget-api-key: ${{ secrets.NUGET_API_KEY }}
-  - name: Publish to nuget
-    run: nuget push **/*.nupkg -Source https://api.nuget.org/v3/index.json
+#  - name: Publish to nuget
+#    run: nuget push **/*.nupkg -Source https://api.nuget.org/v3/index.json
 
    
  
