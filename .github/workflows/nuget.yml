@@ -24,18 +24,16 @@ jobs:
       pattern: v
       replace-with: ''
       
-  - name: Set version
-    env:
-      ver: ${{ steps.extract-ver.outputs.replaced }}      
+  - name: Show version    
     run: |
-      echo ${{ env.ver }}
+      echo ${{ steps.extract-ver.outputs.replaced }}
       
   - name: Patch version
     id: patch
     uses: AlexRogalskiy/github-action-tag-replacer@v2.0.1
     with:
       placeholder: '<Version1><\/Version1>'
-      replacement: '<Version>${{ env.ver }}</Version>'
+      replacement: '<Version>${{ steps.extract-ver.outputs.replaced }}</Version>'
       sourceFile: src/CavemanTools/CavemanTools.csproj
   - name: Proj file
     run: |
