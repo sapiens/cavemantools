@@ -27,8 +27,5 @@
     </PackageReference>
     <PackageReference Include="FluentAssertions" Version="6.1.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lists\" />
-  </ItemGroup>
   
 </Project>

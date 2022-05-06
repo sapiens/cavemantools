@@ -1,18 +1,18 @@
 ﻿namespace System.Collections.Generic
 {
-	public class DictionaryOfLists<TKey,TValue>:Dictionary<TKey,List<TValue>>
+	public class DictionaryOfLists<TKey,TValue>:Dictionary<TKey,List<TValue>> where TKey:notnull
 	{
 		public DictionaryOfLists()
 		{
 			
 		}
 
-		public DictionaryOfLists(IEnumerable<KeyValuePair<TKey,IEnumerable<TValue>>> data)
+		public DictionaryOfLists(IEnumerable<KeyValuePair<TKey,TValue[]>> data)
 		{
 			foreach(var item in data)
 			{
 				var values = new List<TValue>(item.Value);
-				this.Add(item.Key, values);
+				this[item.Key]= values;
 			}
 		}
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CavemanTools
 {
-	public class DisposableList:List<IDisposable>,IDisposable
+	public class DisposablesList:List<IDisposable>,IDisposable
     {
         public void DisposeAll()
         {

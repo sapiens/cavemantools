@@ -27,7 +27,7 @@ namespace System.Collections.Generic
 	{
 
 		/// <summary>
-		/// Checks if 2 enumerables have the same elements in the same order
+		/// Checks if 2 enumerables have the same elements in the same order. Comparison by reference
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="first"></param>
@@ -40,13 +40,13 @@ namespace System.Collections.Generic
 
 			var cnt1 = first.Count();
 			if (cnt1 != second.Count()) return false;
-			T item1 = default(T);
-			T item2 = default(T);
+			T? item1 = default(T);
+			T? item2 = default(T);
 			for (int i = 0; i < cnt1; i++)
 			{
 				item1 = first.Skip(i).Take(1).First();
 				item2 = second.Skip(i).Take(1).First();
-				if (!item1.Equals(item2)) return false;
+				if (!(item1?.Equals(item2)??false)) return false;
 			}
 			return true;
 		}
@@ -292,7 +292,7 @@ namespace System.Collections.Generic
         /// <returns></returns>
 	    public static V GetValueOrCreate<T, V>(this IDictionary<T, V> dict, T key, Func<V> factory)
 	    {
-            V val = default(V);
+            V? val = default(V);
             if (!dict.TryGetValue(key, out val))
             {
                 val = factory();

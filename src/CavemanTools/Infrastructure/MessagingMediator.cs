@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -61,14 +62,14 @@ namespace CavemanTools.Infrastructure
         class Builder<T>:IHandlerResultFrom<T>
         {
             private readonly IMediateMessages _med;
-            private readonly T _data;
+            [NotNull] private readonly T _data;
 
-            public Builder(IMediateMessages med,T data)
+            public Builder(IMediateMessages med, [NotNull] T data)
             {
                 _med = med;
                 _data = data;
             }
-
+            [return: NotNull]
             public TResult Request<TResult>() where TResult : class => _med.Request(_data,typeof(TResult)) as TResult;
             
 
@@ -98,8 +99,8 @@ namespace CavemanTools.Infrastructure
             _resolve = resolve;
         }
 
-      
-        public object Request(object input, Type result)
+        [return: NotNull]
+        public object Request([NotNull] object input, Type result)
         {
             var handlerType = typeof(IHandleRequest<,>).MakeGenericType(input.GetType(), result);
             var handler = (dynamic)_resolve(handlerType);
@@ -107,7 +108,7 @@ namespace CavemanTools.Infrastructure
             return handler.Handle((dynamic)input);
         }
 
-        public async Task<object> RequestAsync(object input, Type result, CancellationToken token)
+        public async Task<object> RequestAsync([NotNull] object input, Type result, CancellationToken token)
         {
             var handlerType = typeof(IHandleRequestAsync<,>).MakeGenericType(input.GetType(), result);
             var handler = (dynamic)_resolve(handlerType);
@@ -119,13 +120,15 @@ namespace CavemanTools.Infrastructure
 
     public interface IMediateMessages
     {
-        object Request(object input, Type result);
-        Task<object> RequestAsync(object input, Type result, CancellationToken token);
+        [return: NotNull]
+        object Request([NotNull]object input, Type result);
+        Task<object> RequestAsync([NotNull] object input, Type result, CancellationToken token);
         
     }
 
     public interface IHandlerResultFrom<TInput>
     {
+        [return: NotNull]
         TResult Request<TResult>() where TResult: class;
         Task<TResult> RequestAsync<TResult>(CancellationToken token) where TResult: class;
 
