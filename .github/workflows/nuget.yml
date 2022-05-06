@@ -49,7 +49,7 @@ jobs:
   - name: restore packs
     run: dotnet restore src
   - name: Build
-    run: dotnet build src/ --no-restore -c Release 
+    run: dotnet build src/CavemanTools.sln --no-restore -c Release -v m
   - name: Test
     run: dotnet test src/Tests/Tests.csproj --no-build --verbosity normal
   - uses: NuGet/setup-nuget@v1.0.6
